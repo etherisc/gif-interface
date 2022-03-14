@@ -1,0 +1,20 @@
+# brownie default values made explicit
+compiler:
+    evm_version: null
+    solc:
+        version: null
+        optimizer:
+            enabled: true
+            runs: 200
+        # https://eth-brownie.readthedocs.io/en/stable/compile.html#compiler-settings
+        remappings:
+          - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.5.0"
+    vyper:
+        version: null
+
+# packages below will be added to brownie
+# you may use 'brownie pm list' after 'brownie compile' 
+# to list the packages installed via the dependency list below
+dependencies:
+    # github dependency format: <owner>/<repository>@<release>
+    - OpenZeppelin/openzeppelin-contracts@4.5.0
