@@ -11,6 +11,7 @@ abstract contract Oracle is IOracle, RBAC {
     IOracleService public oracleService;
     IOracleOwnerService public oracleOwnerService;
     IRegistryAccess public registryAccess;
+    uint256 public oracleId;
 
     modifier onlyQuery {
         require(
@@ -31,9 +32,11 @@ abstract contract Oracle is IOracle, RBAC {
         oracleOwnerService = IOracleOwnerService(_oracleOwnerService);
         registryAccess = IRegistryAccess(_oracleService);
 
-        uint256 oracleId = oracleOwnerService.proposeOracle(_oracleName);
+        oracleId = oracleOwnerService.proposeOracle(_oracleName);
         oracleOwnerService.proposeOracleToOracleType(_oracleTypeName, oracleId);
     }
+
+    function getId() public view returns(uint256) { return oracleId; }
 
     function _respond(uint256 _requestId, bytes memory _data) internal {
         oracleService.respond(_requestId, _data);

@@ -39,6 +39,8 @@ abstract contract Product is RBAC {
         productId = _proposeProduct(_name, _policyFlow);
     }
 
+    function getId() public view returns(uint256) { return productId; }
+
     function setDevelopmentMode(bool _newMode) internal {
         developmentMode = _newMode;
     }
