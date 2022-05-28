@@ -28,17 +28,9 @@ interface IInstanceOperatorService {
     function prepareRelease(bytes32 _newRelease) external;
 
     // Query
-    function approveOracleType(bytes32 _oracleTypeName) external;
-    function disapproveOracleType(bytes32 _oracleTypeName) external;
     function approveOracle(uint256 _oracleId) external;
     function disapproveOracle(uint256 _oracleId) external;
 
-    function assignOracleToOracleType(
-        bytes32 _oracleTypeName,
-        uint256 _oracleId
-    ) external;
-
     function products() external view returns(uint256 products);
-    function oracleTypes() external view returns(uint256 oracleTypes);
     function oracles() external view returns(uint256 oracles);
 }

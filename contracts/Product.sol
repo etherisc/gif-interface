@@ -138,7 +138,6 @@ abstract contract Product is RBAC {
         bytes32 _bpKey,
         bytes memory _input,
         string memory _callbackMethodName,
-        bytes32 _oracleTypeName,
         uint256 _responsibleOracleId
     )
         internal
@@ -149,7 +148,6 @@ abstract contract Product is RBAC {
             _input,
             _callbackMethodName,
             address(this),
-            _oracleTypeName,
             _responsibleOracleId
         );
     }

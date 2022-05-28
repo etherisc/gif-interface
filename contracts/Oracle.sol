@@ -24,7 +24,6 @@ abstract contract Oracle is IOracle, RBAC {
     constructor(
         address _oracleService,
         address _oracleOwnerService,
-        bytes32 _oracleTypeName,
         bytes32 _oracleName
     )
     {
@@ -33,7 +32,6 @@ abstract contract Oracle is IOracle, RBAC {
         registryAccess = IRegistryAccess(_oracleService);
 
         oracleId = oracleOwnerService.proposeOracle(_oracleName);
-        oracleOwnerService.proposeOracleToOracleType(_oracleTypeName, oracleId);
     }
 
     function getId() public view returns(uint256) { return oracleId; }
