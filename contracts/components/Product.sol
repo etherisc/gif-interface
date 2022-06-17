@@ -2,8 +2,9 @@
 pragma solidity ^0.8.0;
 
 import "./RBAC.sol";
-import "./IProductService.sol";
 import "./IRegistryAccess.sol";
+import "../services/IProductService.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 abstract contract Product is RBAC {
 
@@ -32,6 +33,7 @@ abstract contract Product is RBAC {
     }
 
     constructor(address _productService, bytes32 _name, bytes32 _policyFlow)
+        Ownable()
     {
         productService = IProductService(_productService);
         registryAccess = IRegistryAccess(_productService);

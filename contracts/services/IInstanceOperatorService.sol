@@ -27,7 +27,7 @@ interface IInstanceOperatorService {
     function deregister(bytes32 _contractName) external;
     function prepareRelease(bytes32 _newRelease) external;
 
-    // Query
+    // TODO functions to component based model
     function approveOracle(uint256 _oracleId) external;
     function disapproveOracle(uint256 _oracleId) external;
 
