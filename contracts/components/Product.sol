@@ -1,66 +1,67 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
-import "./RBAC.sol";
-import "./IRegistryAccess.sol";
+import "./IProduct.sol";
+import "./Component.sol";
 import "../services/IProductService.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
-abstract contract Product is RBAC {
+abstract contract Product is
+    IProduct, 
+    Component 
+{    
+    event LogProductCreated (address productAddress);
+    event LogProductProposed (uint256 id);
+    event LogProductApproved (uint256 id);
+    event LogProductDeclined (uint256 id);
 
-    bool public developmentMode = false;
-    bool public maintenanceMode = false;
-    bool public onChainPaymentMode = false;
-    uint256 public productId;
+    address private _policyFlow;
+    IProductService private _productService;
 
-    IProductService public productService;
-    IRegistryAccess public registryAccess;
-
-    modifier onlySandbox {
+    modifier onlyLicence {
         require(
-            msg.sender == registryAccess.getContractFromRegistry("Sandbox"),
-            "ERROR:PRO-001:ACCESS_DENIED"
+             _msgSender() == _getContractAddress("Licence"),
+            "ERROR:PRD-001:ACCESS_DENIED"
         );
         _;
     }
 
     modifier onlyOracle {
         require(
-            msg.sender == registryAccess.getContractFromRegistry("Query"),
-            "ERROR:PRO-002:ACCESS_DENIED"
+             _msgSender() == _getContractAddress("Query"),
+            "ERROR:PRD-002:ACCESS_DENIED"
         );
         _;
     }
 
-    constructor(address _productService, bytes32 _name, bytes32 _policyFlow)
-        Ownable()
+    constructor(
+        bytes32 name,
+        bytes32 policyFlow,
+        address registry
+    )
+        Component(name, PRODUCT_TYPE, registry)
     {
-        productService = IProductService(_productService);
-        registryAccess = IRegistryAccess(_productService);
-
-        productId = _proposeProduct(_name, _policyFlow);
+        // TODO add validation for policy flow
+        _policyFlow = _getContractAddress(policyFlow);
+        _productService = IProductService(_getContractAddress("ProductService"));
+        emit LogProductCreated(address(this));
     }
 
-    function getId() public view returns(uint256) { return productId; }
-
-    function setDevelopmentMode(bool _newMode) internal {
-        developmentMode = _newMode;
+    function getPolicyFlow() public view override returns(address) {
+        return _policyFlow;
     }
 
-    function setMaintenanceMode(bool _newMode) internal {
-        maintenanceMode = _newMode;
+    // default callback function implementations
+    function _afterApprove() internal override { 
+        uint256 id = getId();
+        // TODO figure out what the ... is wrong here
+        // plugging id into the event let spin brownie console
+        // with history[-1].info() ...
+        // plugging in a fixed value eg 999 works fine????
+        emit LogProductApproved(999); 
     }
 
-    function setOnChainPaymentMode(bool _newMode) internal {
-        onChainPaymentMode = _newMode;
-    }
-
-    function _proposeProduct(bytes32 _productName, bytes32 _policyFlow)
-        internal
-        returns (uint256 _productId)
-    {
-        _productId = productService.proposeProduct(_productName, _policyFlow);
-    }
+    function _afterPropose() internal override { emit LogProductProposed(getId()); }
+    function _afterDecline() internal override { emit LogProductDeclined(getId()); }
 
     function _newApplication(
         bytes32 _bpKey,
@@ -68,7 +69,7 @@ abstract contract Product is RBAC {
     )
         internal
     {
-        productService.newApplication(_bpKey, _data);
+        _productService.newApplication(_bpKey, _data);
     }
 
     function _underwrite(
@@ -76,7 +77,7 @@ abstract contract Product is RBAC {
     )
         internal
     {
-        productService.underwrite(_bpKey);
+        _productService.underwrite(_bpKey);
     }
 
     function _decline(
@@ -84,7 +85,7 @@ abstract contract Product is RBAC {
     )
         internal
     {
-        productService.decline(_bpKey);
+        _productService.decline(_bpKey);
     }
 
     function _newClaim(
@@ -94,7 +95,7 @@ abstract contract Product is RBAC {
         internal
         returns (uint256 _claimId)
     {
-        _claimId = productService.newClaim(_bpKey, _data);
+        _claimId = _productService.newClaim(_bpKey, _data);
     }
 
     function _confirmClaim(
@@ -105,7 +106,7 @@ abstract contract Product is RBAC {
         internal
         returns (uint256 _payoutId)
     {
-        _payoutId = productService.confirmClaim(_bpKey, _claimId, _data);
+        _payoutId = _productService.confirmClaim(_bpKey, _claimId, _data);
     }
 
     function _declineClaim(
@@ -114,7 +115,7 @@ abstract contract Product is RBAC {
     )
         internal
     {
-        productService.declineClaim(_bpKey, _claimId);
+        _productService.declineClaim(_bpKey, _claimId);
     }
 
     function _expire(
@@ -122,7 +123,7 @@ abstract contract Product is RBAC {
     )
         internal
     {
-        productService.expire(_bpKey);
+        _productService.expire(_bpKey);
     }
 
     function _payout(
@@ -133,7 +134,7 @@ abstract contract Product is RBAC {
     )
         internal
     {
-        productService.payout(_bpKey, _payoutId, _complete, _data);
+        _productService.payout(_bpKey, _payoutId, _complete, _data);
     }
 
     function _request(
@@ -145,7 +146,7 @@ abstract contract Product is RBAC {
         internal
         returns (uint256 _requestId)
     {
-        _requestId = productService.request(
+        _requestId = _productService.request(
             _bpKey,
             _input,
             _callbackMethodName,
@@ -155,15 +156,14 @@ abstract contract Product is RBAC {
     }
 
     function _getApplicationData(bytes32 _bpKey) internal view returns (bytes memory _data) {
-        return productService.getApplicationData(_bpKey);
+        return _productService.getApplicationData(_bpKey);
     }
 
     function _getClaimData(bytes32 _bpKey, uint256 _claimId) internal view returns (bytes memory _data) {
-        return productService.getClaimData(_bpKey, _claimId);
+        return _productService.getClaimData(_bpKey, _claimId);
     }
 
     function _getApplicationData(bytes32 _bpKey, uint256 _payoutId) internal view returns (bytes memory _data) {
-        return productService.getPayoutData(_bpKey, _payoutId);
+        return _productService.getPayoutData(_bpKey, _payoutId);
     }
-
 }
