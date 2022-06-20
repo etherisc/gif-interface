@@ -47,15 +47,7 @@ abstract contract Oracle is
     function _afterPropose() internal override { emit LogOracleProposed(getId()); }
     function _afterDecline() internal override { emit LogOracleDeclined(getId()); }
 
-    function request(uint256 requestId, bytes calldata requestData) external override onlyQuery {
-        bytes memory responseData = _calculateResponseData(requestData);
-        _oracleService.respond(requestId, responseData);
-    }
-
-    // this is the function that makes the call to the actual oracle
-    // decodes input data
-    // makes oracle call
-    // link to oracle response
-    // encodes oracle data and forwards it to product
-    function _calculateResponseData(bytes calldata requestData) internal virtual returns (bytes memory responseData);
+    function _respond(uint256 requestId, bytes memory data) internal {
+        _oracleService.respond(requestId, data);
+    }    
 }

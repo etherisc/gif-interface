@@ -8,7 +8,7 @@ compiler:
             runs: 200
         # https://eth-brownie.readthedocs.io/en/stable/compile.html#compiler-settings
         remappings:
-          - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.5.0"
+          - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.6.0"
     vyper:
         version: null
 
@@ -17,4 +17,4 @@ compiler:
 # to list the packages installed via the dependency list below
 dependencies:
     # github dependency format: <owner>/<repository>@<release>
-    - OpenZeppelin/openzeppelin-contracts@4.5.0
+    - OpenZeppelin/openzeppelin-contracts@4.6.0
