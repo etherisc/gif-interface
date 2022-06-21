@@ -20,11 +20,4 @@ interface IInstanceOperatorService {
     function decline(uint256 id) external;
     function suspend(uint256 id) external;
     function resume(uint256 id) external;
-
-    // TODO 3 rename to approve, decline,then add suspend, resume
-    function approveProduct(uint256 _productId) external;
-    function disapproveProduct(uint256 _productId) external;
-    function pauseProduct(uint256 _productId) external;
-    function approveOracle(uint256 _oracleId) external;
-    function disapproveOracle(uint256 _oracleId) external;
 }
