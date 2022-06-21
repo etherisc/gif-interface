@@ -3,6 +3,5 @@ pragma solidity ^0.8.0;
 
 interface IOracleService {
 
-    function respond(uint256 _requestId, bytes calldata _data) external;
-
+    function respond(uint256 requestId, bytes calldata data) external;
 }
