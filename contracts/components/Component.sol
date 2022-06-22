@@ -84,25 +84,16 @@ abstract contract Component is
     {        
         emit LogComponentProposed(
             address(this),
-            getId());
-
+            _componentId);
         _afterPropose();
     }
 
-    function approvalCallback(
-        address [] calldata tokens, 
-        uint256 [] calldata amounts
-    ) 
+    function approvalCallback() 
         public 
         override
         onlyComponent
     {
-        require(tokens.length == amounts.length, "ERROR:CMP-004:INPUT_LENGTH_UNEQUAL");
-
-        _requiredTokens = tokens;
-        _requiredAmounts = amounts;
-        _requiredStakingDefined = true;
-
+        emit LogComponentApproved(_componentId);
         _afterApprove();
     }
 
@@ -111,6 +102,7 @@ abstract contract Component is
         override
         onlyComponent
     {
+        emit LogComponentDeclined(_componentId);
         _afterDecline();
     }
 
