@@ -18,7 +18,7 @@ interface IComponent {
     event LogComponentDeclined(uint256 id);
 
     function proposalCallback() external; // only component module, set to proposed
-    function approvalCallback(address [] calldata tokens, uint256 [] calldata amounts) external; // only component module, set to active, staking reqs
+    function approvalCallback() external; // only component module, set to active
     function declineCallback() external; // only component module, set to declined
 
     function setId(uint256 id) external; // only component module
