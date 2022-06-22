@@ -16,8 +16,12 @@ interface IInstanceOperatorService {
     function revokeRole(bytes32 role, address principal) external;
 
     // component
-    function approve(uint256 id, address [] calldata tokens, uint256 [] calldata amounts) external;
+    function approve(uint256 id) external;
     function decline(uint256 id) external;
     function suspend(uint256 id) external;
     function resume(uint256 id) external;
+
+    // service staking
+    function setDefaultStaking(uint16 componentType, bytes calldata data) external;
+    function adjustStakingRequirements(uint256 id, bytes calldata data) external;
 }

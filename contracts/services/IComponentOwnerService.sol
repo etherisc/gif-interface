@@ -7,8 +7,8 @@ interface IComponentOwnerService {
 
     function propose(IComponent component) external;
 
-    function stake(uint256 id, address [] calldata tokens, uint256 [] calldata amounts) external;
-    function withdraw(uint256 id, address [] calldata tokens, uint256 [] calldata amounts) external;
+    function stake(uint256 id) external;
+    function withdraw(uint256 id) external;
 
     function pause(uint256 id) external; 
     function unpause(uint256 id) external;

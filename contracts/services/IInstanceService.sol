@@ -25,4 +25,8 @@ interface IInstanceService {
     function oracles() external view returns(uint256 oracles);
     function riskPools() external view returns(uint256 riskPools);
     function getComponent(uint256 id) external view returns(IComponent component);
+
+    // service staking
+    function getStakingRequirements(uint256 id) external view returns(bytes memory data);
+    function getStakedAssets(uint256 id) external view returns(bytes memory data);
 }

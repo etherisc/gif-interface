@@ -12,6 +12,9 @@ interface IComponentEvents {
     event LogComponentApproved (uint256 id);
     event LogComponentDeclined (uint256 id);
 
+    event LogComponentSuspended (uint256 id);
+    event LogComponentResumed (uint256 id);
+
     event LogComponentPaused (uint256 id);
     event LogComponentUnpaused (uint256 id);
 
