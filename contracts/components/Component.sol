@@ -2,15 +2,17 @@
 pragma solidity ^0.8.0;
 
 import "./IComponent.sol";
-import "../services/IComponentOwnerService.sol";
 import "../modules/IAccess.sol";
+import "../modules/IComponentEvents.sol";
 import "../modules/IRegistry.sol";
+import "../services/IComponentOwnerService.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/GUIDELINES.md#style-guidelines
 abstract contract Component is 
     IComponent,
+    IComponentEvents,
     Ownable 
 {
     bytes32 private _componentName;
@@ -99,6 +101,24 @@ abstract contract Component is
         _afterDecline();
     }
 
+    function suspendCallback()
+        public 
+        override
+        onlyComponent
+    {
+        emit LogComponentSuspended(_componentId);
+        _afterSuspend();
+    }
+
+    function resumeCallback()
+        public 
+        override
+        onlyComponent
+    {
+        emit LogComponentResumed(_componentId);
+        _afterResume();
+    }
+
     function setId(uint256 id) external onlyComponent { _componentId = id; }
     function setStatus(ComponentStatus status) external onlyComponent { _componentStatus = status; }
 
@@ -117,6 +137,8 @@ abstract contract Component is
     function _afterPropose() internal virtual {}
     function _afterApprove() internal virtual {}
     function _afterDecline() internal virtual {}
+    function _afterSuspend() internal virtual {}
+    function _afterResume() internal virtual {}
 
     function _getRequiredRole() private returns (bytes32) {
         if (isProduct()) { return _access.productOwnerRole(); }

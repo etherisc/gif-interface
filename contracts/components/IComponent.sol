@@ -18,23 +18,11 @@ enum ComponentStatus {
 
 interface IComponent {
 
-    event LogComponentCreated (
-        bytes32 componentName,
-        ComponentType componentType,
-        address componentAddress,
-        address registry
-    );
-
-    event LogComponentProposed(
-        address componentAddress,
-        uint256 id);
-
-    event LogComponentApproved(uint256 id);
-    event LogComponentDeclined(uint256 id);
-
     function proposalCallback() external;
     function approvalCallback() external; 
     function declineCallback() external;
+    function suspendCallback() external;
+    function resumeCallback() external;
 
     function setId(uint256 id) external;
     function setStatus(ComponentStatus status) external;

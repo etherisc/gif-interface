@@ -1,11 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
+import "../components/IComponent.sol";
+
 interface IComponentEvents {
 
+    event LogComponentCreated (
+        bytes32 componentName,
+        ComponentType componentType,
+        address componentAddress,
+        address registry
+    );
+
     event LogComponentProposed (
-        bytes32 componentName, 
-        uint16 componentType, 
         address componentAddress,
         uint256 id);
     
