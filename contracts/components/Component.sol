@@ -13,19 +13,12 @@ abstract contract Component is
     IComponent,
     Ownable 
 {
-    uint16 public constant PRODUCT_TYPE = 1;
-    uint16 public constant ORACLE_TYPE = 2;
-    uint16 public constant RISKPOOL_TYPE = 3;
-
     bytes32 private _componentName;
     uint256 private _componentId;
-    uint16 private _componentType;
-    uint16 private _componentState;
+    ComponentType private _componentType;
+    ComponentStatus private _componentStatus;
 
     bytes32 private _requiredRole;
-    address [] private _requiredTokens;
-    uint256 [] private _requiredAmounts;
-    bool private _requiredStakingDefined;
 
     IRegistry private _registry;
     IAccess private _access;
@@ -54,13 +47,12 @@ abstract contract Component is
 
     constructor(
         bytes32 name,
-        uint16 componentType,
+        ComponentType componentType,
         address registry
     )
         Ownable()
     {
         require(registry != address(0), "ERROR:CMP-003:REGISTRY_ADDRESS_ZERO");
-        require(componentType <= 3, "ERROR:CMP-002:TYPE_INVALID");
 
         _registry = IRegistry(registry);
         _access = _getAccess();
@@ -68,6 +60,7 @@ abstract contract Component is
 
         _componentName = name;
         _componentType = componentType;
+        _componentStatus = ComponentStatus.Created;
         _requiredRole = _getRequiredRole();
 
         emit LogComponentCreated(
@@ -107,35 +100,19 @@ abstract contract Component is
     }
 
     function setId(uint256 id) external onlyComponent { _componentId = id; }
-    function setState(uint16 state) external onlyComponent { _componentState = state; }
+    function setStatus(ComponentStatus status) external onlyComponent { _componentStatus = status; }
 
     function getName() public view returns(bytes32) { return _componentName; }
     function getId() public view returns(uint256) { return _componentId; }
-    function getType() public view returns(uint16) { return _componentType; }
-    function getState() public view returns(uint16) { return _componentState; }
+    function getType() public view returns(ComponentType) { return _componentType; }
+    function getStatus() public view returns(ComponentStatus) { return _componentStatus; }
     function getOwner() external view returns(address) { return owner(); }
 
-    function productType() public view returns(uint16) { return PRODUCT_TYPE; }
-    function oracleType() public view returns(uint16) { return ORACLE_TYPE; }
-    function riskpoolType() public view returns(uint16) { return RISKPOOL_TYPE; }
-
-    function isProduct() public view returns(bool) { return _componentType == PRODUCT_TYPE; }
-    function isOracle() public view returns(bool) { return _componentType == ORACLE_TYPE; }
-    function isRiskpool() public view returns(bool) { return _componentType == RISKPOOL_TYPE; }
+    function isProduct() public view returns(bool) { return _componentType == ComponentType.Product; }
+    function isOracle() public view returns(bool) { return _componentType == ComponentType.Oracle; }
+    function isRiskpool() public view returns(bool) { return _componentType == ComponentType.Riskpool; }
 
     function getRequiredRole() public view override returns(bytes32) { return _requiredRole; }
-
-    function getRequiredAssets() 
-        public 
-        view 
-        override 
-        returns(
-            address [] memory tokens, 
-            uint256 [] memory amounts)
-    {
-        require(_requiredStakingDefined, "ERROR:CMP-005:REQUIRED_STAKING_UNDEFINED");
-        return (_requiredTokens, _requiredAmounts);
-    }
 
     function _afterPropose() internal virtual {}
     function _afterApprove() internal virtual {}

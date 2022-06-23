@@ -8,6 +8,9 @@ import "./IProductService.sol";
 
 interface IInstanceService {
 
+    // owner
+    function getOwner() external view returns(address owner);
+    
     // registry
     function getComponentOwnerService() external view returns(IComponentOwnerService service);
     function getInstanceOperatorService() external view returns(IInstanceOperatorService service);

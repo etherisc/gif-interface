@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "./Component.sol";
+import "./IComponent.sol";
 import "./IOracle.sol";
 import "../services/IOracleService.sol";
 
@@ -28,7 +29,7 @@ abstract contract Oracle is
         bytes32 name,
         address registry
     )
-        Component(name, ORACLE_TYPE, registry)
+        Component(name, ComponentType.Oracle, registry)
     {
         _oracleService = IOracleService(_getContractAddress("OracleService"));
         emit LogOracleCreated(address(this));

@@ -38,7 +38,7 @@ abstract contract Product is
         bytes32 policyFlow,
         address registry
     )
-        Component(name, PRODUCT_TYPE, registry)
+        Component(name, ComponentType.Product, registry)
     {
         // TODO add validation for policy flow
         _policyFlow = _getContractAddress(policyFlow);

@@ -2,5 +2,5 @@
 pragma solidity ^0.8.0;
 
 interface IOracle {
-    function request(uint256 _requestId, bytes calldata _input) external;
+    function request(uint256 requestId, bytes calldata input) external;
 }

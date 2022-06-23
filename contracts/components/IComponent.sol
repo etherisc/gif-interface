@@ -1,11 +1,26 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
+enum ComponentType {
+    Oracle,
+    Product,
+    Riskpool
+}
+
+enum ComponentStatus {
+    Created,
+    Proposed,
+    Declined,
+    Active,
+    Paused,
+    Suspended
+}
+
 interface IComponent {
 
     event LogComponentCreated (
         bytes32 componentName,
-        uint16 componentType,
+        ComponentType componentType,
         address componentAddress,
         address registry
     );
@@ -17,21 +32,20 @@ interface IComponent {
     event LogComponentApproved(uint256 id);
     event LogComponentDeclined(uint256 id);
 
-    function proposalCallback() external; // only component module, set to proposed
-    function approvalCallback() external; // only component module, set to active
-    function declineCallback() external; // only component module, set to declined
+    function proposalCallback() external;
+    function approvalCallback() external; 
+    function declineCallback() external;
 
-    function setId(uint256 id) external; // only component module
-    function setState(uint16 state) external; // only component module
+    function setId(uint256 id) external;
+    function setStatus(ComponentStatus status) external;
 
     function getName() external view returns(bytes32);
     function getId() external view returns(uint256);
-    function getType() external view returns(uint16);
-    function getState() external view returns(uint16);
+    function getType() external view returns(ComponentType);
+    function getStatus() external view returns(ComponentStatus);
     function getOwner() external view returns(address);
 
     function getRequiredRole() external view returns(bytes32 role);
-    function getRequiredAssets() external view returns(address [] memory tokens, uint256 [] memory amounts); // returns staked assets required for approval
 
     function isProduct() external view returns(bool);
     function isOracle() external view returns(bool);
