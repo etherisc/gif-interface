@@ -18,12 +18,6 @@ enum ComponentStatus {
 
 interface IComponent {
 
-    function proposalCallback() external;
-    function approvalCallback() external; 
-    function declineCallback() external;
-    function suspendCallback() external;
-    function resumeCallback() external;
-
     function setId(uint256 id) external;
     function setStatus(ComponentStatus status) external;
 
@@ -38,4 +32,12 @@ interface IComponent {
     function isProduct() external view returns(bool);
     function isOracle() external view returns(bool);
     function isRiskpool() external view returns(bool);
+
+    function proposalCallback() external;
+    function approvalCallback() external; 
+    function declineCallback() external;
+    function suspendCallback() external;
+    function resumeCallback() external;
+    function pauseCallback() external;
+    function unpauseCallback() external;
 }

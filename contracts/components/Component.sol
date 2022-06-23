@@ -26,6 +26,12 @@ abstract contract Component is
     IAccess private _access;
     IComponentOwnerService private _componentOwnerService;
 
+    event LogComponentCreated (
+        bytes32 componentName,
+        ComponentType componentType,
+        address componentAddress,
+        address registryAddress);
+
     modifier onlyInstanceOperatorService() {
         require(
              _msgSender() == _getContractAddress("InstanceOperatorService"),
@@ -72,53 +78,6 @@ abstract contract Component is
             address(_registry));
     }
 
-    function proposalCallback() 
-        public 
-        override
-        onlyComponent
-    {        
-        emit LogComponentProposed(
-            address(this),
-            _componentId);
-        _afterPropose();
-    }
-
-    function approvalCallback() 
-        public 
-        override
-        onlyComponent
-    {
-        emit LogComponentApproved(_componentId);
-        _afterApprove();
-    }
-
-    function declineCallback()
-        public 
-        override
-        onlyComponent
-    {
-        emit LogComponentDeclined(_componentId);
-        _afterDecline();
-    }
-
-    function suspendCallback()
-        public 
-        override
-        onlyComponent
-    {
-        emit LogComponentSuspended(_componentId);
-        _afterSuspend();
-    }
-
-    function resumeCallback()
-        public 
-        override
-        onlyComponent
-    {
-        emit LogComponentResumed(_componentId);
-        _afterResume();
-    }
-
     function setId(uint256 id) external onlyComponent { _componentId = id; }
     function setStatus(ComponentStatus status) external onlyComponent { _componentStatus = status; }
 
@@ -134,11 +93,23 @@ abstract contract Component is
 
     function getRequiredRole() public view override returns(bytes32) { return _requiredRole; }
 
+    function proposalCallback() public override onlyComponent { _afterPropose(); }
+    function approvalCallback() public override onlyComponent { _afterApprove(); }
+    function declineCallback() public override onlyComponent { _afterDecline(); }
+    function suspendCallback() public override onlyComponent { _afterSuspend(); }
+    function resumeCallback() public override onlyComponent { _afterResume(); }
+    function pauseCallback() public override onlyComponent { _afterPause(); }
+    function unpauseCallback() public override onlyComponent { _afterUnpause(); }
+
+    // these functions are intended to be overwritten to implement
+    // component specific notification handling
     function _afterPropose() internal virtual {}
     function _afterApprove() internal virtual {}
     function _afterDecline() internal virtual {}
     function _afterSuspend() internal virtual {}
     function _afterResume() internal virtual {}
+    function _afterPause() internal virtual {}
+    function _afterUnpause() internal virtual {}
 
     function _getRequiredRole() private returns (bytes32) {
         if (isProduct()) { return _access.productOwnerRole(); }

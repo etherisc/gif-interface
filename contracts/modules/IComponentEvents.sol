@@ -5,14 +5,9 @@ import "../components/IComponent.sol";
 
 interface IComponentEvents {
 
-    event LogComponentCreated (
+    event LogComponentProposed (
         bytes32 componentName,
         ComponentType componentType,
-        address componentAddress,
-        address registry
-    );
-
-    event LogComponentProposed (
         address componentAddress,
         uint256 id);
     
@@ -25,5 +20,5 @@ interface IComponentEvents {
     event LogComponentPaused (uint256 id);
     event LogComponentUnpaused (uint256 id);
 
-    event LogComponentStateChanged (uint256 id, uint16 stateOld, uint16 stateNew);
+    event LogComponentStateChanged (uint256 id, ComponentStatus statusOld, ComponentStatus statusNew);
 }
