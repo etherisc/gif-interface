@@ -9,12 +9,7 @@ import "../services/IOracleService.sol";
 abstract contract Oracle is
     IOracle, 
     Component 
-{    
-    event LogOracleCreated (address oracleAddress);
-    event LogOracleProposed (uint256 id);
-    event LogOracleApproved (uint256 id);
-    event LogOracleDeclined (uint256 id);
-
+{   
     IOracleService private _oracleService;
 
     modifier onlyQuery {

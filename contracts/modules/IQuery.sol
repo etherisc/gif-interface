@@ -22,7 +22,7 @@ interface IQuery {
         bytes32 bpKey,
         uint256 requestId,
         address responder,
-        bool status
+        bool success
     );
 
     function request(

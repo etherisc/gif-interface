@@ -3,19 +3,16 @@ pragma solidity ^0.8.0;
 
 import "./IProduct.sol";
 import "./Component.sol";
+import "../services/IInstanceService.sol";
 import "../services/IProductService.sol";
 
 abstract contract Product is
     IProduct, 
     Component 
 {    
-    event LogProductCreated (address productAddress);
-    event LogProductProposed (uint256 id);
-    event LogProductApproved (uint256 id);
-    event LogProductDeclined (uint256 id);
-
     address private _policyFlow;
     IProductService private _productService;
+    IInstanceService private _instanceService;
 
     modifier onlyLicence {
         require(
@@ -43,6 +40,8 @@ abstract contract Product is
         // TODO add validation for policy flow
         _policyFlow = _getContractAddress(policyFlow);
         _productService = IProductService(_getContractAddress("ProductService"));
+        _instanceService = IInstanceService(_getContractAddress("InstanceService"));
+
         emit LogProductCreated(address(this));
     }
 
@@ -156,14 +155,14 @@ abstract contract Product is
     }
 
     function _getApplicationData(bytes32 _bpKey) internal view returns (bytes memory _data) {
-        return _productService.getApplicationData(_bpKey);
+        return _instanceService.getApplication(_bpKey).data;
     }
 
     function _getClaimData(bytes32 _bpKey, uint256 _claimId) internal view returns (bytes memory _data) {
-        return _productService.getClaimData(_bpKey, _claimId);
+        return _instanceService.getClaim(_bpKey, _claimId).data;
     }
 
     function _getApplicationData(bytes32 _bpKey, uint256 _payoutId) internal view returns (bytes memory _data) {
-        return _productService.getPayoutData(_bpKey, _payoutId);
+        return _instanceService.getPayout(_bpKey, _payoutId).data;
     }
 }

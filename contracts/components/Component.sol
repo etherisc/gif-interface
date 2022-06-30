@@ -78,20 +78,20 @@ abstract contract Component is
             address(_registry));
     }
 
-    function setId(uint256 id) external onlyComponent { _componentId = id; }
-    function setStatus(ComponentStatus status) external onlyComponent { _componentStatus = status; }
+    function setId(uint256 id) external override onlyComponent { _componentId = id; }
+    function setStatus(ComponentStatus status) external override onlyComponent { _componentStatus = status; }
 
-    function getName() public view returns(bytes32) { return _componentName; }
-    function getId() public view returns(uint256) { return _componentId; }
-    function getType() public view returns(ComponentType) { return _componentType; }
-    function getStatus() public view returns(ComponentStatus) { return _componentStatus; }
-    function getOwner() external view returns(address) { return owner(); }
+    function getName() public override view returns(bytes32) { return _componentName; }
+    function getId() public override view returns(uint256) { return _componentId; }
+    function getType() public override view returns(ComponentType) { return _componentType; }
+    function getStatus() public override view returns(ComponentStatus) { return _componentStatus; }
+    function getOwner() public override view returns(address) { return owner(); }
 
-    function isProduct() public view returns(bool) { return _componentType == ComponentType.Product; }
-    function isOracle() public view returns(bool) { return _componentType == ComponentType.Oracle; }
-    function isRiskpool() public view returns(bool) { return _componentType == ComponentType.Riskpool; }
+    function isProduct() public override view returns(bool) { return _componentType == ComponentType.Product; }
+    function isOracle() public override view returns(bool) { return _componentType == ComponentType.Oracle; }
+    function isRiskpool() public override view returns(bool) { return _componentType == ComponentType.Riskpool; }
 
-    function getRequiredRole() public view override returns(bytes32) { return _requiredRole; }
+    function getRequiredRole() public override view returns(bytes32) { return _requiredRole; }
 
     function proposalCallback() public override onlyComponent { _afterPropose(); }
     function approvalCallback() public override onlyComponent { _afterApprove(); }

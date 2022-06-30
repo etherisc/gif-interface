@@ -10,11 +10,6 @@ interface IAccess {
     function grantRole(bytes32 role, address principal) external;
     function revokeRole(bytes32 role, address principal) external;
     function renounceRole(bytes32 role, address principal) external;
-
-    function enforceProductOwnerRole(address account) external view;
-    function enforceOracleProviderRole(address account) external view;
-    function enforceRiskpoolKeeperRole(address account) external view;
-    function enforceRole(bytes32 role, address account) external view;
     
     function addRole(bytes32 role) external;
     function invalidateRole(bytes32 role) external;

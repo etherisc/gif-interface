@@ -61,23 +61,19 @@ interface IPolicy {
 
     // Objects
     struct Metadata {
-        // Lookup
         uint256 productId;
+        PolicyFlowState state;
+        bool hasApplication;
+        bool hasPolicy;
         uint256 claimsCount;
         uint256 payoutsCount;
-        bool hasPolicy;
-        bool hasApplication;
-        PolicyFlowState state;
         uint256 createdAt;
         uint256 updatedAt;
-        address tokenContract;
-        address registryContract;
-        uint256 release;
     }
 
     struct Application {
-        bytes data; // ABI-encoded contract data: premium, currency, payout options etc.
         ApplicationState state;
+        bytes data; 
         uint256 createdAt;
         uint256 updatedAt;
     }
@@ -89,18 +85,16 @@ interface IPolicy {
     }
 
     struct Claim {
-        // Data to prove claim, ABI-encoded
-        bytes data;
         ClaimState state;
+        bytes data;
         uint256 createdAt;
         uint256 updatedAt;
     }
 
     struct Payout {
-        // Data describing the payout, ABI-encoded
-        bytes data;
         uint256 claimId;
         PayoutState state;
+        bytes data;
         uint256 createdAt;
         uint256 updatedAt;
     }
@@ -152,6 +146,11 @@ interface IPolicy {
         uint256 _payoutId,
         IPolicy.PayoutState _state
     ) external;
+
+    function getMetadata(bytes32 _bpKey)
+        external
+        view
+        returns (IPolicy.Metadata memory _metadata);
 
     function getApplication(bytes32 _bpKey)
         external

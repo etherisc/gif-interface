@@ -3,24 +3,20 @@ pragma solidity ^0.8.0;
 
 interface IProductService {
 
-    function newApplication(bytes32 _bpKey, bytes calldata _data) external;
-    function underwrite(bytes32 _bpKey) external;
-    function decline(bytes32 _bpKey) external;
-    function newClaim(bytes32 _bpKey, bytes calldata _data) external returns (uint256 _claimId);
-    function confirmClaim(bytes32 _bpKey, uint256 _claimId, bytes calldata _data) external returns (uint256 _payoutId);
-    function declineClaim(bytes32 _bpKey, uint256 _claimId) external;
-    function expire(bytes32 _bpKey) external;
-    function payout(bytes32 _bpKey, uint256 _payoutId, bool _complete, bytes calldata _data) external;
-    function getApplicationData(bytes32 _bpKey) external view returns (bytes memory _data);
-    function getClaimData(bytes32 _bpKey, uint256 _claimId) external view returns (bytes memory _data);
-    function getPayoutData(bytes32 _bpKey, uint256 _payoutId) external view returns (bytes memory _data);
+    function newApplication(bytes32 processId, bytes calldata data) external;
+    function underwrite(bytes32 processId) external;
+    function decline(bytes32 processId) external;
+    function newClaim(bytes32 processId, bytes calldata data) external returns (uint256 claimId);
+    function confirmClaim(bytes32 processId, uint256 claimId, bytes calldata data) external returns (uint256 payoutId);
+    function declineClaim(bytes32 processId, uint256 claimId) external;
+    function expire(bytes32 processId) external;
+    function payout(bytes32 processId, uint256 payoutId, bool complete, bytes calldata data) external;
 
     function request(
-        bytes32 _bpKey,
-        bytes calldata _input,
-        string calldata _callbackMethodName,
-        address _callbackContractAddress,
-        uint256 _responsibleOracleId
-    ) external returns (uint256 _requestId);
-
+        bytes32 processId,
+        bytes calldata data,
+        string calldata callbackMethodName,
+        address callbackContractAddress,
+        uint256 responsibleOracleId
+    ) external returns (uint256 requestId);
 }
