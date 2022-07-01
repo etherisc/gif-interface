@@ -63,10 +63,6 @@ interface IPolicy {
     struct Metadata {
         uint256 productId;
         PolicyFlowState state;
-        bool hasApplication;
-        bool hasPolicy;
-        uint256 claimsCount;
-        uint256 payoutsCount;
         uint256 createdAt;
         uint256 updatedAt;
     }
@@ -80,6 +76,8 @@ interface IPolicy {
 
     struct Policy {
         PolicyState state;
+        uint256 claimsCount;
+        uint256 payoutsCount;
         uint256 createdAt;
         uint256 updatedAt;
     }
