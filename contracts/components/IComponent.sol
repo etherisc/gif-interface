@@ -7,7 +7,7 @@ enum ComponentType {
     Riskpool
 }
 
-enum ComponentStatus {
+enum ComponentState {
     Created,
     Proposed,
     Declined,
@@ -19,12 +19,12 @@ enum ComponentStatus {
 interface IComponent {
 
     function setId(uint256 id) external;
-    function setStatus(ComponentStatus status) external;
+    function setState(ComponentState state) external;
 
     function getName() external view returns(bytes32);
     function getId() external view returns(uint256);
     function getType() external view returns(ComponentType);
-    function getStatus() external view returns(ComponentStatus);
+    function getState() external view returns(ComponentState);
     function getOwner() external view returns(address);
 
     function getRequiredRole() external view returns(bytes32 role);

@@ -18,7 +18,7 @@ abstract contract Component is
     bytes32 private _componentName;
     uint256 private _componentId;
     ComponentType private _componentType;
-    ComponentStatus private _componentStatus;
+    ComponentState private _componentState;
 
     bytes32 private _requiredRole;
 
@@ -68,7 +68,7 @@ abstract contract Component is
 
         _componentName = name;
         _componentType = componentType;
-        _componentStatus = ComponentStatus.Created;
+        _componentState = ComponentState.Created;
         _requiredRole = _getRequiredRole();
 
         emit LogComponentCreated(
@@ -79,12 +79,12 @@ abstract contract Component is
     }
 
     function setId(uint256 id) external override onlyComponent { _componentId = id; }
-    function setStatus(ComponentStatus status) external override onlyComponent { _componentStatus = status; }
+    function setState(ComponentState state) external override onlyComponent { _componentState = state; }
 
     function getName() public override view returns(bytes32) { return _componentName; }
     function getId() public override view returns(uint256) { return _componentId; }
     function getType() public override view returns(ComponentType) { return _componentType; }
-    function getStatus() public override view returns(ComponentStatus) { return _componentStatus; }
+    function getState() public override view returns(ComponentState) { return _componentState; }
     function getOwner() public override view returns(address) { return owner(); }
 
     function isProduct() public override view returns(bool) { return _componentType == ComponentType.Product; }

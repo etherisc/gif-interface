@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
+import "../modules/IBundle.sol";
 import "../modules/IPolicy.sol";
 import "./IComponentOwnerService.sol";
 import "./IInstanceOperatorService.sol";
@@ -43,4 +44,8 @@ interface IInstanceService {
 
     function getClaim(bytes32 processId, uint256 claimId) external view returns (IPolicy.Claim memory claim);
     function getPayout(bytes32 processId, uint256 payoutId) external view returns (IPolicy.Payout memory payout);
+
+    // bundles
+    function bundles() external view returns(uint256 numberOfBundles);
+    function getBundle() external view returns(IBundle.Bundle memory bundle);
 }

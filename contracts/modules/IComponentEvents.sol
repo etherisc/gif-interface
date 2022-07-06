@@ -20,5 +20,5 @@ interface IComponentEvents {
     event LogComponentPaused (uint256 id);
     event LogComponentUnpaused (uint256 id);
 
-    event LogComponentStateChanged (uint256 id, ComponentStatus statusOld, ComponentStatus statusNew);
+    event LogComponentStateChanged (uint256 id, ComponentState stateOld, ComponentState stateNew);
 }
