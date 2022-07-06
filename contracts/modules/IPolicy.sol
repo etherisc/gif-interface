@@ -84,6 +84,7 @@ interface IPolicy {
     // Objects
     struct Metadata {
         PolicyFlowState state;
+        bytes data;
         uint256 createdAt;
         uint256 updatedAt;
     }
@@ -122,78 +123,88 @@ interface IPolicy {
         uint256 updatedAt;
     }
 
-    function createPolicyFlow(uint256 _productId, bytes32 _processId) external;
+    function createPolicyFlow(
+        bytes32 processId, 
+        bytes calldata data
+    ) external;
 
     function setPolicyFlowState(
-        bytes32 _processId,
-        IPolicy.PolicyFlowState _state
+        bytes32 processId,
+        IPolicy.PolicyFlowState state
     ) external;
 
-    function createApplication(bytes32 _processId, bytes calldata _data) external;
+    function createApplication(
+        uint256 productId, 
+        bytes32 processId, 
+        uint256 premiumAmount,
+        uint256 sumInsuredAmount,
+        bytes calldata data
+    ) external;
 
     function setApplicationState(
-        bytes32 _processId,
-        IPolicy.ApplicationState _state
+        bytes32 processId,
+        IPolicy.ApplicationState state
     ) external;
 
-    function createPolicy(bytes32 _processId) external;
+    function createPolicy(bytes32 processId) external;
 
-    function setPolicyState(bytes32 _processId, IPolicy.PolicyState _state)
+    function setPolicyState(bytes32 processId, IPolicy.PolicyState state)
         external;
 
-    function createClaim(bytes32 _processId, bytes calldata _data)
+    function createClaim(bytes32 processId, bytes calldata data)
         external
-        returns (uint256 _claimId);
+        returns (uint256 claimId);
 
     function setClaimState(
-        bytes32 _processId,
-        uint256 _claimId,
-        IPolicy.ClaimState _state
+        bytes32 processId,
+        uint256 claimId,
+        IPolicy.ClaimState state
     ) external;
 
     function createPayout(
-        bytes32 _processId,
-        uint256 _claimId,
-        bytes calldata _data
-    ) external returns (uint256 _payoutId);
+        bytes32 processId,
+        uint256 claimId,
+        uint256 payoutAmount,
+        bytes calldata data
+    ) external returns (uint256 payoutId);
 
     function payOut(
-        bytes32 _processId,
-        uint256 _payoutId,
-        bool _complete,
-        bytes calldata _data
+        bytes32 processId,
+        uint256 payoutId,
+        bool complete,
+        bytes calldata data
     ) external;
 
     function setPayoutState(
-        bytes32 _processId,
-        uint256 _payoutId,
-        IPolicy.PayoutState _state
+        bytes32 processId,
+        uint256 payoutId,
+        IPolicy.PayoutState state
     ) external;
 
-    function getMetadata(bytes32 _processId)
+    function getMetadata(bytes32 processId)
         external
         view
-        returns (IPolicy.Metadata memory _metadata);
+        returns (IPolicy.Metadata memory metadata);
 
-    function getApplication(bytes32 _processId)
+    function getApplication(bytes32 processId)
         external
         view
-        returns (IPolicy.Application memory _application);
+        returns (IPolicy.Application memory application);
 
-    function getPolicy(bytes32 _processId)
+    function getPolicy(bytes32 processId)
         external
         view
-        returns (IPolicy.Policy memory _policy);
+        returns (IPolicy.Policy memory policy);
 
-    function getClaim(bytes32 _processId, uint256 _claimId)
+    function getClaim(bytes32 processId, uint256 claimId)
         external
         view
-        returns (IPolicy.Claim memory _claim);
+        returns (IPolicy.Claim memory claim);
 
-    function getPayout(bytes32 _processId, uint256 _payoutId)
+    function getPayout(bytes32 processId, uint256 payoutId)
         external
         view
-        returns (IPolicy.Payout memory _payout);
+        returns (IPolicy.Payout memory payout);
 
-    function getProcessIdCount() external view returns (uint256 _count);
+    function getProcessIdCount() external view returns (uint256 count);
 }

@@ -8,10 +8,10 @@ interface IRiskpool is IComponent {
 
     function createBundle(bytes calldata filter, uint256 initialAmount) external returns(uint256 bundleId);
 
-    function securePolicy(bytes32 processId) external returns(bool isSecured);
+    function collateralizePolicy(bytes32 processId) external returns(bool isSecured);
     function expirePolicy(bytes32 processId) external;
 
-    function securePayout(bytes32 processId, uint256 payoutId, uint256 amount) external;
+    function preparePayout(bytes32 processId, uint256 payoutId, uint256 amount) external;
     function executePayout(bytes32 processId, uint256 payoutId) external;
 
     function getFilterDataStructure() external view returns(string memory);
