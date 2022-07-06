@@ -15,7 +15,10 @@ interface IProductService {
     function underwrite(bytes32 processId) external;
     function expire(bytes32 processId) external;
 
-    function newClaim(bytes32 processId, bytes calldata data) external returns (uint256 claimId);
+    function newClaim(
+        bytes32 processId, 
+        bytes calldata data
+    ) external returns (uint256 claimId);
 
     function declineClaim(bytes32 processId, uint256 claimId) external;
 
@@ -26,7 +29,12 @@ interface IProductService {
         bytes calldata data
     ) external returns (uint256 payoutId);
 
-    function payout(bytes32 processId, uint256 payoutId, bool complete, uint256 payoutAmount, bytes calldata data) external;
+    function processPayout(
+        bytes32 processId, 
+        uint256 payoutId, 
+        bool isComplete, 
+        bytes calldata data
+    ) external;
 
     function request(
         bytes32 processId,

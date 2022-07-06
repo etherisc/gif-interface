@@ -109,17 +109,15 @@ abstract contract Product is
         _payoutId = _productService.confirmClaim(processId, claimId, payoutAmount, data);
     }
 
-    function _payout(
+    function _processPayout(
         bytes32 processId,
         uint256 payoutId,
         bool isComplete,
-        bool complete,
-        uint256 payoutAmount,
         bytes memory data
     )
         internal
     {
-        _productService.payout(processId, payoutId, isComplete, payoutAmount, data);
+        _productService.processPayout(processId, payoutId, isComplete, data);
     }
 
     function _request(
