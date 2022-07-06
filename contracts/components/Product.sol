@@ -63,106 +63,92 @@ abstract contract Product is
     function _afterDecline() internal override { emit LogProductDeclined(getId()); }
 
     function _newApplication(
-        bytes32 _bpKey,
-        bytes memory _data
+        bytes32 processId,
+        uint256 premiumAmount,
+        uint256 sumInsuredAmount,
+        bytes calldata metaData, 
+        bytes calldata applicationData 
     )
         internal
     {
-        _productService.newApplication(_bpKey, _data);
+        _productService.newApplication(processId, premiumAmount, sumInsuredAmount, metaData, applicationData);
     }
 
-    function _underwrite(
-        bytes32 _bpKey
-    )
-        internal
-    {
-        _productService.underwrite(_bpKey);
+    function _decline(bytes32 processId) internal {
+        _productService.decline(processId);
     }
 
-    function _decline(
-        bytes32 _bpKey
-    )
-        internal
-    {
-        _productService.decline(_bpKey);
+    function _underwrite(bytes32 processId) internal {
+        _productService.underwrite(processId);
     }
 
-    function _newClaim(
-        bytes32 _bpKey,
-        bytes memory _data
-    )
+    function _expire(bytes32 processId) internal {
+        _productService.expire(processId);
+    }
+
+    function _newClaim(bytes32 processId, bytes memory data) 
         internal
-        returns (uint256 _claimId)
+        returns (uint256 claimId)
     {
-        _claimId = _productService.newClaim(_bpKey, _data);
+        claimId = _productService.newClaim(processId, data);
+    }
+
+    function _declineClaim(bytes32 processId, uint256 claimId) internal {
+        _productService.declineClaim(processId, claimId);
     }
 
     function _confirmClaim(
-        bytes32 _bpKey,
-        uint256 _claimId,
-        bytes memory _data
+        bytes32 processId,
+        uint256 claimId,
+        uint256 payoutAmount,
+        bytes memory data
     )
         internal
         returns (uint256 _payoutId)
     {
-        _payoutId = _productService.confirmClaim(_bpKey, _claimId, _data);
-    }
-
-    function _declineClaim(
-        bytes32 _bpKey,
-        uint256 _claimId
-    )
-        internal
-    {
-        _productService.declineClaim(_bpKey, _claimId);
-    }
-
-    function _expire(
-        bytes32 _bpKey
-    )
-        internal
-    {
-        _productService.expire(_bpKey);
+        _payoutId = _productService.confirmClaim(processId, claimId, payoutAmount, data);
     }
 
     function _payout(
-        bytes32 _bpKey,
-        uint256 _payoutId,
-        bool _complete,
-        bytes memory _data
+        bytes32 processId,
+        uint256 payoutId,
+        bool isComplete,
+        bool complete,
+        uint256 payoutAmount,
+        bytes memory data
     )
         internal
     {
-        _productService.payout(_bpKey, _payoutId, _complete, _data);
+        _productService.payout(processId, payoutId, isComplete, payoutAmount, data);
     }
 
     function _request(
-        bytes32 _bpKey,
-        bytes memory _input,
-        string memory _callbackMethodName,
-        uint256 _responsibleOracleId
+        bytes32 processId,
+        bytes memory input,
+        string memory callbackMethodName,
+        uint256 responsibleOracleId
     )
         internal
-        returns (uint256 _requestId)
+        returns (uint256 requestId)
     {
-        _requestId = _productService.request(
-            _bpKey,
-            _input,
-            _callbackMethodName,
+        requestId = _productService.request(
+            processId,
+            input,
+            callbackMethodName,
             address(this),
-            _responsibleOracleId
+            responsibleOracleId
         );
     }
 
-    function _getApplicationData(bytes32 _bpKey) internal view returns (bytes memory _data) {
-        return _instanceService.getApplication(_bpKey).data;
+    function _getApplicationData(bytes32 processId) internal view returns (bytes memory _data) {
+        return _instanceService.getApplication(processId).data;
     }
 
-    function _getClaimData(bytes32 _bpKey, uint256 _claimId) internal view returns (bytes memory _data) {
-        return _instanceService.getClaim(_bpKey, _claimId).data;
+    function _getClaimData(bytes32 processId, uint256 claimId) internal view returns (bytes memory _data) {
+        return _instanceService.getClaim(processId, claimId).data;
     }
 
-    function _getApplicationData(bytes32 _bpKey, uint256 _payoutId) internal view returns (bytes memory _data) {
-        return _instanceService.getPayout(_bpKey, _payoutId).data;
+    function _getPayoutData(bytes32 processId, uint256 payoutId) internal view returns (bytes memory _data) {
+        return _instanceService.getPayout(processId, payoutId).data;
     }
 }

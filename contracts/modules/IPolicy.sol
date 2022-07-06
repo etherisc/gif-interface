@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 interface IPolicy {
     // Events
     event LogNewMetadata(
-        uint256 productId,
         bytes32 processId,
         PolicyFlowState state
     );
@@ -64,7 +63,7 @@ interface IPolicy {
         PayoutState state
     );
 
-    event LogPartialPayout(
+    event LogPayoutProcessed(
         bytes32 processId, 
         uint256 payoutId, 
         PayoutState state
@@ -168,10 +167,10 @@ interface IPolicy {
         bytes calldata data
     ) external returns (uint256 payoutId);
 
-    function payOut(
+    function processPayout(
         bytes32 processId,
         uint256 payoutId,
-        bool complete,
+        bool isComplete,
         bytes calldata data
     ) external;
 

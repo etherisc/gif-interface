@@ -47,5 +47,5 @@ interface IInstanceService {
 
     // bundles
     function bundles() external view returns(uint256 numberOfBundles);
-    function getBundle() external view returns(IBundle.Bundle memory bundle);
+    function getBundle(uint256 bundleId) external view returns(IBundle.Bundle memory bundle);
 }
