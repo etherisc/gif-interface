@@ -3,17 +3,21 @@ pragma solidity ^0.8.0;
 
 interface IBundle {
 
-    event LogNewBundle(
-        uint256 riskpoolId, 
+    event LogBundleCreated(
         uint256 bundleId, 
+        uint256 riskpoolId, 
         address owner,
-        BundleState state
+        BundleState state,
+        uint256 amount
     );
 
     event LogBundleStateChanged(uint256 bundleId, BundleState oldState, BundleState newState);
 
-    event LogBundleCapitalProvided(uint256 bundleId, address sender, uint256 amount);
-    event LogBundleCapitalWithdrawn(uint256 bundleId, address recipient, uint256 amount);
+    event LogBundleCapitalProvided(uint256 bundleId, address sender, uint256 amount, uint256 capacity);
+    event LogBundleCapitalWithdrawn(uint256 bundleId, address recipient, uint256 amount, uint256 capacity);
+
+    event LogBundlePolicyCollateralized(uint256 bundleId, bytes32 processId, uint256 amount, uint256 capacity);
+    event LogBundlePolicyExpired(uint256 bundleId, bytes32 processId, uint256 amount, uint256 capacity);
 
     enum BundleState {
         Active,
@@ -23,8 +27,8 @@ interface IBundle {
 
     struct Bundle {
         uint256 id;
-        address owner;
         uint256 riskpoolId;
+        address owner;
         BundleState state;
         bytes filter;
         uint256 capital;
@@ -34,7 +38,7 @@ interface IBundle {
         uint256 updatedAt;
     }
 
-    function create(uint256 riskpoolId_, bytes calldata filter_, uint256 amount_) external returns(uint256 bundleId);
+    function create(address owner_, uint256 riskpoolId_, bytes calldata filter_, uint256 amount_) external returns(uint256 bundleId);
     function fund(uint256 bundleId, uint256 amount) external;
     function withdraw(uint256 bundleId, uint256 amount) external;
 

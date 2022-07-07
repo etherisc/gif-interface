@@ -37,6 +37,7 @@ interface IInstanceService {
     function getStakedAssets(uint256 componentId) external view returns(bytes memory data);
 
     // policy
+    function getMetadata(bytes32 processId) external view returns(IPolicy.Metadata memory metadata);
     function getApplication(bytes32 processId) external view returns(IPolicy.Application memory application);
     function getPolicy(bytes32 processId) external view returns(IPolicy.Policy memory policy);
     function claims(bytes32 processId) external view returns(uint256 numberOfClaims);

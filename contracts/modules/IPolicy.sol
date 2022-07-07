@@ -82,6 +82,8 @@ interface IPolicy {
 
     // Objects
     struct Metadata {
+        address owner;
+        uint256 productId;
         PolicyFlowState state;
         bytes data;
         uint256 createdAt;
@@ -89,7 +91,6 @@ interface IPolicy {
     }
 
     struct Application {
-        uint256 productId;
         ApplicationState state;
         uint256 premiumAmount;
         uint256 sumInsuredAmount;

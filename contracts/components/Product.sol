@@ -14,6 +14,15 @@ abstract contract Product is
     IProductService private _productService;
     IInstanceService private _instanceService;
 
+    modifier onlyPolicyHolder(bytes32 policyId) {
+        address policyHolder = _instanceService.getMetadata(policyId).owner;
+        require(
+            _msgSender() == policyHolder, 
+            "ERROR:TI-1:INVALID_POLICY_OR_HOLDER"
+        );
+        _;
+    }
+
     modifier onlyLicence {
         require(
              _msgSender() == _getContractAddress("Licence"),
@@ -63,6 +72,7 @@ abstract contract Product is
     function _afterDecline() internal override { emit LogProductDeclined(getId()); }
 
     function _newApplication(
+        address owner,
         bytes32 processId,
         uint256 premiumAmount,
         uint256 sumInsuredAmount,
@@ -71,7 +81,7 @@ abstract contract Product is
     )
         internal
     {
-        _productService.newApplication(processId, premiumAmount, sumInsuredAmount, metaData, applicationData);
+        _productService.newApplication(owner, processId, premiumAmount, sumInsuredAmount, metaData, applicationData);
     }
 
     function _decline(bytes32 processId) internal {

@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 interface IProductService {
 
     function newApplication(
+        address owner,
         bytes32 processId,
         uint256 premiumAmount,
         uint256 sumInsuredAmount,

@@ -5,6 +5,10 @@ import "./IComponent.sol";
 import "../modules/IBundle.sol";
 
 interface IRiskpool is IComponent {
+    event LogRiskpoolCreated (address riskpoolAddress);
+    event LogRiskpoolProposed (uint256 id);
+    event LogRiskpoolApproved (uint256 id);
+    event LogRiskpoolDeclined (uint256 id);
 
     function createBundle(bytes calldata filter, uint256 initialAmount) external returns(uint256 bundleId);
 
