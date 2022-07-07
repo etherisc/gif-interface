@@ -4,7 +4,9 @@ pragma solidity ^0.8.0;
 interface IPolicy {
     // Events
     event LogNewMetadata(
+        address owner,
         bytes32 processId,
+        uint256 productId, 
         PolicyFlowState state
     );
 
@@ -14,7 +16,6 @@ interface IPolicy {
     );
 
     event LogNewApplication(
-        uint256 productId, 
         bytes32 processId, 
         uint256 premiumAmount, 
         uint256 sumInsuredAmount
@@ -124,7 +125,9 @@ interface IPolicy {
     }
 
     function createPolicyFlow(
+        address owner,
         bytes32 processId, 
+        uint256 productId, 
         bytes calldata data
     ) external;
 
@@ -134,7 +137,6 @@ interface IPolicy {
     ) external;
 
     function createApplication(
-        uint256 productId, 
         bytes32 processId, 
         uint256 premiumAmount,
         uint256 sumInsuredAmount,
