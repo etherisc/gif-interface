@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
+import "./IOracle.sol";
 import "./Component.sol";
 import "./IComponent.sol";
-import "./IOracle.sol";
 import "../services/IOracleService.sol";
 
 abstract contract Oracle is

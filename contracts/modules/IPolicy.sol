@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 interface IPolicy {
     // Events
-    event LogNewMetadata(
+    event LogMetadataCreated(
         address owner,
         bytes32 processId,
         uint256 productId, 
@@ -15,7 +15,7 @@ interface IPolicy {
         PolicyFlowState state
     );
 
-    event LogNewApplication(
+    event LogApplicationCreated(
         bytes32 processId, 
         uint256 premiumAmount, 
         uint256 sumInsuredAmount
@@ -26,14 +26,14 @@ interface IPolicy {
         ApplicationState state
     );
 
-    event LogNewPolicy(bytes32 processId);
+    event LogPolicyCreated(bytes32 processId);
 
     event LogPolicyStateChanged(
         bytes32 processId, 
         PolicyState state
     );
 
-    event LogNewClaim(
+    event LogClaimCreated(
         bytes32 processId, 
         uint256 claimId, 
         ClaimState state
@@ -45,7 +45,7 @@ interface IPolicy {
         ClaimState state
     );
 
-    event LogNewPayout(
+    event LogPayoutCreated(
         bytes32 processId,
         uint256 claimId,
         uint256 payoutId,
@@ -154,7 +154,11 @@ interface IPolicy {
     function setPolicyState(bytes32 processId, IPolicy.PolicyState state)
         external;
 
-    function createClaim(bytes32 processId, bytes calldata data)
+    function createClaim(
+        bytes32 processId, 
+        uint256 claimAmount, 
+        bytes calldata data
+    )
         external
         returns (uint256 claimId);
 
