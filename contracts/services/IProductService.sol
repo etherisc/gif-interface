@@ -18,6 +18,7 @@ interface IProductService {
 
     function newClaim(
         bytes32 processId, 
+        uint256 claimAmount,
         bytes calldata data
     ) external returns (uint256 claimId);
 

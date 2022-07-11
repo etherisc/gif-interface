@@ -5,6 +5,7 @@ import "./IComponent.sol";
 import "../modules/IBundle.sol";
 
 interface IRiskpool is IComponent {
+
     event LogRiskpoolCreated (address riskpoolAddress);
     event LogRiskpoolProposed (uint256 id);
     event LogRiskpoolApproved (uint256 id);
@@ -18,15 +19,15 @@ interface IRiskpool is IComponent {
     function preparePayout(bytes32 processId, uint256 payoutId, uint256 amount) external;
     function executePayout(bytes32 processId, uint256 payoutId) external;
 
-    function getFilterDataStructure() external view returns(string memory);
-
     function getCollateralizationDecimals() external view returns (uint256);
     function getCollateralizationLevel() external view returns (uint256);
+
+    function getFilterDataStructure() external view returns(string memory);
 
     function bundles() external view returns(uint256);
     function getBundle(uint256 idx) external view returns(IBundle.Bundle memory);
 
     function getCapacity() external view returns(uint256); 
     function getTotalValueLocked() external view returns(uint256); 
-    function getPrice() external view returns(uint256); 
+    function getBalance() external view returns(uint256); 
 }

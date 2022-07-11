@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "./IComponent.sol";
 
 interface IOracle is IComponent {
+    
     event LogOracleCreated (address oracleAddress);
     event LogOracleProposed (uint256 id);
     event LogOracleApproved (uint256 id);

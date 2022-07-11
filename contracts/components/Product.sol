@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import "./IProduct.sol";
 import "./Component.sol";
+import "../modules/IPolicy.sol";
 import "../services/IInstanceService.sol";
 import "../services/IProductService.sol";
 
@@ -11,8 +12,8 @@ abstract contract Product is
     Component 
 {    
     address private _policyFlow;
-    IProductService private _productService;
-    IInstanceService private _instanceService;
+    IProductService internal _productService;
+    IInstanceService internal _instanceService;
 
     modifier onlyPolicyHolder(bytes32 policyId) {
         address policyHolder = _instanceService.getMetadata(policyId).owner;
@@ -81,26 +82,39 @@ abstract contract Product is
     )
         internal
     {
-        _productService.newApplication(owner, processId, premiumAmount, sumInsuredAmount, metaData, applicationData);
+        _productService.newApplication(
+            owner, 
+            processId, 
+            premiumAmount, 
+            sumInsuredAmount, 
+            metaData, 
+            applicationData);
     }
 
     function _decline(bytes32 processId) internal {
         _productService.decline(processId);
     }
 
-    function _underwrite(bytes32 processId) internal {
-        _productService.underwrite(processId);
+    function _underwrite(bytes32 processId) internal returns(bool success) {
+        success = _productService.underwrite(processId);
     }
 
     function _expire(bytes32 processId) internal {
         _productService.expire(processId);
     }
 
-    function _newClaim(bytes32 processId, bytes memory data) 
+    function _newClaim(
+        bytes32 processId, 
+        uint256 claimAmount,
+        bytes memory data
+    ) 
         internal
         returns (uint256 claimId)
     {
-        claimId = _productService.newClaim(processId, data);
+        claimId = _productService.newClaim(
+            processId, 
+            claimAmount, 
+            data);
     }
 
     function _declineClaim(bytes32 processId, uint256 claimId) internal {
@@ -116,7 +130,11 @@ abstract contract Product is
         internal
         returns (uint256 _payoutId)
     {
-        _payoutId = _productService.confirmClaim(processId, claimId, payoutAmount, data);
+        _payoutId = _productService.confirmClaim(
+            processId, 
+            claimId, 
+            payoutAmount, 
+            data);
     }
 
     function _processPayout(
@@ -148,15 +166,35 @@ abstract contract Product is
         );
     }
 
-    function _getApplicationData(bytes32 processId) internal view returns (bytes memory _data) {
-        return _instanceService.getApplication(processId).data;
+    function _getApplication(bytes32 processId) 
+        internal 
+        view 
+        returns (IPolicy.Application memory application) 
+    {
+        return _instanceService.getApplication(processId);
     }
 
-    function _getClaimData(bytes32 processId, uint256 claimId) internal view returns (bytes memory _data) {
-        return _instanceService.getClaim(processId, claimId).data;
+    function _getPolicy(bytes32 processId) 
+        internal 
+        view 
+        returns (IPolicy.Policy memory policy) 
+    {
+        return _instanceService.getPolicy(processId);
     }
 
-    function _getPayoutData(bytes32 processId, uint256 payoutId) internal view returns (bytes memory _data) {
-        return _instanceService.getPayout(processId, payoutId).data;
+    function _getClaim(bytes32 processId, uint256 claimId) 
+        internal 
+        view 
+        returns (IPolicy.Claim memory claim) 
+    {
+        return _instanceService.getClaim(processId, claimId);
+    }
+
+    function _getPayout(bytes32 processId, uint256 payoutId) 
+        internal 
+        view 
+        returns (IPolicy.Payout memory payout) 
+    {
+        return _instanceService.getPayout(processId, payoutId);
     }
 }

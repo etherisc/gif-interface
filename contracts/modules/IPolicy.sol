@@ -110,6 +110,7 @@ interface IPolicy {
 
     struct Claim {
         ClaimState state;
+        uint256 claimAmount;
         bytes data;
         uint256 createdAt;
         uint256 updatedAt;
@@ -182,31 +183,4 @@ interface IPolicy {
         uint256 payoutId,
         IPolicy.PayoutState state
     ) external;
-
-    function getMetadata(bytes32 processId)
-        external
-        view
-        returns (IPolicy.Metadata memory metadata);
-
-    function getApplication(bytes32 processId)
-        external
-        view
-        returns (IPolicy.Application memory application);
-
-    function getPolicy(bytes32 processId)
-        external
-        view
-        returns (IPolicy.Policy memory policy);
-
-    function getClaim(bytes32 processId, uint256 claimId)
-        external
-        view
-        returns (IPolicy.Claim memory claim);
-
-    function getPayout(bytes32 processId, uint256 payoutId)
-        external
-        view
-        returns (IPolicy.Payout memory payout);
-
-    function getProcessIdCount() external view returns (uint256 count);
 }

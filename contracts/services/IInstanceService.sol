@@ -7,6 +7,7 @@ import "./IComponentOwnerService.sol";
 import "./IInstanceOperatorService.sol";
 import "./IOracleService.sol";
 import "./IProductService.sol";
+import "./IRiskpoolService.sol";
 
 interface IInstanceService {
 
@@ -18,6 +19,7 @@ interface IInstanceService {
     function getInstanceOperatorService() external view returns(IInstanceOperatorService service);
     function getOracleService() external view returns(IOracleService service);
     function getProductService() external view returns(IProductService service);
+    function getRiskpoolService() external view returns(IRiskpoolService service);
 
     // access
     function productOwnerRole() external view returns(bytes32 role);
