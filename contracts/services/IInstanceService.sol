@@ -61,7 +61,7 @@ interface IInstanceService {
     function getInstanceWallet() external view returns(address walletAddress);
     function getRiskpoolWallet(uint256 riskpoolId) external view returns(address walletAddress);
  
-    function getProductToken(uint256 productId) external view returns(IERC20 token);
+    function getComponentToken(uint256 componentId) external view returns(IERC20 token);
     function getFeeFractionFullUnit() external view returns(uint256 fullUnit);
 
 }
