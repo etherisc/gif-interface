@@ -25,7 +25,7 @@ interface IRiskpool is IComponent {
     function preparePayout(bytes32 processId, uint256 payoutId, uint256 amount) external;
     function executePayout(bytes32 processId, uint256 payoutId) external;
 
-    function getCollateralizationDecimals() external view returns (uint256);
+    function getFullCollateralizationLevel() external view returns (uint256);
     function getCollateralizationLevel() external view returns (uint256);
 
     function calculateCollateral(IPolicy.Application memory application) 

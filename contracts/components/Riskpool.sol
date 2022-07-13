@@ -19,7 +19,7 @@ abstract contract Riskpool is
     // used for representation of collateralization
     // collateralization between 0 and 1 (1=100%) 
     // value might be larger when overcollateralization
-    uint256 public constant COLLATERALIZATION_DECIMALS = 10000;
+    uint256 public constant FULL_COLLATERALIZATION_LEVEL = 10**18;
     string public constant DEFAULT_FILTER_DATA_STRUCTURE = "";
 
     IInstanceService internal _instanceService; 
@@ -56,7 +56,7 @@ abstract contract Riskpool is
         require(wallet != address(0), "ERROR:RPL-003:WALLET_ADDRESS_ZERO");
         _wallet = wallet;
 
-        _instanceService = IInstanceService(_getContractAddress("InstanceService")); // TODO change to IInstanceService
+        _instanceService = IInstanceService(_getContractAddress("InstanceService")); 
         _riskpoolService = IRiskpoolService(_getContractAddress("RiskpoolService"));
     }
 
@@ -75,8 +75,8 @@ abstract contract Riskpool is
         }
         
         // update financials
-        _capital += initialAmount;
-        _balance += initialAmount;
+        _capital += bundle.capital;
+        _balance += bundle.capital;
 
         emit LogRiskpoolBundleCreated(bundleId, initialAmount);
     }
@@ -121,8 +121,8 @@ abstract contract Riskpool is
         revert("ERROR:RPL-991:EXECUTE_PAYOUT_NOT_IMPLEMENTED");
     }
 
-    function getCollateralizationDecimals() public pure override returns (uint256) {
-        return COLLATERALIZATION_DECIMALS;
+    function getFullCollateralizationLevel() public pure override returns (uint256) {
+        return FULL_COLLATERALIZATION_LEVEL;
     }
 
     function getCollateralizationLevel() public view override returns (uint256) {
@@ -137,11 +137,12 @@ abstract contract Riskpool is
         uint256 sumInsured = application.sumInsuredAmount;
         uint256 collateralization = getCollateralizationLevel();
 
-        if (collateralization == COLLATERALIZATION_DECIMALS) {
+        // fully collateralized case
+        if (collateralization == FULL_COLLATERALIZATION_LEVEL) {
             collateralAmount = sumInsured;
+        // over or under collateralized case
         } else {
-            // https://ethereum.stackexchange.com/questions/91367/is-the-safemath-library-obsolete-in-solidity-0-8-0
-            collateralAmount = (collateralization * sumInsured) / COLLATERALIZATION_DECIMALS;
+            collateralAmount = (collateralization * sumInsured) / FULL_COLLATERALIZATION_LEVEL;
         }
     }
 

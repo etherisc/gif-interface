@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
+import "../modules/ITreasury.sol";
+
 interface IInstanceOperatorService {
 
     // registry
@@ -24,4 +26,21 @@ interface IInstanceOperatorService {
     // service staking
     function setDefaultStaking(uint16 componentType, bytes calldata data) external;
     function adjustStakingRequirements(uint256 id, bytes calldata data) external;
+
+    // treasury
+    function setInstanceWallet(address walletAddress) external;
+    function setRiskpoolWallet(uint256 riskpoolId, address walletAddress) external;  
+    function setProductToken(uint256 productId, address erc20Address) external; 
+
+    function setPremiumFees(ITreasury.FeeSpecification calldata feeSpec) external;
+    function setCapitalFees(ITreasury.FeeSpecification calldata feeSpec) external;
+    
+    function createFeeSpecification(
+        uint256 componentId,
+        uint256 fixedFee,
+        uint256 fractionalFee,
+        bytes calldata feeCalculationData
+    ) external view returns(ITreasury.FeeSpecification memory);
+
+
 }

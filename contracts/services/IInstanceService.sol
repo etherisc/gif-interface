@@ -9,6 +9,8 @@ import "./IOracleService.sol";
 import "./IProductService.sol";
 import "./IRiskpoolService.sol";
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 interface IInstanceService {
 
     // owner
@@ -26,6 +28,10 @@ interface IInstanceService {
     function oracleProviderRole() external view returns(bytes32 role);
     function riskpoolKeeperRole() external view returns(bytes32 role);
     function hasRole(bytes32 role, address principal) external view returns (bool roleIsAssigned);    
+
+    // bundles
+    function bundles() external view returns(uint256 numberOfBundles);
+    function getBundle(uint256 bundleId) external view returns(IBundle.Bundle memory bundle);
 
     // component
     function products() external view returns(uint256 numberOfProducts);
@@ -49,7 +55,13 @@ interface IInstanceService {
     function getClaim(bytes32 processId, uint256 claimId) external view returns (IPolicy.Claim memory claim);
     function getPayout(bytes32 processId, uint256 payoutId) external view returns (IPolicy.Payout memory payout);
 
-    // bundles
-    function bundles() external view returns(uint256 numberOfBundles);
-    function getBundle(uint256 bundleId) external view returns(IBundle.Bundle memory bundle);
+    // treasury
+    function getTreasuryAddress() external view returns(address treasuryAddress);
+ 
+    function getInstanceWallet() external view returns(address walletAddress);
+    function getRiskpoolWallet(uint256 riskpoolId) external view returns(address walletAddress);
+ 
+    function getProductToken(uint256 productId) external view returns(IERC20 token);
+    function getFeeFractionFullUnit() external view returns(uint256 fullUnit);
+
 }
