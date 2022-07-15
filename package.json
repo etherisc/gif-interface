@@ -1,0 +1,18 @@
+{
+  "name": "@etherisc/gif-interface",
+  "version": "v1.7.0-staging-b",
+  "description": "This repository holds the necessary interfaces and base contracts to interact with an existing GIF instance. The repository is not intended to be used on its own.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etherisc/gif-interface.git"
+  },
+  "files": [
+    "contracts/*"
+  ],
+  "keywords": [],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/etherisc/gif-interface#readme",
+  "dependencies": {
+    "openzeppelin-solidity": "^4.6.0"
+  }
+}
