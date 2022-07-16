@@ -28,7 +28,7 @@ interface IBundle {
     struct Bundle {
         uint256 id;
         uint256 riskpoolId;
-        address owner;
+        uint256 tokenId;
         BundleState state;
         bytes filter;
         uint256 capital;
