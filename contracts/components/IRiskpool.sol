@@ -20,6 +20,7 @@ interface IRiskpool is IComponent {
     function createBundle(bytes calldata filter, uint256 initialAmount) external returns(uint256 bundleId);
 
     function collateralizePolicy(bytes32 processId) external returns(bool isSecured);
+    function updateBalance(bytes32 processId, uint256 premiumAmount) external;
     function expirePolicy(bytes32 processId) external;
 
     function preparePayout(bytes32 processId, uint256 payoutId, uint256 amount) external;

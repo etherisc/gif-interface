@@ -100,6 +100,16 @@ abstract contract Riskpool is
         emit LogRiskpoolCollateralLocked(processId, collateralAmount, success);
     }
 
+
+    function updateBalance(bytes32 processId, uint256 premiumAmount) 
+        external override
+        onlyPool
+    {
+        _updateBundleBalances(processId, premiumAmount);
+        _balance += premiumAmount;
+    }
+
+
     function expirePolicy(bytes32 processId) 
         external override
         onlyPool
@@ -183,6 +193,7 @@ abstract contract Riskpool is
     ) public override view virtual returns(bool isMatching);
 
     function _lockCollateral(bytes32 processId, uint256 collateralAmount) internal virtual returns(bool success);
+    function _updateBundleBalances(bytes32 processId, uint256 premiumAmount) internal virtual;
     function _freeCollateral(bytes32 processId) internal virtual returns(uint256 collateralAmount);
 
 }
