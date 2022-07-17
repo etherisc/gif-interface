@@ -12,9 +12,11 @@ interface IProductService {
         bytes calldata applicationData 
     ) external;
 
+    function revoke(bytes32 processId) external;
     function underwrite(bytes32 processId) external returns (bool success);
     function decline(bytes32 processId) external;
     function expire(bytes32 processId) external;
+    function close(bytes32 processId) external;
 
     function newClaim(
         bytes32 processId, 

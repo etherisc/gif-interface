@@ -91,16 +91,24 @@ abstract contract Product is
             applicationData);
     }
 
-    function _decline(bytes32 processId) internal {
-        _productService.decline(processId);
+    function _revoke(bytes32 processId) internal {
+        _productService.revoke(processId);
     }
 
     function _underwrite(bytes32 processId) internal returns(bool success) {
         success = _productService.underwrite(processId);
     }
 
+    function _decline(bytes32 processId) internal {
+        _productService.decline(processId);
+    }
+
     function _expire(bytes32 processId) internal {
         _productService.expire(processId);
+    }
+
+    function _close(bytes32 processId) internal {
+        _productService.close(processId);
     }
 
     function _newClaim(
