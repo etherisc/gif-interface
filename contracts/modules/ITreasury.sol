@@ -44,11 +44,16 @@ interface ITreasury {
     function setPremiumFees(FeeSpecification calldata feeSpec) external;
     function setCapitalFees(FeeSpecification calldata feeSpec) external;
     
-    function processPremium(bytes32 processId) external returns(bool success);
+    function processPremium(bytes32 processId) external 
+        returns(
+            bool success,
+            uint256 netPremiumAmount
+        );
+    
     function processCapital(uint256 bundleId, uint256 capitalAmount) external 
         returns(
             bool success,
-            uint256 capitalAfterFees
+            uint256 netCapitalAmount
         );
 
     function getComponentToken(uint256 componentId) external view returns(IERC20 token);
