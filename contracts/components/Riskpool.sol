@@ -101,12 +101,26 @@ abstract contract Riskpool is
     }
 
 
-    function updateBalance(bytes32 processId, uint256 premiumAmount) 
+    function increaseBalance(bytes32 processId, uint256 amount)
         external override
         onlyPool
     {
-        _updateBundleBalances(processId, premiumAmount);
-        _balance += premiumAmount;
+        _increaseBundleBalances(processId, amount);
+        _balance += amount;
+
+        emit LogRiskpoolBalanceIncreased(processId, amount, _balance);
+    }
+
+    function decreaseBalance(bytes32 processId, uint256 amount)
+        external override
+        onlyPool
+    {
+        require(_balance > amount, "ERROR:RPL-005:RISKPOOL_BALANCE_TOO_LOW");
+
+        _decreaseBundleBalances(processId, amount);
+        _balance -= amount;
+        
+        emit LogRiskpoolBalanceDecreased(processId, amount, _balance);
     }
 
 
@@ -193,7 +207,8 @@ abstract contract Riskpool is
     ) public override view virtual returns(bool isMatching);
 
     function _lockCollateral(bytes32 processId, uint256 collateralAmount) internal virtual returns(bool success);
-    function _updateBundleBalances(bytes32 processId, uint256 premiumAmount) internal virtual;
     function _freeCollateral(bytes32 processId) internal virtual returns(uint256 collateralAmount);
 
+    function _increaseBundleBalances(bytes32 processId, uint256 amount) internal virtual;
+    function _decreaseBundleBalances(bytes32 processId, uint256 amount) internal virtual;
 }

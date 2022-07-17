@@ -17,14 +17,19 @@ interface IRiskpool is IComponent {
     event LogRiskpoolBundleMatchesPolicy(uint256 bundleId, bool isMatching);
     event LogRiskpoolCollateralLocked(bytes32 processId, uint256 collateralAmount, bool isSecured);
 
+    event LogRiskpoolBalanceIncreased(bytes32 processId, uint256 amount, uint256 newBalance);
+    event LogRiskpoolBalanceDecreased(bytes32 processId, uint256 amount, uint256 newBalance);
+
     function createBundle(bytes calldata filter, uint256 initialAmount) external returns(uint256 bundleId);
 
     function collateralizePolicy(bytes32 processId) external returns(bool isSecured);
-    function updateBalance(bytes32 processId, uint256 premiumAmount) external;
     function expirePolicy(bytes32 processId) external;
 
     function preparePayout(bytes32 processId, uint256 payoutId, uint256 amount) external;
     function executePayout(bytes32 processId, uint256 payoutId) external;
+
+    function increaseBalance(bytes32 processId, uint256 amount) external;
+    function decreaseBalance(bytes32 processId, uint256 amount) external;
 
     function getFullCollateralizationLevel() external view returns (uint256);
     function getCollateralizationLevel() external view returns (uint256);

@@ -47,5 +47,6 @@ interface IBundle {
     function close(uint256 bundleId) external;
 
     function collateralizePolicy(uint256 bundleId, bytes32 processId, uint256 collateralAmount) external;
+    function addPremiumToBalance(uint256 bundleId, bytes32 processId, uint256 premiumAmount) external;
     function expirePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);
 }
