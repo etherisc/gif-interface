@@ -75,7 +75,7 @@ interface IPolicy {
 
     enum ApplicationState {Applied, Revoked, Underwritten, Declined}
 
-    enum PolicyState {Active, Expired}
+    enum PolicyState {Active, Expired, Closed}
 
     enum ClaimState {Applied, Confirmed, Declined}
 
@@ -103,7 +103,9 @@ interface IPolicy {
     struct Policy {
         PolicyState state;
         uint256 claimsCount;
+        uint256 openClaimsCount;
         uint256 payoutsCount;
+        uint256 openPayoutsCount;
         uint256 createdAt;
         uint256 updatedAt;
     }
