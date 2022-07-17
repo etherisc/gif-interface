@@ -10,6 +10,8 @@ import "../modules/IPolicy.sol";
 import "../services/IInstanceService.sol";
 import "../services/IRiskpoolService.sol";
 
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+
 // TODO consider to move bunlde per riskpool book keeping to bundle controller
 abstract contract Riskpool is 
     IRiskpool, 
@@ -24,6 +26,7 @@ abstract contract Riskpool is
 
     IInstanceService internal _instanceService; 
     IRiskpoolService internal _riskpoolService;
+    IERC721 internal _bundleToken;
     
     // keep track of bundles associated with this riskpool
     uint256 [] internal _bundleIds;
@@ -38,6 +41,17 @@ abstract contract Riskpool is
         require(
              _msgSender() == _getContractAddress("Pool"),
             "ERROR:RPL-001:ACCESS_DENIED"
+        );
+        _;
+    }
+
+    modifier onlyBundleOwner(uint256 bundleId) {
+        IBundle.Bundle memory bundle = _instanceService.getBundle(bundleId);
+        address bundleOwner = _bundleToken.ownerOf(bundle.tokenId);
+
+        require(
+            _msgSender() == bundleOwner,
+            "ERROR:BUC-001:NOT_BUNDLE_OWNER"
         );
         _;
     }
@@ -58,6 +72,7 @@ abstract contract Riskpool is
 
         _instanceService = IInstanceService(_getContractAddress("InstanceService")); 
         _riskpoolService = IRiskpoolService(_getContractAddress("RiskpoolService"));
+        _bundleToken = _instanceService.getBundleToken();
     }
 
     // TODO decide on authz for bundle creation
@@ -81,6 +96,40 @@ abstract contract Riskpool is
         emit LogRiskpoolBundleCreated(bundleId, initialAmount);
     }
 
+    function fundBundle(uint256 bundleId, uint256 amount) 
+        external override
+        onlyBundleOwner(bundleId)
+    {
+        _riskpoolService.fundBundle(bundleId, amount);
+    }
+
+    function defundBundle(uint256 bundleId, uint256 amount)
+        external override
+        onlyBundleOwner(bundleId)
+    {
+        _riskpoolService.defundBundle(bundleId, amount);
+    }
+
+    function lockBundle(uint256 bundleId)
+        external override
+        onlyBundleOwner(bundleId)
+    {
+        _riskpoolService.lockBundle(bundleId);
+    }
+
+    function unlockBundle(uint256 bundleId)
+        external override
+        onlyBundleOwner(bundleId)
+    {
+        _riskpoolService.unlockBundle(bundleId);
+    }
+
+    function closeBundle(uint256 bundleId)
+        external override
+        onlyBundleOwner(bundleId)
+    {
+        _riskpoolService.closeBundle(bundleId);
+    }
 
     function collateralizePolicy(bytes32 processId) 
         external override

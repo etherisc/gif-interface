@@ -10,6 +10,7 @@ import "./IProductService.sol";
 import "./IRiskpoolService.sol";
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 interface IInstanceService {
 
@@ -30,6 +31,7 @@ interface IInstanceService {
     function hasRole(bytes32 role, address principal) external view returns (bool roleIsAssigned);    
 
     // bundles
+    function getBundleToken() external view returns(IERC721 token);
     function bundles() external view returns(uint256 numberOfBundles);
     function getBundle(uint256 bundleId) external view returns(IBundle.Bundle memory bundle);
 

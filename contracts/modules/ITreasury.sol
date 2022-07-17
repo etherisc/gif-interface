@@ -56,6 +56,12 @@ interface ITreasury {
             uint256 netCapitalAmount
         );
 
+    function processWithdrawl(uint256 bundleId, uint256 amount) external
+        returns(
+            bool success,
+            uint256 netAmount
+        );
+
     function getComponentToken(uint256 componentId) external view returns(IERC20 token);
     function getFeeSpecification(uint256 componentId) external view returns(FeeSpecification memory feeSpecification);
 

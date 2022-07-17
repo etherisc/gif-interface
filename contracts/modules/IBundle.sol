@@ -40,13 +40,15 @@ interface IBundle {
 
     function create(address owner_, uint256 riskpoolId_, bytes calldata filter_, uint256 amount_) external returns(uint256 bundleId);
     function fund(uint256 bundleId, uint256 amount) external;
-    function withdraw(uint256 bundleId, uint256 amount) external;
+    function defund(uint256 bundleId, uint256 amount) external;
 
     function lock(uint256 bundleId) external;
     function unlock(uint256 bundleId) external;
     function close(uint256 bundleId) external;
 
     function collateralizePolicy(uint256 bundleId, bytes32 processId, uint256 collateralAmount) external;
-    function addPremiumToBalance(uint256 bundleId, bytes32 processId, uint256 premiumAmount) external;
     function expirePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);
+
+    function increaseBalance(uint256 bundleId, bytes32 processId, uint256 amount) external;
+    function decreaseBalance(uint256 bundleId, bytes32 processId, uint256 amount) external;
 }

@@ -21,6 +21,12 @@ interface IRiskpool is IComponent {
     event LogRiskpoolBalanceDecreased(bytes32 processId, uint256 amount, uint256 newBalance);
 
     function createBundle(bytes calldata filter, uint256 initialAmount) external returns(uint256 bundleId);
+    function fundBundle(uint256 bundleId, uint256 amount) external;
+    function defundBundle(uint256 bundleId, uint256 amount) external;
+
+    function lockBundle(uint256 bundleId) external;
+    function unlockBundle(uint256 bundleId) external;
+    function closeBundle(uint256 bundleId) external;
 
     function collateralizePolicy(bytes32 processId) external returns(bool isSecured);
     function expirePolicy(bytes32 processId) external;
