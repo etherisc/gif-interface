@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 interface IPolicy {
+
     // Events
     event LogMetadataCreated(
         address owner,
@@ -21,64 +22,39 @@ interface IPolicy {
         uint256 sumInsuredAmount
     );
 
-    event LogApplicationStateChanged(
-        bytes32 processId, 
-        ApplicationState state
-    );
+    event LogApplicationRevoked(bytes32 processId);
+    event LogApplicationUnderwritten(bytes32 processId);
+    event LogApplicationDeclined(bytes32 processId);
 
     event LogPolicyCreated(bytes32 processId);
+    event LogPolicyExpired(bytes32 processId);
+    event LogPolicyClosed(bytes32 processId);
 
-    event LogPolicyStateChanged(
-        bytes32 processId, 
-        PolicyState state
-    );
-
-    event LogClaimCreated(
-        bytes32 processId, 
-        uint256 claimId, 
-        ClaimState state
-    );
-
-    event LogClaimStateChanged(
-        bytes32 processId,
-        uint256 claimId,
-        ClaimState state
-    );
+    event LogClaimCreated(bytes32 processId, uint256 claimId);
+    event LogClaimConfirmed(bytes32 processId, uint256 claimId);
+    event LogClaimDeclined(bytes32 processId, uint256 claimId);
 
     event LogPayoutCreated(
         bytes32 processId,
         uint256 claimId,
-        uint256 payoutId,
-        PayoutState state
-    );
-
-    event LogPayoutStateChanged(
-        bytes32 processId,
-        uint256 payoutId,
-        PayoutState state
-    );
-
-    event LogPayoutCompleted(
-        bytes32 processId,
-        uint256 payoutId,
-        PayoutState state
+        uint256 payoutId
     );
 
     event LogPayoutProcessed(
         bytes32 processId, 
-        uint256 payoutId, 
-        PayoutState state
+        uint256 payoutId
+    );
+
+    event LogPayoutCompleted(
+        bytes32 processId,
+        uint256 payoutId
     );
 
     // States
     enum PolicyFlowState {Started, Paused, Finished}
-
     enum ApplicationState {Applied, Revoked, Underwritten, Declined}
-
     enum PolicyState {Active, Expired, Closed}
-
     enum ClaimState {Applied, Confirmed, Declined}
-
     enum PayoutState {Expected, PaidOut}
 
     // Objects
@@ -146,15 +122,13 @@ interface IPolicy {
         bytes calldata data
     ) external;
 
-    function setApplicationState(
-        bytes32 processId,
-        IPolicy.ApplicationState state
-    ) external;
+    function revokeApplication(bytes32 processId) external;
+    function underwriteApplication(bytes32 processId) external;
+    function declineApplication(bytes32 processId) external;
 
     function createPolicy(bytes32 processId) external;
-
-    function setPolicyState(bytes32 processId, IPolicy.PolicyState state)
-        external;
+    function expirePolicy(bytes32 processId) external;
+    function closePolicy(bytes32 processId) external;
 
     function createClaim(
         bytes32 processId, 
@@ -164,11 +138,8 @@ interface IPolicy {
         external
         returns (uint256 claimId);
 
-    function setClaimState(
-        bytes32 processId,
-        uint256 claimId,
-        IPolicy.ClaimState state
-    ) external;
+    function confirmClaim(bytes32 processId, uint256 claimId) external;
+    function declineClaim(bytes32 processId, uint256 claimId) external;
 
     function createPayout(
         bytes32 processId,
@@ -182,11 +153,5 @@ interface IPolicy {
         uint256 payoutId,
         bool isComplete,
         bytes calldata data
-    ) external;
-
-    function setPayoutState(
-        bytes32 processId,
-        uint256 payoutId,
-        IPolicy.PayoutState state
     ) external;
 }
