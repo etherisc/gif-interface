@@ -12,7 +12,7 @@ interface IRiskpoolService {
     function closeBundle(uint256 bundleId) external;
 
     function collateralizePolicy(uint256 bundleId, bytes32 processId, uint256 collateralAmount) external;
-    function expirePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);
+    function releasePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);
 
     function increaseBundleBalance(uint256 bundleId, bytes32 processId, uint256 amount) external;
     function decreaseBundleBalance(uint256 bundleId, bytes32 processId, uint256 amount) external;

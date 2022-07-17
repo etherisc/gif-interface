@@ -173,11 +173,11 @@ abstract contract Riskpool is
     }
 
 
-    function expirePolicy(bytes32 processId) 
+    function releasePolicy(bytes32 processId) 
         external override
         onlyPool
     {
-        uint256 collateralAmount = _freeCollateral(processId);
+        uint256 collateralAmount = _releaseCollateral(processId);
         require(
             collateralAmount <= _lockedCapital,
             "ERROR:RPL-005:FREED_COLLATERAL_TOO_BIG"
@@ -256,7 +256,7 @@ abstract contract Riskpool is
     ) public override view virtual returns(bool isMatching);
 
     function _lockCollateral(bytes32 processId, uint256 collateralAmount) internal virtual returns(bool success);
-    function _freeCollateral(bytes32 processId) internal virtual returns(uint256 collateralAmount);
+    function _releaseCollateral(bytes32 processId) internal virtual returns(uint256 collateralAmount);
 
     function _increaseBundleBalances(bytes32 processId, uint256 amount) internal virtual;
     function _decreaseBundleBalances(bytes32 processId, uint256 amount) internal virtual;

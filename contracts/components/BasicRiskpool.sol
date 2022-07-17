@@ -84,11 +84,11 @@ abstract contract BasicRiskpool is Riskpool {
     }
 
 
-    function _freeCollateral(bytes32 processId) 
+    function _releaseCollateral(bytes32 processId) 
         internal override
         returns(uint256 collateralAmount) 
     {        
         uint256 bundleId = _collateralizedBy[processId];
-        collateralAmount = _riskpoolService.expirePolicy(bundleId, processId);
+        collateralAmount = _riskpoolService.releasePolicy(bundleId, processId);
     }
 }
