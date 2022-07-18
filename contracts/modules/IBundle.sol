@@ -22,7 +22,8 @@ interface IBundle {
     enum BundleState {
         Active,
         Locked,
-        Closed
+        Closed,
+        Burned
     }
 
     struct Bundle {
