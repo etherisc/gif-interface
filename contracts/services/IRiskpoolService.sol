@@ -10,6 +10,7 @@ interface IRiskpoolService {
     function lockBundle(uint256 bundleId) external;
     function unlockBundle(uint256 bundleId) external;
     function closeBundle(uint256 bundleId) external;
+    function burnBundle(uint256 bundleId) external;
 
     function collateralizePolicy(uint256 bundleId, bytes32 processId, uint256 collateralAmount) external;
     function releasePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);

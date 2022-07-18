@@ -5,19 +5,21 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface ITreasury {
 
-    event LogTreasuryProductTokenSet (uint256 productId, uint256 riskpoolId, address erc20Address);
-    event LogTreasuryInstanceWalletSet (address walletAddress);
-    event LogTreasuryRiskpoolWalletSet (uint256 riskpoolId, address walletAddress);
+    event LogTreasuryProductTokenSet(uint256 productId, uint256 riskpoolId, address erc20Address);
+    event LogTreasuryInstanceWalletSet(address walletAddress);
+    event LogTreasuryRiskpoolWalletSet(uint256 riskpoolId, address walletAddress);
 
-    event LogTreasuryPremiumTransferred (address from, address riskpoolWalletAddress, uint256 amount, bool success);
-    event LogTreasuryCapitalTransferred (address from, address riskpoolWalletAddress, uint256 amount, bool success);
-    event LogTreasuryFeesTransferred (address from, address instanceWalletAddress, uint256 amount, bool success);
+    event LogTreasuryPremiumFeesSet(uint256 productId, uint256 fixedFee, uint256 fractionalFee);
+    event LogTreasuryCapitalFeesSet(uint256 riskpoolId, uint256 fixedFee, uint256 fractionalFee);
 
-    event LogTreasuryPremiumFeesSet (uint256 productId, uint256 fixedFee, uint256 fractionalFee);
-    event LogTreasuryCapitalFeesSet (uint256 riskpoolId, uint256 fixedFee, uint256 fractionalFee);
+    event LogTreasuryPremiumTransferred(address from, address riskpoolWalletAddress, uint256 amount, bool success);
+    event LogTreasuryCapitalTransferred(address from, address riskpoolWalletAddress, uint256 amount, bool success);
+    event LogTreasuryFeesTransferred(address from, address instanceWalletAddress, uint256 amount, bool success);
+    event LogTreasuryWithdrawalTransferred(address riskpoolWalletAddress, address to, uint256 amount, bool success);
 
-    event LogTreasuryPremiumProcessed (bytes32 processId, uint256 amount, bool success);
-    event LogTreasuryCapitalProcessed (uint256 riskpoolId, uint256 bundleId, uint256 amount, bool success);
+    event LogTreasuryPremiumProcessed(bytes32 processId, uint256 amount, bool success);
+    event LogTreasuryCapitalProcessed(uint256 riskpoolId, uint256 bundleId, uint256 amount, bool success);
+    event LogTreasuryWithdrawalProcessed(uint256 riskpoolId, uint256 bundleId, uint256 amount, bool success);
 
     struct FeeSpecification {
         uint256 componentId;
@@ -56,7 +58,7 @@ interface ITreasury {
             uint256 netCapitalAmount
         );
 
-    function processWithdrawl(uint256 bundleId, uint256 amount) external
+    function processWithdrawal(uint256 bundleId, uint256 amount) external
         returns(
             bool success,
             uint256 netAmount

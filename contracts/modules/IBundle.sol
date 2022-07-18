@@ -45,6 +45,7 @@ interface IBundle {
     function lock(uint256 bundleId) external;
     function unlock(uint256 bundleId) external;
     function close(uint256 bundleId) external;
+    function burn(uint256 bundleId) external;
 
     function collateralizePolicy(uint256 bundleId, bytes32 processId, uint256 collateralAmount) external;
     function releasePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);
