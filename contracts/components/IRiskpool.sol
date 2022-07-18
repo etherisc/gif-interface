@@ -27,6 +27,7 @@ interface IRiskpool is IComponent {
     function lockBundle(uint256 bundleId) external;
     function unlockBundle(uint256 bundleId) external;
     function closeBundle(uint256 bundleId) external;
+    function burnBundle(uint256 bundleId) external;
 
     function collateralizePolicy(bytes32 processId) external returns(bool isSecured);
     function releasePolicy(bytes32 processId) external;

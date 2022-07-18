@@ -131,6 +131,13 @@ abstract contract Riskpool is
         _riskpoolService.closeBundle(bundleId);
     }
 
+    function burnBundle(uint256 bundleId)
+        external override
+        onlyBundleOwner(bundleId)
+    {
+        _riskpoolService.burnBundle(bundleId);
+    }
+
     function collateralizePolicy(bytes32 processId) 
         external override
         onlyPool
