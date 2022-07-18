@@ -102,6 +102,10 @@ abstract contract Riskpool is
         returns(bool success, uint256 netAmount)
     {
         (success, netAmount) = _riskpoolService.fundBundle(bundleId, amount);
+        
+        // update financials
+        _capital += netAmount;
+        _balance += netAmount;
     }
 
     function defundBundle(uint256 bundleId, uint256 amount)
@@ -110,6 +114,10 @@ abstract contract Riskpool is
         returns(bool success, uint256 netAmount)
     {
         (success, netAmount) = _riskpoolService.defundBundle(bundleId, amount);
+        
+        // update financials
+        _capital -= netAmount;
+        _balance -= netAmount;
     }
 
     function lockBundle(uint256 bundleId)
