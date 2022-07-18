@@ -103,9 +103,11 @@ abstract contract Riskpool is
     {
         (success, netAmount) = _riskpoolService.fundBundle(bundleId, amount);
         
-        // update financials
-        _capital += netAmount;
-        _balance += netAmount;
+        // update riskpool financials
+        if (success) {
+            _capital += netAmount;
+            _balance += netAmount;
+        }
     }
 
     function defundBundle(uint256 bundleId, uint256 amount)
@@ -115,9 +117,11 @@ abstract contract Riskpool is
     {
         (success, netAmount) = _riskpoolService.defundBundle(bundleId, amount);
         
-        // update financials
-        _capital -= netAmount;
-        _balance -= netAmount;
+        // update riskpool financials
+        if (success) {
+            _capital -= amount;
+            _balance -= amount;
+        }
     }
 
     function lockBundle(uint256 bundleId)
@@ -145,7 +149,12 @@ abstract contract Riskpool is
         external override
         onlyBundleOwner(bundleId)
     {
+        IBundle.Bundle memory bundle = _instanceService.getBundle(bundleId);
+
         _riskpoolService.burnBundle(bundleId);
+
+        _capital -= bundle.capital;
+        _balance -= bundle.balance;
     }
 
     function collateralizePolicy(bytes32 processId) 
