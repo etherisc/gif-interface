@@ -77,8 +77,8 @@ abstract contract Product is
         bytes32 processId,
         uint256 premiumAmount,
         uint256 sumInsuredAmount,
-        bytes calldata metaData, 
-        bytes calldata applicationData 
+        bytes memory metaData, 
+        bytes memory applicationData 
     )
         internal
     {

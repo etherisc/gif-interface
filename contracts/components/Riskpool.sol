@@ -76,7 +76,7 @@ abstract contract Riskpool is
     }
 
     // TODO decide on authz for bundle creation
-    function createBundle(bytes calldata filter, uint256 initialAmount) 
+    function createBundle(bytes memory filter, uint256 initialAmount) 
         external override
         returns(uint256 bundleId)
     {
