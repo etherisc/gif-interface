@@ -111,6 +111,15 @@ abstract contract Product is
             applicationData);
     }
 
+    function _processPremium(
+        bytes32 processId,
+        uint256 amount
+    )
+        internal
+    {
+        _productService.processPremium(processId, amount);
+    }
+
     function _revoke(bytes32 processId) internal {
         _productService.revoke(processId);
     }
