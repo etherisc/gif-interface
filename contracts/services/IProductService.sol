@@ -7,6 +7,7 @@ interface IProductService {
         address owner,
         bytes32 processId,
         uint256 premiumAmount,
+        uint256 subsidyLevel,
         uint256 sumInsuredAmount,
         bytes calldata metaData, 
         bytes calldata applicationData 

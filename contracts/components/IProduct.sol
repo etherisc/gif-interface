@@ -10,12 +10,13 @@ interface IProduct is IComponent {
     event LogProductApproved (uint256 id);
     event LogProductDeclined (uint256 id);
 
-    function getPolicyFlow() external view returns(address);
+    function getToken() external view returns(address token);
+    function getPolicyFlow() external view returns(address policyFlow);
+    function getRiskpoolId() external view returns(uint256 riskpoolId);
 
     function getApplicationDataStructure() external view returns(string memory dataStructure);
     function getClaimDataStructure() external view returns(string memory dataStructure);
     function getPayoutDataStructure() external view returns(string memory dataStructure);
 
-    function getRiskpoolId() external view returns(uint256);
     function riskPoolCapacityCallback(uint256 capacity) external;
 }

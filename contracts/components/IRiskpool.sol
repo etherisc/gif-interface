@@ -38,8 +38,8 @@ interface IRiskpool is IComponent {
     function increaseBalance(bytes32 processId, uint256 amount) external;
     function decreaseBalance(bytes32 processId, uint256 amount) external;
 
-    function getFullCollateralizationLevel() external view returns (uint256);
     function getCollateralizationLevel() external view returns (uint256);
+    function getFullCollateralizationLevel() external view returns (uint256);
 
     function calculateCollateral(IPolicy.Application memory application) 
         external view returns(uint256 collateralAmount);

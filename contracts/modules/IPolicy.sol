@@ -70,6 +70,7 @@ interface IPolicy {
     struct Application {
         ApplicationState state;
         uint256 premiumAmount;
+        uint256 subsidyLevel;
         uint256 sumInsuredAmount;
         bytes data; 
         uint256 createdAt;
@@ -78,6 +79,7 @@ interface IPolicy {
 
     struct Policy {
         PolicyState state;
+        uint256 premiumPaidAmount;
         uint256 claimsCount;
         uint256 openClaimsCount;
         uint256 payoutsCount;
@@ -118,6 +120,7 @@ interface IPolicy {
     function createApplication(
         bytes32 processId, 
         uint256 premiumAmount,
+        uint256 subsidyLevel,
         uint256 sumInsuredAmount,
         bytes calldata data
     ) external;
@@ -125,6 +128,8 @@ interface IPolicy {
     function revokeApplication(bytes32 processId) external;
     function underwriteApplication(bytes32 processId) external;
     function declineApplication(bytes32 processId) external;
+
+    function collectPremium(bytes32 processId, uint256 premiumAmount) external;
 
     function createPolicy(bytes32 processId) external;
     function expirePolicy(bytes32 processId) external;

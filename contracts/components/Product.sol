@@ -11,7 +11,12 @@ abstract contract Product is
     IProduct, 
     Component 
 {    
-    address private _policyFlow;
+    uint256 public constant FULL_SUBSIDY_LEVEL = 10**18;
+
+    address private _policyFlow; // policy flow contract to use for this procut
+    address private _token; // erc20 token to use for this product
+    uint256 private _riskpoolId; // id of riskpool responsible for this product
+
     IProductService internal _productService;
     IInstanceService internal _instanceService;
 
@@ -42,11 +47,16 @@ abstract contract Product is
 
     constructor(
         bytes32 name,
+        address token,
         bytes32 policyFlow,
+        uint256 riskpoolId,
         address registry
     )
         Component(name, ComponentType.Product, registry)
     {
+        _token = token;
+        _riskpoolId = riskpoolId;
+
         // TODO add validation for policy flow
         _policyFlow = _getContractAddress(policyFlow);
         _productService = IProductService(_getContractAddress("ProductService"));
@@ -55,8 +65,16 @@ abstract contract Product is
         emit LogProductCreated(address(this));
     }
 
+    function getToken() public override view returns(address) {
+        return _token;
+    }
+
     function getPolicyFlow() public view override returns(address) {
         return _policyFlow;
+    }
+
+    function getRiskpoolId() public override view returns(uint256) {
+        return _riskpoolId;
     }
 
     // default callback function implementations
@@ -76,6 +94,7 @@ abstract contract Product is
         address owner,
         bytes32 processId,
         uint256 premiumAmount,
+        uint256 subsidyLevel,
         uint256 sumInsuredAmount,
         bytes memory metaData, 
         bytes memory applicationData 
@@ -86,6 +105,7 @@ abstract contract Product is
             owner, 
             processId, 
             premiumAmount, 
+            subsidyLevel,
             sumInsuredAmount, 
             metaData, 
             applicationData);
@@ -205,4 +225,17 @@ abstract contract Product is
     {
         return _instanceService.getPayout(processId, payoutId);
     }
+
+    function getApplicationDataStructure() external override view returns(string memory dataStructure) {
+        return "";
+    }
+
+    function getClaimDataStructure() external override view returns(string memory dataStructure) {
+        return "";
+    }    
+    function getPayoutDataStructure() external override view returns(string memory dataStructure) {
+        return "";
+    }
+
+    function riskPoolCapacityCallback(uint256 capacity) external override { }
 }
