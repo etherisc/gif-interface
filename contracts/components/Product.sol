@@ -235,16 +235,16 @@ abstract contract Product is
         return _instanceService.getPayout(processId, payoutId);
     }
 
-    function getApplicationDataStructure() external override view returns(string memory dataStructure) {
+    function getApplicationDataStructure() external override virtual view returns(string memory dataStructure) {
         return "";
     }
 
-    function getClaimDataStructure() external override view returns(string memory dataStructure) {
+    function getClaimDataStructure() external override virtual view returns(string memory dataStructure) {
         return "";
     }    
-    function getPayoutDataStructure() external override view returns(string memory dataStructure) {
+    function getPayoutDataStructure() external override virtual view returns(string memory dataStructure) {
         return "";
     }
 
-    function riskPoolCapacityCallback(uint256 capacity) external override { }
+    function riskPoolCapacityCallback(uint256 capacity) external override virtual { }
 }

@@ -30,6 +30,8 @@ interface IPolicy {
     event LogPolicyExpired(bytes32 processId);
     event LogPolicyClosed(bytes32 processId);
 
+    event LogPremiumCollected(bytes32 processId, uint256 amount);
+
     event LogClaimCreated(bytes32 processId, uint256 claimId);
     event LogClaimConfirmed(bytes32 processId, uint256 claimId);
     event LogClaimDeclined(bytes32 processId, uint256 claimId);
@@ -79,6 +81,7 @@ interface IPolicy {
 
     struct Policy {
         PolicyState state;
+        uint256 premiumExpectedAmount;
         uint256 premiumPaidAmount;
         uint256 claimsCount;
         uint256 openClaimsCount;

@@ -17,6 +17,7 @@ interface ITreasury {
     event LogTreasuryFeesTransferred(address from, address instanceWalletAddress, uint256 amount, bool success);
     event LogTreasuryWithdrawalTransferred(address riskpoolWalletAddress, address to, uint256 amount, bool success);
 
+    event LogTreasuryFullPremiumProcessed(bytes32 processId, uint256 amount, bool success);
     event LogTreasuryPremiumProcessed(bytes32 processId, uint256 amount, bool success);
     event LogTreasuryCapitalProcessed(uint256 riskpoolId, uint256 bundleId, uint256 amount, bool success);
     event LogTreasuryWithdrawalProcessed(uint256 riskpoolId, uint256 bundleId, uint256 amount, bool success);
@@ -49,18 +50,28 @@ interface ITreasury {
     function processPremium(bytes32 processId) external 
         returns(
             bool success,
+            uint256 feeAmount,
+            uint256 netPremiumAmount
+        );
+    
+    function processPartialPremium(bytes32 processId, uint256 amount) external 
+        returns(
+            bool success,
+            uint256 feeAmount,
             uint256 netPremiumAmount
         );
     
     function processCapital(uint256 bundleId, uint256 capitalAmount) external 
         returns(
             bool success,
+            uint256 feeAmount,
             uint256 netCapitalAmount
         );
 
     function processWithdrawal(uint256 bundleId, uint256 amount) external
         returns(
             bool success,
+            uint256 feeAmount,
             uint256 netAmount
         );
 
