@@ -12,10 +12,15 @@ interface IProductService {
         bytes calldata applicationData 
     ) external;
 
-    function collectPremium(bytes32 processId, uint256 amount) external;
+    function collectPremium(bytes32 processId, uint256 amount) external
+        returns(
+            bool success,
+            uint256 feeAmount,
+            uint256 netPremiumAmount
+        );
 
     function revoke(bytes32 processId) external;
-    function underwrite(bytes32 processId) external returns (bool success);
+    function underwrite(bytes32 processId) external returns(bool success);
     function decline(bytes32 processId) external;
     function expire(bytes32 processId) external;
     function close(bytes32 processId) external;
@@ -24,7 +29,7 @@ interface IProductService {
         bytes32 processId, 
         uint256 claimAmount,
         bytes calldata data
-    ) external returns (uint256 claimId);
+    ) external returns(uint256 claimId);
 
     function declineClaim(bytes32 processId, uint256 claimId) external;
 
@@ -33,7 +38,7 @@ interface IProductService {
         uint256 claimId, 
         uint256 payoutAmount, 
         bytes calldata data
-    ) external returns (uint256 payoutId);
+    ) external returns(uint256 payoutId);
 
     function processPayout(
         bytes32 processId, 
@@ -48,5 +53,5 @@ interface IProductService {
         string calldata callbackMethodName,
         address callbackContractAddress,
         uint256 responsibleOracleId
-    ) external returns (uint256 requestId);
+    ) external returns(uint256 requestId);
 }

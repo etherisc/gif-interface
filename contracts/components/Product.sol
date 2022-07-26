@@ -107,13 +107,37 @@ abstract contract Product is
             applicationData);
     }
 
+    function _collectPremium(bytes32 processId) 
+        internal
+        returns(
+            bool success,
+            uint256 feeAmount,
+            uint256 netAmount
+        )
+    {
+        IPolicy.Policy memory policy = _getPolicy(processId);
+
+        if (policy.premiumPaidAmount < policy.premiumExpectedAmount) {
+            (success, feeAmount, netAmount) 
+                = _collectPremium(
+                    processId, 
+                    policy.premiumExpectedAmount - policy.premiumPaidAmount
+                );
+        }
+    }
+
     function _collectPremium(
         bytes32 processId,
         uint256 amount
     )
         internal
+        returns(
+            bool success,
+            uint256 feeAmount,
+            uint256 netAmount
+        )
     {
-        _productService.collectPremium(processId, amount);
+        (success, feeAmount, netAmount) = _productService.collectPremium(processId, amount);
     }
 
     function _revoke(bytes32 processId) internal {
