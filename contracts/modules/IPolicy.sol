@@ -130,7 +130,7 @@ interface IPolicy {
     function underwriteApplication(bytes32 processId) external;
     function declineApplication(bytes32 processId) external;
 
-    function collectPremium(bytes32 processId, uint256 premiumAmount) external;
+    function collectPremium(bytes32 processId, uint256 amount) external;
 
     function createPolicy(bytes32 processId) external;
     function expirePolicy(bytes32 processId) external;

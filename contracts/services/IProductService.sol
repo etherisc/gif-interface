@@ -12,10 +12,7 @@ interface IProductService {
         bytes calldata applicationData 
     ) external;
 
-    function processPremium(
-        bytes32 processId, 
-        uint256 amount
-    ) external;
+    function collectPremium(bytes32 processId, uint256 amount) external;
 
     function revoke(bytes32 processId) external;
     function underwrite(bytes32 processId) external returns (bool success);
