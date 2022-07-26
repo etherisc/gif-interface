@@ -11,8 +11,6 @@ abstract contract Product is
     IProduct, 
     Component 
 {    
-    uint256 public constant FULL_SUBSIDY_LEVEL = 10**18;
-
     address private _policyFlow; // policy flow contract to use for this procut
     address private _token; // erc20 token to use for this product
     uint256 private _riskpoolId; // id of riskpool responsible for this product
@@ -94,7 +92,6 @@ abstract contract Product is
         address owner,
         bytes32 processId,
         uint256 premiumAmount,
-        uint256 subsidyLevel,
         uint256 sumInsuredAmount,
         bytes memory metaData, 
         bytes memory applicationData 
@@ -105,7 +102,6 @@ abstract contract Product is
             owner, 
             processId, 
             premiumAmount, 
-            subsidyLevel,
             sumInsuredAmount, 
             metaData, 
             applicationData);

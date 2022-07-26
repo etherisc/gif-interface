@@ -72,7 +72,6 @@ interface IPolicy {
     struct Application {
         ApplicationState state;
         uint256 premiumAmount;
-        uint256 subsidyLevel;
         uint256 sumInsuredAmount;
         bytes data; 
         uint256 createdAt;
@@ -123,7 +122,6 @@ interface IPolicy {
     function createApplication(
         bytes32 processId, 
         uint256 premiumAmount,
-        uint256 subsidyLevel,
         uint256 sumInsuredAmount,
         bytes calldata data
     ) external;
