@@ -56,7 +56,7 @@ interface IPolicy {
     enum PolicyFlowState {Started, Paused, Finished}
     enum ApplicationState {Applied, Revoked, Underwritten, Declined}
     enum PolicyState {Active, Expired, Closed}
-    enum ClaimState {Applied, Confirmed, Declined}
+    enum ClaimState {Applied, Confirmed, Declined, Closed}
     enum PayoutState {Expected, PaidOut}
 
     // Objects
@@ -84,8 +84,6 @@ interface IPolicy {
         uint256 premiumPaidAmount;
         uint256 claimsCount;
         uint256 openClaimsCount;
-        uint256 payoutsCount;
-        uint256 openPayoutsCount;
         uint256 createdAt;
         uint256 updatedAt;
     }
@@ -93,6 +91,7 @@ interface IPolicy {
     struct Claim {
         ClaimState state;
         uint256 claimAmount;
+        uint256 paidAmount;
         bytes data;
         uint256 createdAt;
         uint256 updatedAt;

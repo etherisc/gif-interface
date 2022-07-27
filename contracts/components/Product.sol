@@ -194,15 +194,33 @@ abstract contract Product is
             data);
     }
 
-    function _processPayout(
+    function _newPayout(
         bytes32 processId,
-        uint256 payoutId,
-        bool isComplete,
+        uint256 amount,
         bytes memory data
     )
         internal
+        returns(uint256 payoutId)
     {
-        _productService.processPayout(processId, payoutId, isComplete, data);
+        payoutId = _productService.newPayout(processId, amount, data);
+    }
+
+    function _processPayout(
+        bytes32 processId,
+        uint256 payoutId
+    )
+        internal
+        returns(
+            bool success,
+            uint256 feeAmount,
+            uint256 netPayoutAmount
+        )
+    {
+        (
+            success,
+            feeAmount,
+            netPayoutAmount
+        ) = _productService.processPayout(processId, payoutId);
     }
 
     function _request(

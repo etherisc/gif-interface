@@ -61,6 +61,13 @@ interface ITreasury {
             uint256 netPremiumAmount
         );
     
+    function processPayout(bytes32 processId, uint256 payoutId) external 
+        returns(
+            bool success,
+            uint256 feeAmount,
+            uint256 netPayoutAmount
+        );
+    
     function processCapital(uint256 bundleId, uint256 capitalAmount) external 
         returns(
             bool success,

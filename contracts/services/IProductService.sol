@@ -40,12 +40,18 @@ interface IProductService {
         bytes calldata data
     ) external returns(uint256 payoutId);
 
-    function processPayout(
+    function newPayout(
         bytes32 processId, 
-        uint256 payoutId, 
-        bool isComplete, 
+        uint256 amount,
         bytes calldata data
-    ) external;
+    ) external returns(uint256 payoutId);
+
+    function processPayout(bytes32 processId, uint256 payoutId) external
+        returns(
+            bool success,
+            uint256 feeAmount,
+            uint256 netPayoutAmount
+        );
 
     function request(
         bytes32 processId,
