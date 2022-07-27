@@ -196,13 +196,14 @@ abstract contract Product is
 
     function _newPayout(
         bytes32 processId,
+        uint256 claimId,
         uint256 amount,
         bytes memory data
     )
         internal
         returns(uint256 payoutId)
     {
-        payoutId = _productService.newPayout(processId, amount, data);
+        payoutId = _productService.newPayout(processId, claimId, amount, data);
     }
 
     function _processPayout(

@@ -42,6 +42,7 @@ interface IProductService {
 
     function newPayout(
         bytes32 processId, 
+        uint256 claimId, 
         uint256 amount,
         bytes calldata data
     ) external returns(uint256 payoutId);
