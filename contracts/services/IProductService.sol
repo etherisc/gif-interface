@@ -31,14 +31,15 @@ interface IProductService {
         bytes calldata data
     ) external returns(uint256 claimId);
 
-    function declineClaim(bytes32 processId, uint256 claimId) external;
-
     function confirmClaim(
         bytes32 processId, 
         uint256 claimId, 
         uint256 payoutAmount, 
         bytes calldata data
     ) external returns(uint256 payoutId);
+
+    function declineClaim(bytes32 processId, uint256 claimId) external;
+    function closeClaim(bytes32 processId, uint256 claimId) external;
 
     function newPayout(
         bytes32 processId, 

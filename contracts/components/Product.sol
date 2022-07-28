@@ -174,10 +174,6 @@ abstract contract Product is
             data);
     }
 
-    function _declineClaim(bytes32 processId, uint256 claimId) internal {
-        _productService.declineClaim(processId, claimId);
-    }
-
     function _confirmClaim(
         bytes32 processId,
         uint256 claimId,
@@ -192,6 +188,14 @@ abstract contract Product is
             claimId, 
             payoutAmount, 
             data);
+    }
+
+    function _declineClaim(bytes32 processId, uint256 claimId) internal {
+        _productService.declineClaim(processId, claimId);
+    }
+
+    function _closeClaim(bytes32 processId, uint256 claimId) internal {
+        _productService.closeClaim(processId, claimId);
     }
 
     function _newPayout(

@@ -32,23 +32,20 @@ interface IPolicy {
 
     event LogPremiumCollected(bytes32 processId, uint256 amount);
 
-    event LogClaimCreated(bytes32 processId, uint256 claimId);
-    event LogClaimConfirmed(bytes32 processId, uint256 claimId);
+    event LogClaimCreated(bytes32 processId, uint256 claimId, uint256 claimAmount);
+    event LogClaimConfirmed(bytes32 processId, uint256 claimId, uint256 confirmedAmount);
     event LogClaimDeclined(bytes32 processId, uint256 claimId);
+    event LogClaimClosed(bytes32 processId, uint256 claimId);
 
     event LogPayoutCreated(
         bytes32 processId,
         uint256 claimId,
-        uint256 payoutId
+        uint256 payoutId,
+        uint256 amount
     );
 
     event LogPayoutProcessed(
         bytes32 processId, 
-        uint256 payoutId
-    );
-
-    event LogPayoutCompleted(
-        bytes32 processId,
         uint256 payoutId
     );
 
@@ -145,6 +142,7 @@ interface IPolicy {
 
     function confirmClaim(bytes32 processId, uint256 claimId) external;
     function declineClaim(bytes32 processId, uint256 claimId) external;
+    function closeClaim(bytes32 processId, uint256 claimId) external;
 
     function createPayout(
         bytes32 processId,
@@ -155,8 +153,6 @@ interface IPolicy {
 
     function processPayout(
         bytes32 processId,
-        uint256 payoutId,
-        bool isComplete,
-        bytes calldata data
+        uint256 payoutId
     ) external;
 }
