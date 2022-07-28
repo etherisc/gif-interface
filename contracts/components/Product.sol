@@ -177,17 +177,14 @@ abstract contract Product is
     function _confirmClaim(
         bytes32 processId,
         uint256 claimId,
-        uint256 payoutAmount,
-        bytes memory data
+        uint256 payoutAmount
     )
         internal
-        returns (uint256 _payoutId)
     {
-        _payoutId = _productService.confirmClaim(
+        _productService.confirmClaim(
             processId, 
             claimId, 
-            payoutAmount, 
-            data);
+            payoutAmount);
     }
 
     function _declineClaim(bytes32 processId, uint256 claimId) internal {

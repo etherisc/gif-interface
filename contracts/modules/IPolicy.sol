@@ -136,11 +136,14 @@ interface IPolicy {
         bytes32 processId, 
         uint256 claimAmount, 
         bytes calldata data
-    )
-        external
-        returns (uint256 claimId);
+    ) external returns (uint256 claimId);
 
-    function confirmClaim(bytes32 processId, uint256 claimId) external;
+    function confirmClaim(
+        bytes32 processId, 
+        uint256 claimId, 
+        uint256 confirmedAmount
+    ) external;
+
     function declineClaim(bytes32 processId, uint256 claimId) external;
     function closeClaim(bytes32 processId, uint256 claimId) external;
 

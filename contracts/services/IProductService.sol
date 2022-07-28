@@ -34,9 +34,8 @@ interface IProductService {
     function confirmClaim(
         bytes32 processId, 
         uint256 claimId, 
-        uint256 payoutAmount, 
-        bytes calldata data
-    ) external returns(uint256 payoutId);
+        uint256 confirmedAmount
+    ) external;
 
     function declineClaim(bytes32 processId, uint256 claimId) external;
     function closeClaim(bytes32 processId, uint256 claimId) external;
