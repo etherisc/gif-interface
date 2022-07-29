@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import "../modules/IBundle.sol";
 import "../modules/IPolicy.sol";
+import "../tokens/IBundleToken.sol";
 import "./IComponentOwnerService.sol";
 import "./IInstanceOperatorService.sol";
 import "./IOracleService.sol";
@@ -25,13 +26,13 @@ interface IInstanceService {
     function getRiskpoolService() external view returns(IRiskpoolService service);
 
     // access
-    function productOwnerRole() external view returns(bytes32 role);
-    function oracleProviderRole() external view returns(bytes32 role);
-    function riskpoolKeeperRole() external view returns(bytes32 role);
+    function getProductOwnerRole() external view returns(bytes32 role);
+    function getOracleProviderRole() external view returns(bytes32 role);
+    function getRiskpoolKeeperRole() external view returns(bytes32 role);
     function hasRole(bytes32 role, address principal) external view returns (bool roleIsAssigned);    
 
     // bundles
-    function getBundleToken() external view returns(IERC721 token);
+    function getBundleToken() external view returns(IBundleToken token);
     function bundles() external view returns(uint256 numberOfBundles);
     function getBundle(uint256 bundleId) external view returns(IBundle.Bundle memory bundle);
 

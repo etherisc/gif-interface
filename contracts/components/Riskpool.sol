@@ -190,7 +190,7 @@ abstract contract Riskpool is
         external override
         onlyPool
     {
-        require(_balance > amount, "ERROR:RPL-005:RISKPOOL_BALANCE_TOO_LOW");
+        require(_balance >= amount, "ERROR:RPL-005:RISKPOOL_BALANCE_TOO_LOW");
 
         _decreaseBundleBalances(processId, amount);
         _balance -= amount;
