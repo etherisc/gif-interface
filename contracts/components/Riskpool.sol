@@ -212,14 +212,6 @@ abstract contract Riskpool is
         _lockedCapital -= collateralAmount;
     }
 
-    function preparePayout(bytes32 processId, uint256 payoutId, uint256 amount) external override {
-        revert("ERROR:RPL-991:SECURE_PAYOUT_NOT_IMPLEMENTED");
-    }
-
-    function executePayout(bytes32 processId, uint256 payoutId) external override {
-        revert("ERROR:RPL-991:EXECUTE_PAYOUT_NOT_IMPLEMENTED");
-    }
-
     function getFullCollateralizationLevel() public pure override returns (uint256) {
         return FULL_COLLATERALIZATION_LEVEL;
     }

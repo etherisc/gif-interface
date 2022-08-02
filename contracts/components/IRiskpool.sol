@@ -32,9 +32,6 @@ interface IRiskpool is IComponent {
     function collateralizePolicy(bytes32 processId) external returns(bool isSecured);
     function releasePolicy(bytes32 processId) external;
 
-    function preparePayout(bytes32 processId, uint256 payoutId, uint256 amount) external;
-    function executePayout(bytes32 processId, uint256 payoutId) external;
-
     function increaseBalance(bytes32 processId, uint256 amount) external;
     function decreaseBalance(bytes32 processId, uint256 amount) external;
 
