@@ -7,7 +7,7 @@ interface IComponentEvents {
 
     event LogComponentProposed (
         bytes32 componentName,
-        ComponentType componentType,
+        IComponent.ComponentType componentType,
         address componentAddress,
         uint256 id);
     
@@ -20,5 +20,8 @@ interface IComponentEvents {
     event LogComponentPaused (uint256 id);
     event LogComponentUnpaused (uint256 id);
 
-    event LogComponentStateChanged (uint256 id, ComponentState stateOld, ComponentState stateNew);
+    event LogComponentStateChanged (
+        uint256 id, 
+        IComponent.ComponentState stateOld, 
+        IComponent.ComponentState stateNew);
 }

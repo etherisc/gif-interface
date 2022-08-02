@@ -6,6 +6,7 @@ import "../modules/IAccess.sol";
 import "../modules/IComponentEvents.sol";
 import "../modules/IRegistry.sol";
 import "../services/IComponentOwnerService.sol";
+import "../services/IInstanceService.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 
@@ -17,20 +18,14 @@ abstract contract Component is
 {
     bytes32 private _componentName;
     uint256 private _componentId;
-    ComponentType private _componentType;
-    ComponentState private _componentState;
+    IComponent.ComponentType private _componentType;
 
     bytes32 private _requiredRole;
 
     IRegistry private _registry;
     IAccess private _access;
     IComponentOwnerService private _componentOwnerService;
-
-    event LogComponentCreated (
-        bytes32 componentName,
-        ComponentType componentType,
-        address componentAddress,
-        address registryAddress);
+    IInstanceService private _instanceService;
 
     modifier onlyInstanceOperatorService() {
         require(
@@ -55,7 +50,7 @@ abstract contract Component is
 
     constructor(
         bytes32 name,
-        ComponentType componentType,
+        IComponent.ComponentType componentType,
         address registry
     )
         Ownable()
@@ -68,7 +63,6 @@ abstract contract Component is
 
         _componentName = name;
         _componentType = componentType;
-        _componentState = ComponentState.Created;
         _requiredRole = _getRequiredRole();
 
         emit LogComponentCreated(
@@ -79,17 +73,16 @@ abstract contract Component is
     }
 
     function setId(uint256 id) external override onlyComponent { _componentId = id; }
-    function setState(ComponentState state) external override onlyComponent { _componentState = state; }
 
     function getName() public override view returns(bytes32) { return _componentName; }
     function getId() public override view returns(uint256) { return _componentId; }
-    function getType() public override view returns(ComponentType) { return _componentType; }
-    function getState() public override view returns(ComponentState) { return _componentState; }
+    function getType() public override view returns(IComponent.ComponentType) { return _componentType; }
+    function getState() public override view returns(IComponent.ComponentState) { return _instanceService.getComponentState(_componentId); }
     function getOwner() public override view returns(address) { return owner(); }
 
-    function isProduct() public override view returns(bool) { return _componentType == ComponentType.Product; }
-    function isOracle() public override view returns(bool) { return _componentType == ComponentType.Oracle; }
-    function isRiskpool() public override view returns(bool) { return _componentType == ComponentType.Riskpool; }
+    function isProduct() public override view returns(bool) { return _componentType == IComponent.ComponentType.Product; }
+    function isOracle() public override view returns(bool) { return _componentType == IComponent.ComponentType.Oracle; }
+    function isRiskpool() public override view returns(bool) { return _componentType == IComponent.ComponentType.Riskpool; }
 
     function getRequiredRole() public override view returns(bytes32) { return _requiredRole; }
 
@@ -119,6 +112,10 @@ abstract contract Component is
 
     function _getAccess() internal returns (IAccess) {
         return IAccess(_getContractAddress("Access"));        
+    }
+
+    function _getInstanceService() internal returns (IInstanceService) {
+        return IInstanceService(_getContractAddress("InstanceService"));        
     }
 
     function _getComponentOwnerService() internal returns (IComponentOwnerService) {

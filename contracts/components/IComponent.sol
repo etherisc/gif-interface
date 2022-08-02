@@ -1,25 +1,30 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
-enum ComponentType {
-    Oracle,
-    Product,
-    Riskpool
-}
-
-enum ComponentState {
-    Created,
-    Proposed,
-    Declined,
-    Active,
-    Paused,
-    Suspended
-}
-
 interface IComponent {
 
+    enum ComponentType {
+        Oracle,
+        Product,
+        Riskpool
+    }
+
+    enum ComponentState {
+        Created,
+        Proposed,
+        Declined,
+        Active,
+        Paused,
+        Suspended
+    }
+
+    event LogComponentCreated (
+        bytes32 componentName,
+        IComponent.ComponentType componentType,
+        address componentAddress,
+        address registryAddress);
+
     function setId(uint256 id) external;
-    function setState(ComponentState state) external;
 
     function getName() external view returns(bytes32);
     function getId() external view returns(uint256);

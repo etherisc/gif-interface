@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
+import "../components/IComponent.sol";
 import "../modules/IBundle.sol";
 import "../modules/IPolicy.sol";
 import "../tokens/IBundleToken.sol";
@@ -42,6 +43,8 @@ interface IInstanceService {
     function riskpools() external view returns(uint256 numberOfRiskpools);
 
     function getComponent(uint256 componentId) external view returns(IComponent component);
+    function getComponentType(uint256 componentId) external view returns(IComponent.ComponentType componentType);
+    function getComponentState(uint256 componentId) external view returns(IComponent.ComponentState componentState);
 
     // service staking
     function getStakingRequirements(uint256 componentId) external view returns(bytes memory data);
