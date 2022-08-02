@@ -60,6 +60,7 @@ abstract contract Component is
         _registry = IRegistry(registry);
         _access = _getAccess();
         _componentOwnerService = _getComponentOwnerService();
+        _instanceService = _getInstanceService();
 
         _componentName = name;
         _componentType = componentType;
