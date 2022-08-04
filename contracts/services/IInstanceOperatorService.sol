@@ -22,7 +22,8 @@ interface IInstanceOperatorService {
     function decline(uint256 id) external;
     function suspend(uint256 id) external;
     function resume(uint256 id) external;
-
+    function archive(uint256 id) external;
+    
     // service staking
     function setDefaultStaking(uint16 componentType, bytes calldata data) external;
     function adjustStakingRequirements(uint256 id, bytes calldata data) external;

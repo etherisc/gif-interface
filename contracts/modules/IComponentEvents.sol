@@ -20,6 +20,8 @@ interface IComponentEvents {
     event LogComponentPaused (uint256 id);
     event LogComponentUnpaused (uint256 id);
 
+    event LogComponentArchived (uint256 id);
+
     event LogComponentStateChanged (
         uint256 id, 
         IComponent.ComponentState stateOld, 

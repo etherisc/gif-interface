@@ -94,7 +94,8 @@ abstract contract Component is
     function resumeCallback() public override onlyComponent { _afterResume(); }
     function pauseCallback() public override onlyComponent { _afterPause(); }
     function unpauseCallback() public override onlyComponent { _afterUnpause(); }
-
+    function archiveCallback() public override onlyComponent { _afterArchive(); }
+    
     // these functions are intended to be overwritten to implement
     // component specific notification handling
     function _afterPropose() internal virtual {}
@@ -104,6 +105,7 @@ abstract contract Component is
     function _afterResume() internal virtual {}
     function _afterPause() internal virtual {}
     function _afterUnpause() internal virtual {}
+    function _afterArchive() internal virtual {}
 
     function _getRequiredRole() private returns (bytes32) {
         if (isProduct()) { return _access.productOwnerRole(); }

@@ -12,4 +12,6 @@ interface IComponentOwnerService {
 
     function pause(uint256 id) external; 
     function unpause(uint256 id) external;
+
+    function archive(uint256 id) external;
 }

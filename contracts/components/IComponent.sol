@@ -15,7 +15,8 @@ interface IComponent {
         Declined,
         Active,
         Paused,
-        Suspended
+        Suspended,
+        Archived
     }
 
     event LogComponentCreated (
@@ -45,4 +46,5 @@ interface IComponent {
     function resumeCallback() external;
     function pauseCallback() external;
     function unpauseCallback() external;
+    function archiveCallback() external;
 }
