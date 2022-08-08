@@ -50,7 +50,7 @@ interface IPolicy {
     );
 
     // States
-    enum PolicyFlowState {Started, Paused, Finished}
+    enum PolicyFlowState {Started, Active, Finished}
     enum ApplicationState {Applied, Revoked, Underwritten, Declined}
     enum PolicyState {Active, Expired, Closed}
     enum ClaimState {Applied, Confirmed, Declined, Closed}
@@ -106,10 +106,9 @@ interface IPolicy {
 
     function createPolicyFlow(
         address owner,
-        bytes32 processId, 
         uint256 productId, 
         bytes calldata data
-    ) external;
+    ) external returns(bytes32 processId);
 
     function setPolicyFlowState(
         bytes32 processId,

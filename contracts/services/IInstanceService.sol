@@ -16,8 +16,10 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 interface IInstanceService {
 
-    // owner
-    function getOwner() external view returns(address owner);
+    // instance
+    function getChainId() external view returns(uint256 chainId);
+    function getInstanceId() external view returns(bytes32 instanceId);
+    function getInstanceOperator() external view returns(address instanceOperator);
 
     // registry
     function getComponentOwnerService() external view returns(IComponentOwnerService service);
