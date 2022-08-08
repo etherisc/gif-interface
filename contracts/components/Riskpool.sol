@@ -76,7 +76,7 @@ abstract contract Riskpool is
     }
 
     function createBundle(bytes memory filter, uint256 initialAmount) 
-        external virtual override
+        public virtual override
         returns(uint256 bundleId)
     {
         address bundleOwner = _msgSender();
