@@ -75,9 +75,8 @@ abstract contract Riskpool is
         _bundleToken = _instanceService.getBundleToken();
     }
 
-    // TODO decide on authz for bundle creation
     function createBundle(bytes memory filter, uint256 initialAmount) 
-        external override
+        external virtual override
         returns(uint256 bundleId)
     {
         address bundleOwner = _msgSender();
