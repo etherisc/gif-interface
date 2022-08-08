@@ -5,12 +5,11 @@ interface IProductService {
 
     function newApplication(
         address owner,
-        bytes32 processId,
         uint256 premiumAmount,
         uint256 sumInsuredAmount,
         bytes calldata metaData, 
         bytes calldata applicationData 
-    ) external;
+    ) external returns(bytes32 processId);
 
     function collectPremium(bytes32 processId, uint256 amount) external
         returns(

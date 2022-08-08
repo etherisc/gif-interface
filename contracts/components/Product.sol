@@ -78,7 +78,7 @@ abstract contract Product is
     // default callback function implementations
     function _afterApprove() internal override { 
         uint256 id = getId();
-        // TODO figure out what the ... is wrong here
+        // TODO analysis needed
         // plugging id into the event let spin brownie console
         // with history[-1].info() ...
         // plugging in a fixed value eg 999 works fine????
@@ -90,17 +90,16 @@ abstract contract Product is
 
     function _newApplication(
         address owner,
-        bytes32 processId,
         uint256 premiumAmount,
         uint256 sumInsuredAmount,
         bytes memory metaData, 
         bytes memory applicationData 
     )
         internal
+        returns(bytes32 processId)
     {
-        _productService.newApplication(
+        processId = _productService.newApplication(
             owner, 
-            processId, 
             premiumAmount, 
             sumInsuredAmount, 
             metaData, 
