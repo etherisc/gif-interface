@@ -7,9 +7,4 @@ interface ILicense {
         external
         view
         returns (uint256 productId, bool isAuthorized, address policyFlow);
-
-    function getProductId(address sender) 
-        external 
-        view 
-        returns(uint256 productId);
 }
