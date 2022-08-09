@@ -118,7 +118,9 @@ abstract contract Riskpool is
         
         // update riskpool financials
         if (success) {
-            _capital -= amount;
+            if (_capital >= amount) { _capital -= amount; }
+            else                    { _capital = 0; }
+
             _balance -= amount;
         }
     }
