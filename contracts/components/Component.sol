@@ -20,8 +20,6 @@ abstract contract Component is
     uint256 private _componentId;
     IComponent.ComponentType private _componentType;
 
-    bytes32 private _requiredRole;
-
     IRegistry private _registry;
     IAccess private _access;
     IComponentOwnerService private _componentOwnerService;
@@ -64,7 +62,6 @@ abstract contract Component is
 
         _componentName = name;
         _componentType = componentType;
-        _requiredRole = _getRequiredRole();
 
         emit LogComponentCreated(
             _componentName, 
@@ -85,8 +82,6 @@ abstract contract Component is
     function isOracle() public override view returns(bool) { return _componentType == IComponent.ComponentType.Oracle; }
     function isRiskpool() public override view returns(bool) { return _componentType == IComponent.ComponentType.Riskpool; }
 
-    function getRequiredRole() public override view returns(bytes32) { return _requiredRole; }
-
     function proposalCallback() public override onlyComponent { _afterPropose(); }
     function approvalCallback() public override onlyComponent { _afterApprove(); }
     function declineCallback() public override onlyComponent { _afterDecline(); }
@@ -106,12 +101,6 @@ abstract contract Component is
     function _afterPause() internal virtual {}
     function _afterUnpause() internal virtual {}
     function _afterArchive() internal virtual {}
-
-    function _getRequiredRole() private returns (bytes32) {
-        if (isProduct()) { return _access.productOwnerRole(); }
-        if (isOracle()) { return _access.oracleProviderRole(); }
-        if (isRiskpool()) { return _access.riskpoolKeeperRole(); }
-    }
 
     function _getAccess() internal returns (IAccess) {
         return IAccess(_getContractAddress("Access"));        

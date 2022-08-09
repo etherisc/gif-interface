@@ -33,8 +33,6 @@ interface IComponent {
     function getState() external view returns(ComponentState);
     function getOwner() external view returns(address);
 
-    function getRequiredRole() external view returns(bytes32 role);
-
     function isProduct() external view returns(bool);
     function isOracle() external view returns(bool);
     function isRiskpool() external view returns(bool);
