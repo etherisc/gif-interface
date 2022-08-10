@@ -178,24 +178,19 @@ abstract contract Riskpool is
         _balance -= bundle.balance;
     }
 
-    function collateralizePolicy(bytes32 processId) 
+    function collateralizePolicy(bytes32 processId, uint256 collateralAmount) 
         external override
         onlyPool
         returns(bool success) 
     {
-        IPolicy.Application memory application = _instanceService.getApplication(processId);
-        uint256 sumInsured = application.sumInsuredAmount;
-        uint256 collateralAmount = calculateCollateral(application);
-        emit LogRiskpoolRequiredCollateral(processId, sumInsured, collateralAmount);
-
         success = _lockCollateral(processId, collateralAmount);
+
         if (success) {
             _lockedCapital += collateralAmount;
         }
 
         emit LogRiskpoolCollateralLocked(processId, collateralAmount, success);
     }
-
 
     function increaseBalance(bytes32 processId, uint256 amount)
         external override
