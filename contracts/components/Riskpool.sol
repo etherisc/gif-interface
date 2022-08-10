@@ -33,6 +33,7 @@ abstract contract Riskpool is
 
     address private _wallet;
     uint256 private _collateralization;
+    uint256 private _sumOfSumInsuredCap;
     uint256 private _capital;
     uint256 private _lockedCapital;
     uint256 private _balance;
@@ -59,13 +60,16 @@ abstract contract Riskpool is
     constructor(
         bytes32 name,
         uint256 collateralization,
+        uint256 sumOfSumInsuredCap,
         address wallet,
         address registry
     )
         Component(name, ComponentType.Riskpool, registry)
     { 
-        require(collateralization != 0, "ERROR:RPL-002:COLLATERALIZATION_ZERO");
         _collateralization = collateralization;
+
+        require(sumOfSumInsuredCap != 0, "ERROR:RPL-002:SUM_OF_SUM_INSURED_CAP_ZERO");
+        _sumOfSumInsuredCap = sumOfSumInsuredCap;
 
         require(wallet != address(0), "ERROR:RPL-003:WALLET_ADDRESS_ZERO");
         _wallet = wallet;
@@ -73,6 +77,14 @@ abstract contract Riskpool is
         _instanceService = IInstanceService(_getContractAddress("InstanceService")); 
         _riskpoolService = IRiskpoolService(_getContractAddress("RiskpoolService"));
         _bundleToken = _instanceService.getBundleToken();
+    }
+
+    function _afterPropose() internal override virtual {
+        _riskpoolService.registerRiskpool(
+            _collateralization,
+            _sumOfSumInsuredCap, 
+            _wallet
+        );
     }
 
     function createBundle(bytes memory filter, uint256 initialAmount) 

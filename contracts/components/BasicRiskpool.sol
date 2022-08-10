@@ -17,10 +17,11 @@ abstract contract BasicRiskpool is Riskpool {
     constructor(
         bytes32 name,
         uint256 collateralization,
+        uint256 sumOfSumInsuredCap,
         address wallet,
         address registry
     )
-        Riskpool(name, collateralization, wallet, registry)
+        Riskpool(name, collateralization, sumOfSumInsuredCap, wallet, registry)
     { }
 
     // needs to remember which bundles helped to cover ther risk

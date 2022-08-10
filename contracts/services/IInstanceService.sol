@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "../components/IComponent.sol";
 import "../modules/IBundle.sol";
 import "../modules/IPolicy.sol";
+import "../modules/IPool.sol";
 import "../tokens/IBundleToken.sol";
 import "./IComponentOwnerService.sol";
 import "./IInstanceOperatorService.sol";
@@ -34,11 +35,6 @@ interface IInstanceService {
     function getRiskpoolKeeperRole() external view returns(bytes32 role);
     function hasRole(bytes32 role, address principal) external view returns (bool roleIsAssigned);    
 
-    // bundles
-    function getBundleToken() external view returns(IBundleToken token);
-    function bundles() external view returns(uint256 numberOfBundles);
-    function getBundle(uint256 bundleId) external view returns(IBundle.Bundle memory bundle);
-
     // component
     function products() external view returns(uint256 numberOfProducts);
     function oracles() external view returns(uint256 numberOfOracles);
@@ -51,6 +47,15 @@ interface IInstanceService {
     // service staking
     function getStakingRequirements(uint256 componentId) external view returns(bytes memory data);
     function getStakedAssets(uint256 componentId) external view returns(bytes memory data);
+
+    // riskpool
+    function getRiskpool(uint256 riskpoolId) external view returns(IPool.Pool memory riskPool);
+    function getFullCollateralizationLevel() external view returns (uint256);
+
+    // bundles
+    function getBundleToken() external view returns(IBundleToken token);
+    function bundles() external view returns(uint256 numberOfBundles);
+    function getBundle(uint256 bundleId) external view returns(IBundle.Bundle memory bundle);
 
     // policy
     function processIds() external view returns(uint256 numberOfProcessIds);
