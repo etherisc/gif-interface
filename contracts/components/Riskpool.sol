@@ -38,7 +38,6 @@ abstract contract Riskpool is
 
     // TODO move to core pool module
     uint256 private _capital;
-    uint256 private _lockedCapital;
     uint256 private _balance;
 
     modifier onlyPool {
@@ -184,11 +183,6 @@ abstract contract Riskpool is
         returns(bool success) 
     {
         success = _lockCollateral(processId, collateralAmount);
-
-        if (success) {
-            _lockedCapital += collateralAmount;
-        }
-
         emit LogRiskpoolCollateralLocked(processId, collateralAmount, success);
     }
 
@@ -220,12 +214,7 @@ abstract contract Riskpool is
         onlyPool
     {
         uint256 collateralAmount = _releaseCollateral(processId);
-        require(
-            collateralAmount <= _lockedCapital,
-            "ERROR:RPL-005:FREED_COLLATERAL_TOO_BIG"
-        );
-
-        _lockedCapital -= collateralAmount;
+        emit LogRiskpoolCollateralReleased(processId, collateralAmount);
     }
 
     function getWallet() public view override returns(address) {
@@ -285,11 +274,12 @@ abstract contract Riskpool is
     }
 
     function getTotalValueLocked() public override view returns(uint256) {
-        return _lockedCapital;
+        uint256 riskpoolId = getId();
+        return _instanceService.getTotalValueLocked(riskpoolId);
     }
 
     function getCapacity() public override view returns(uint256) {
-        return _capital - _lockedCapital;
+        return _capital - getTotalValueLocked();
     }
 
     function getBalance() public override view returns(uint256) {

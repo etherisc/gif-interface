@@ -14,6 +14,7 @@ interface IPool {
     event LogRiskpoolRequiredCollateral(bytes32 processId, uint256 sumInsured, uint256 collateral);
     event LogRiskpoolCollateralizationFailed(uint256 riskpoolId, bytes32 processId, uint256 amount);
     event LogRiskpoolCollateralizationSucceeded(uint256 riskpoolId, bytes32 processId, uint256 amount);
+    event LogRiskpoolCollateralReleased(uint256 riskpoolId, bytes32 processId, uint256 amount);
 
     struct Pool {
         uint256 id; // matches component id of riskpool

@@ -15,6 +15,7 @@ interface IRiskpool is IComponent {
     event LogRiskpoolBundleCreated(uint256 bundleId, uint256 amount);
     event LogRiskpoolBundleMatchesPolicy(uint256 bundleId, bool isMatching);
     event LogRiskpoolCollateralLocked(bytes32 processId, uint256 collateralAmount, bool isSecured);
+    event LogRiskpoolCollateralReleased(bytes32 processId, uint256 collateralAmount);
 
     event LogRiskpoolBalanceIncreased(bytes32 processId, uint256 amount, uint256 newBalance);
     event LogRiskpoolBalanceDecreased(bytes32 processId, uint256 amount, uint256 newBalance);

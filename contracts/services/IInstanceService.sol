@@ -51,6 +51,9 @@ interface IInstanceService {
     // riskpool
     function getRiskpool(uint256 riskpoolId) external view returns(IPool.Pool memory riskPool);
     function getFullCollateralizationLevel() external view returns (uint256);
+    function getTotalValueLocked(uint256 riskpoolId) external view returns(uint256 totalValueLockedAmount);
+    function getCapacity(uint256 riskpoolId) external view returns(uint256 capacityAmount);
+    function getBalance(uint256 riskpoolId) external view returns(uint256 balanceAmount);
 
     // bundles
     function getBundleToken() external view returns(IBundleToken token);
