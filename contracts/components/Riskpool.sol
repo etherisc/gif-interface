@@ -35,6 +35,8 @@ abstract contract Riskpool is
     address private _erc20Token;
     uint256 private _collateralization;
     uint256 private _sumOfSumInsuredCap;
+
+    // TODO move to core pool module
     uint256 private _capital;
     uint256 private _lockedCapital;
     uint256 private _balance;
@@ -86,10 +88,10 @@ abstract contract Riskpool is
 
     function _afterPropose() internal override virtual {
         _riskpoolService.registerRiskpool(
-            _collateralization,
-            _sumOfSumInsuredCap, 
+            _wallet,
             _erc20Token, 
-            _wallet
+            _collateralization,
+            _sumOfSumInsuredCap
         );
     }
 

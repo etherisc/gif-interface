@@ -4,10 +4,10 @@ pragma solidity ^0.8.0;
 interface IRiskpoolService {
 
     function registerRiskpool(
-        uint256 collateralization, 
-        uint256 sumOfSumInsuredCap,
+        address wallet,
         address erc20Token,
-        address wallet
+        uint256 collateralization, 
+        uint256 sumOfSumInsuredCap
     ) external;
 
     function createBundle(address owner_, bytes calldata filter_, uint256 amount_) external returns(uint256 bundleId);
