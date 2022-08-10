@@ -38,9 +38,6 @@ interface IRiskpool is IComponent {
     function getCollateralizationLevel() external view returns (uint256);
     function getFullCollateralizationLevel() external view returns (uint256);
 
-    function calculateCollateral(IPolicy.Application memory application) 
-        external view returns(uint256 collateralAmount);
-
     function bundleMatchesApplication(
         IBundle.Bundle memory bundle, 
         IPolicy.Application memory application
