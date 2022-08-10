@@ -29,9 +29,11 @@ interface IPool {
     }
 
     function registerRiskpool(
+        uint256 riskpoolId, 
         address wallet,
-        uint256 sumOfSumInsuredCap, // max sum of sum insured the pool is allowed to secure
-        uint256 collateralizationLevel
+        address erc20Token,
+        uint256 collateralizationLevel, 
+        uint256 sumOfSumInsuredCap
     ) external;
 
     function setRiskpoolForProduct(uint256 productId, uint256 riskpoolId) external;
