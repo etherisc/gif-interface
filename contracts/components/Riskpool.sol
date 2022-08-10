@@ -36,10 +36,6 @@ abstract contract Riskpool is
     uint256 private _collateralization;
     uint256 private _sumOfSumInsuredCap;
 
-    // TODO move to core pool module
-    uint256 private _capital;
-    uint256 private _balance;
-
     modifier onlyPool {
         require(
              _msgSender() == _getContractAddress("Pool"),
@@ -106,10 +102,6 @@ abstract contract Riskpool is
         if (bundle.state == IBundle.BundleState.Active) {
             _addIdToSet(bundleId);
         }
-        
-        // update financials
-        _capital += bundle.capital;
-        _balance += bundle.capital;
 
         emit LogRiskpoolBundleCreated(bundleId, initialAmount);
     }
@@ -120,12 +112,6 @@ abstract contract Riskpool is
         returns(bool success, uint256 netAmount)
     {
         (success, netAmount) = _riskpoolService.fundBundle(bundleId, amount);
-        
-        // update riskpool financials
-        if (success) {
-            _capital += netAmount;
-            _balance += netAmount;
-        }
     }
 
     function defundBundle(uint256 bundleId, uint256 amount)
@@ -134,14 +120,6 @@ abstract contract Riskpool is
         returns(bool success, uint256 netAmount)
     {
         (success, netAmount) = _riskpoolService.defundBundle(bundleId, amount);
-        
-        // update riskpool financials
-        if (success) {
-            if (_capital >= amount) { _capital -= amount; }
-            else                    { _capital = 0; }
-
-            _balance -= amount;
-        }
     }
 
     function lockBundle(uint256 bundleId)
@@ -169,12 +147,7 @@ abstract contract Riskpool is
         external override
         onlyBundleOwner(bundleId)
     {
-        IBundle.Bundle memory bundle = _instanceService.getBundle(bundleId);
-
         _riskpoolService.burnBundle(bundleId);
-
-        _capital -= bundle.capital;
-        _balance -= bundle.balance;
     }
 
     function collateralizePolicy(bytes32 processId, uint256 collateralAmount) 
@@ -190,22 +163,16 @@ abstract contract Riskpool is
         external override
         onlyPool
     {
-        _increaseBundleBalances(processId, amount);
-        _balance += amount;
-
-        emit LogRiskpoolBalanceIncreased(processId, amount, _balance);
+        uint256 newBalance = _increaseBundleBalances(processId, amount);
+        emit LogRiskpoolBalanceIncreased(processId, amount, newBalance);
     }
 
     function decreaseBalance(bytes32 processId, uint256 amount)
         external override
         onlyPool
     {
-        require(_balance >= amount, "ERROR:RPL-005:RISKPOOL_BALANCE_TOO_LOW");
-
-        _decreaseBundleBalances(processId, amount);
-        _balance -= amount;
-        
-        emit LogRiskpoolBalanceDecreased(processId, amount, _balance);
+        uint256 newBalance = _decreaseBundleBalances(processId, amount);        
+        emit LogRiskpoolBalanceDecreased(processId, amount, newBalance);
     }
 
 
@@ -237,23 +204,6 @@ abstract contract Riskpool is
         return _collateralization;
     }
 
-    function calculateCollateral(IPolicy.Application memory application) 
-        public override
-        view 
-        returns (uint256 collateralAmount) 
-    {
-        uint256 sumInsured = application.sumInsuredAmount;
-        uint256 collateralization = getCollateralizationLevel();
-
-        // fully collateralized case
-        if (collateralization == FULL_COLLATERALIZATION_LEVEL) {
-            collateralAmount = sumInsured;
-        // over or under collateralized case
-        } else {
-            collateralAmount = (collateralization * sumInsured) / FULL_COLLATERALIZATION_LEVEL;
-        }
-    }
-
     function bundles() public override view returns(uint256) {
         return _bundleIds.length;
     }
@@ -270,7 +220,8 @@ abstract contract Riskpool is
     }
 
     function getCapital() public override view returns(uint256) {
-        return _capital;
+        uint256 riskpoolId = getId();
+        return _instanceService.getCapital(riskpoolId);
     }
 
     function getTotalValueLocked() public override view returns(uint256) {
@@ -279,11 +230,13 @@ abstract contract Riskpool is
     }
 
     function getCapacity() public override view returns(uint256) {
-        return _capital - getTotalValueLocked();
+        uint256 riskpoolId = getId();
+        return _instanceService.getCapacity(riskpoolId);
     }
 
     function getBalance() public override view returns(uint256) {
-        return _balance;
+        uint256 riskpoolId = getId();
+        return _instanceService.getBalance(riskpoolId);
     }
 
     function bundleMatchesApplication(
@@ -294,6 +247,6 @@ abstract contract Riskpool is
     function _lockCollateral(bytes32 processId, uint256 collateralAmount) internal virtual returns(bool success);
     function _releaseCollateral(bytes32 processId) internal virtual returns(uint256 collateralAmount);
 
-    function _increaseBundleBalances(bytes32 processId, uint256 amount) internal virtual;
-    function _decreaseBundleBalances(bytes32 processId, uint256 amount) internal virtual;
+    function _increaseBundleBalances(bytes32 processId, uint256 amount) internal virtual returns(uint256 newBalance);
+    function _decreaseBundleBalances(bytes32 processId, uint256 amount) internal virtual returns(uint256 newBalance);
 }
