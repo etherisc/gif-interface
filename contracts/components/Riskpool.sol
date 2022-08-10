@@ -233,6 +233,18 @@ abstract contract Riskpool is
         _lockedCapital -= collateralAmount;
     }
 
+    function getWallet() public view override returns(address) {
+        return _wallet;
+    }
+
+    function getErc20Token() public view override returns(address) {
+        return _erc20Token;
+    }
+
+    function getSumOfSumInsuredCap() public view override returns (uint256) {
+        return _sumOfSumInsuredCap;
+    }
+
     function getFullCollateralizationLevel() public pure override returns (uint256) {
         return FULL_COLLATERALIZATION_LEVEL;
     }

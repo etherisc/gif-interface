@@ -52,7 +52,9 @@ interface IRiskpool is IComponent {
     function bundles() external view returns(uint256);
     function getBundle(uint256 idx) external view returns(IBundle.Bundle memory);
 
+    function getWallet() external view returns(address);
     function getErc20Token() external view returns(address);
+
     function getSumOfSumInsuredCap() external view returns (uint256);
     function getCapital() external view returns(uint256);
     function getTotalValueLocked() external view returns(uint256); 
