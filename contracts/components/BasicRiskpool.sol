@@ -18,10 +18,11 @@ abstract contract BasicRiskpool is Riskpool {
         bytes32 name,
         uint256 collateralization,
         uint256 sumOfSumInsuredCap,
+        address erc20Token,
         address wallet,
         address registry
     )
-        Riskpool(name, collateralization, sumOfSumInsuredCap, wallet, registry)
+        Riskpool(name, collateralization, sumOfSumInsuredCap, erc20Token, wallet, registry)
     { }
 
     // needs to remember which bundles helped to cover ther risk

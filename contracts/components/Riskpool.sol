@@ -32,6 +32,7 @@ abstract contract Riskpool is
     uint256 [] internal _bundleIds;
 
     address private _wallet;
+    address private _erc20Token;
     uint256 private _collateralization;
     uint256 private _sumOfSumInsuredCap;
     uint256 private _capital;
@@ -61,6 +62,7 @@ abstract contract Riskpool is
         bytes32 name,
         uint256 collateralization,
         uint256 sumOfSumInsuredCap,
+        address erc20Token,
         address wallet,
         address registry
     )
@@ -70,6 +72,9 @@ abstract contract Riskpool is
 
         require(sumOfSumInsuredCap != 0, "ERROR:RPL-002:SUM_OF_SUM_INSURED_CAP_ZERO");
         _sumOfSumInsuredCap = sumOfSumInsuredCap;
+
+        require(erc20Token != address(0), "ERROR:RPL-003:ERC20_ADDRESS_ZERO");
+        _erc20Token = erc20Token;
 
         require(wallet != address(0), "ERROR:RPL-003:WALLET_ADDRESS_ZERO");
         _wallet = wallet;
@@ -83,6 +88,7 @@ abstract contract Riskpool is
         _riskpoolService.registerRiskpool(
             _collateralization,
             _sumOfSumInsuredCap, 
+            _erc20Token, 
             _wallet
         );
     }

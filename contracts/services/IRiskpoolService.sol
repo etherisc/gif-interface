@@ -6,6 +6,7 @@ interface IRiskpoolService {
     function registerRiskpool(
         uint256 collateralization, 
         uint256 sumOfSumInsuredCap,
+        address erc20Token,
         address wallet
     ) external;
 
