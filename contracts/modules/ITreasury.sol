@@ -72,7 +72,6 @@ interface ITreasury {
     
     function processCapital(uint256 bundleId, uint256 capitalAmount) external 
         returns(
-            bool success,
             uint256 feeAmount,
             uint256 netCapitalAmount
         );
