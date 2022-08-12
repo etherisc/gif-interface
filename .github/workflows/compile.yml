@@ -1,4 +1,4 @@
-name: Run tests
+name: Compile contracts
 
 on: 
   workflow_dispatch:
@@ -11,7 +11,7 @@ on:
     - master
 
 jobs:
-  test:
+  compile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,7 +27,8 @@ jobs:
           node-version: 16
       
       - name: Download required solidity compilers
-        run: wget -O ~/.solcx/solc-v0.7.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.7.2+commit.51b20bc0
+      - run: mkdir -p ~/.solcx/
+      - run: wget -O ~/.solcx/solc-v0.7.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.7.2+commit.51b20bc0
       - run: wget -O ~/.solcx/solc-v0.8.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.2+commit.661d1103 
       - run: wget -O ~/.solcx/solc-v0.8.15 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
 
@@ -41,6 +42,3 @@ jobs:
 
       - name: Compile contracts
         run: brownie compile --all
-      - run: touch .env
-      - name: Execute tests
-        run: brownie test
