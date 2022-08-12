@@ -1,0 +1,8 @@
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[python]
+detect_folders = ["scripts","tests"]

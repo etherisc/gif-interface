@@ -1,0 +1,46 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.183.0/containers/ruby
+{
+	"dockerComposeFile": "docker-compose.yaml",
+    "service": "brownie",
+    "workspaceFolder": "/workspace",
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		//"terminal.integrated.shell.linux": "/bin/bash"
+		"editor.fontFamily": "'JetBrainsMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+		"editor.fontSize": 13,
+	},
+
+	// "features": {
+	// 	"docker-from-docker": {
+	// 		"version": "latest",
+	// 		"moby": true
+	// 	}
+	// },
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "juanblanco.solidity",
+		"tintinweb.solidity-visual-auditor",
+		"github.vscode-pull-request-github",
+		"github.copilot",
+		"mhutchie.git-graph",
+		"eamodio.gitlens",
+		"gruntfuggly.todo-tree",
+		"oderwat.indent-rainbow",
+		"2gua.rainbow-brackets",
+		"johnpapa.vscode-peacock",
+		"vikas.code-navigation",
+	],
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [8000],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "touch .env && brownie compile --all && python --version",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
+}
