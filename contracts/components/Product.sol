@@ -212,13 +212,11 @@ abstract contract Product is
     )
         internal
         returns(
-            bool success,
             uint256 feeAmount,
             uint256 netPayoutAmount
         )
     {
         (
-            success,
             feeAmount,
             netPayoutAmount
         ) = _productService.processPayout(processId, payoutId);

@@ -48,7 +48,6 @@ interface IProductService {
 
     function processPayout(bytes32 processId, uint256 payoutId) external
         returns(
-            bool success,
             uint256 feeAmount,
             uint256 netPayoutAmount
         );
