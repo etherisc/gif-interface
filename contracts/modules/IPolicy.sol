@@ -110,11 +110,6 @@ interface IPolicy {
         bytes calldata data
     ) external returns(bytes32 processId);
 
-    function setPolicyFlowState(
-        bytes32 processId,
-        IPolicy.PolicyFlowState state
-    ) external;
-
     function createApplication(
         bytes32 processId, 
         uint256 premiumAmount,

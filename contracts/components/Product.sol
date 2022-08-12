@@ -22,7 +22,7 @@ abstract contract Product is
         address policyHolder = _instanceService.getMetadata(policyId).owner;
         require(
             _msgSender() == policyHolder, 
-            "ERROR:TI-1:INVALID_POLICY_OR_HOLDER"
+            "ERROR:PRD-001:INVALID_POLICY_OR_HOLDER_INVALID"
         );
         _;
     }
@@ -30,7 +30,7 @@ abstract contract Product is
     modifier onlyLicence {
         require(
              _msgSender() == _getContractAddress("Licence"),
-            "ERROR:PRD-001:ACCESS_DENIED"
+            "ERROR:PRD-002:ACCESS_DENIED"
         );
         _;
     }
@@ -38,7 +38,7 @@ abstract contract Product is
     modifier onlyOracle {
         require(
              _msgSender() == _getContractAddress("Query"),
-            "ERROR:PRD-002:ACCESS_DENIED"
+            "ERROR:PRD-003:ACCESS_DENIED"
         );
         _;
     }
