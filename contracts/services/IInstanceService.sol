@@ -30,6 +30,7 @@ interface IInstanceService {
     function getRiskpoolService() external view returns(IRiskpoolService service);
 
     // access
+    function getDefaultAdminRole() external view returns(bytes32 role);
     function getProductOwnerRole() external view returns(bytes32 role);
     function getOracleProviderRole() external view returns(bytes32 role);
     function getRiskpoolKeeperRole() external view returns(bytes32 role);

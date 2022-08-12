@@ -14,6 +14,7 @@ interface IInstanceOperatorService {
 
     // access
     function createRole(bytes32 role) external;
+    function invalidateRole(bytes32 role) external;
     function grantRole(bytes32 role, address principal) external;
     function revokeRole(bytes32 role, address principal) external;
 

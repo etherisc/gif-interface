@@ -2,9 +2,10 @@
 pragma solidity ^0.8.0;
 
 interface IAccess {
-    function productOwnerRole() external view returns(bytes32 role);
-    function oracleProviderRole() external view returns(bytes32 role);
-    function riskpoolKeeperRole() external view returns(bytes32 role);
+    function getDefaultAdminRole() external view returns(bytes32 role);
+    function getProductOwnerRole() external view returns(bytes32 role);
+    function getOracleProviderRole() external view returns(bytes32 role);
+    function getRiskpoolKeeperRole() external view returns(bytes32 role);
     function hasRole(bytes32 role, address principal) external view returns(bool);
 
     function grantRole(bytes32 role, address principal) external;

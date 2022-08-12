@@ -22,7 +22,7 @@ abstract contract Product is
         address policyHolder = _instanceService.getMetadata(policyId).owner;
         require(
             _msgSender() == policyHolder, 
-            "ERROR:PRD-001:INVALID_POLICY_OR_HOLDER_INVALID"
+            "ERROR:PRD-001:POLICY_OR_HOLDER_INVALID"
         );
         _;
     }
