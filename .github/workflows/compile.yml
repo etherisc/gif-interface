@@ -27,11 +27,22 @@ jobs:
           node-version: 16
       
       - name: Download required solidity compilers
-        run: mkdir -p ~/.solcx/ && wget -O ~/.solcx/solc-v0.7.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.7.2+commit.51b20bc0
-      - run: wget -O ~/.solcx/solc-v0.8.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.2+commit.661d1103 
-      - run: wget -O ~/.solcx/solc-v0.8.15 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
-      - run: chmod 755 ~/.solcx/solc*
-
+        run: |
+          mkdir -p ~/.solcx/ 
+          wget -O ~/.solcx/solc-v0.7.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.7.2+commit.51b20bc0 
+          wget -O ~/.solcx/solc-v0.8.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.2+commit.661d1103 
+          wget -O ~/.solcx/solc-v0.8.15 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714 
+          chmod 755 ~/.solcx/solc* 
+      
+      - name: Download brownie dependencies
+        run: |
+          export VERSION_OPEN_ZEPPELIN=4.7.0
+          wget -O /tmp/v${VERSION_OPEN_ZEPPELIN}.tar.gz https://github.com/OpenZeppelin/openzeppelin-contracts/archive/refs/tags/v${VERSION_OPEN_ZEPPELIN}.tar.gz 
+          mkdir -p ~/.brownie/packages/OpenZeppelin 
+          cd ~/.brownie/packages/OpenZeppelin 
+          tar xvfz /tmp/v${VERSION_OPEN_ZEPPELIN}.tar.gz 
+          mv openzeppelin-contracts-${VERSION_OPEN_ZEPPELIN} openzeppelin-contracts@${VERSION_OPEN_ZEPPELIN} 
+          
       - name: Install ganache
         run: npm install --global ganache-cli
 
