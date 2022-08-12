@@ -11,8 +11,8 @@ interface IRiskpoolService {
     ) external;
 
     function createBundle(address owner_, bytes calldata filter_, uint256 amount_) external returns(uint256 bundleId);
-    function fundBundle(uint256 bundleId, uint256 amount) external returns(bool success, uint256 netAmount);
-    function defundBundle(uint256 bundleId, uint256 amount) external returns(bool success, uint256 netAmount);
+    function fundBundle(uint256 bundleId, uint256 amount) external returns(uint256 netAmount);
+    function defundBundle(uint256 bundleId, uint256 amount) external returns(uint256 netAmount);
 
     function lockBundle(uint256 bundleId) external;
     function unlockBundle(uint256 bundleId) external;

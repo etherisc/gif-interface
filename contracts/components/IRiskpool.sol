@@ -21,8 +21,8 @@ interface IRiskpool is IComponent {
     event LogRiskpoolBalanceDecreased(bytes32 processId, uint256 amount, uint256 newBalance);
 
     function createBundle(bytes memory filter, uint256 initialAmount) external returns(uint256 bundleId);
-    function fundBundle(uint256 bundleId, uint256 amount) external returns(bool success, uint256 netAmount);
-    function defundBundle(uint256 bundleId, uint256 amount) external returns(bool success, uint256 netAmount);
+    function fundBundle(uint256 bundleId, uint256 amount) external returns(uint256 netAmount);
+    function defundBundle(uint256 bundleId, uint256 amount) external returns(uint256 netAmount);
 
     function lockBundle(uint256 bundleId) external;
     function unlockBundle(uint256 bundleId) external;

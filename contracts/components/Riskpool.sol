@@ -109,17 +109,17 @@ abstract contract Riskpool is
     function fundBundle(uint256 bundleId, uint256 amount) 
         external override
         onlyBundleOwner(bundleId)
-        returns(bool success, uint256 netAmount)
+        returns(uint256 netAmount)
     {
-        (success, netAmount) = _riskpoolService.fundBundle(bundleId, amount);
+        netAmount = _riskpoolService.fundBundle(bundleId, amount);
     }
 
     function defundBundle(uint256 bundleId, uint256 amount)
         external override
         onlyBundleOwner(bundleId)
-        returns(bool success, uint256 netAmount)
+        returns(uint256 netAmount)
     {
-        (success, netAmount) = _riskpoolService.defundBundle(bundleId, amount);
+        netAmount = _riskpoolService.defundBundle(bundleId, amount);
     }
 
     function lockBundle(uint256 bundleId)
