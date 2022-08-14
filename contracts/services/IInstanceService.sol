@@ -41,6 +41,7 @@ interface IInstanceService {
     function oracles() external view returns(uint256 numberOfOracles);
     function riskpools() external view returns(uint256 numberOfRiskpools);
 
+    function getComponentId(address componentAddress) external view returns(uint256 componentId);
     function getComponent(uint256 componentId) external view returns(IComponent component);
     function getComponentType(uint256 componentId) external view returns(IComponent.ComponentType componentType);
     function getComponentState(uint256 componentId) external view returns(IComponent.ComponentState componentState);

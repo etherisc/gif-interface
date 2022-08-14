@@ -82,6 +82,8 @@ abstract contract Component is
     function isOracle() public override view returns(bool) { return _componentType == IComponent.ComponentType.Oracle; }
     function isRiskpool() public override view returns(bool) { return _componentType == IComponent.ComponentType.Riskpool; }
 
+    function getRegistry() external override view returns(IRegistry) { return _registry; }
+
     function proposalCallback() public override onlyComponent { _afterPropose(); }
     function approvalCallback() public override onlyComponent { _afterApprove(); }
     function declineCallback() public override onlyComponent { _afterDecline(); }

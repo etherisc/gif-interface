@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
+import "../modules/IRegistry.sol";
+
 interface IComponent {
 
     enum ComponentType {
@@ -36,6 +38,8 @@ interface IComponent {
     function isProduct() external view returns(bool);
     function isOracle() external view returns(bool);
     function isRiskpool() external view returns(bool);
+
+    function getRegistry() external view returns(IRegistry);
 
     function proposalCallback() external;
     function approvalCallback() external; 
