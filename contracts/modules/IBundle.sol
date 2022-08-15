@@ -53,4 +53,5 @@ interface IBundle {
 
     function increaseBalance(uint256 bundleId, bytes32 processId, uint256 amount) external;
     function decreaseBalance(uint256 bundleId, bytes32 processId, uint256 amount) external;
+
 }

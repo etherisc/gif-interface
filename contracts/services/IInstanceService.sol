@@ -57,6 +57,7 @@ interface IInstanceService {
     function getTotalValueLocked(uint256 riskpoolId) external view returns(uint256 totalValueLockedAmount);
     function getCapacity(uint256 riskpoolId) external view returns(uint256 capacityAmount);
     function getBalance(uint256 riskpoolId) external view returns(uint256 balanceAmount);
+    function getMaximumNumberOfActiveBundles(uint256 riskpoolId) external view returns(uint256 maximumNumberOfActiveBundles);
 
     // bundles
     function getBundleToken() external view returns(IBundleToken token);

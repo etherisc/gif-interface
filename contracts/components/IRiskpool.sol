@@ -57,4 +57,7 @@ interface IRiskpool is IComponent {
     function getTotalValueLocked() external view returns(uint256); 
     function getCapacity() external view returns(uint256); 
     function getBalance() external view returns(uint256); 
+
+    function setMaximumNumberOfActiveBundles(uint256 maximumNumberOfActiveBundles) external; 
+    function getMaximumNumberOfActiveBundles() external view returns(uint256 maximumNumberOfActiveBundles);
 }

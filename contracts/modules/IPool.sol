@@ -45,4 +45,5 @@ interface IPool {
 
     function increaseBalance(bytes32 processId, uint256 amount) external;
     function decreaseBalance(bytes32 processId, uint256 amount) external;
+
 }
