@@ -189,7 +189,7 @@ abstract contract Riskpool is
 
     function setMaximumNumberOfActiveBundles(uint256 maximumNumberOfActiveBundles)
         external override
-        // TODO modifier?
+        onlyOwner
     {
         require(maximumNumberOfActiveBundles > 0, "ERROR:RPL-004:MAX_NUMBER_OF_ACTIVE_BUNDLES_ZERO");
         require(maximumNumberOfActiveBundles >= _bundleIds.length, "ERROR:RPL-005:TOO_MANY_ACTIVE_BUNDLES");
@@ -197,7 +197,7 @@ abstract contract Riskpool is
     }
 
     function getMaximumNumberOfActiveBundles()
-        external view override
+        public view override
         returns(uint256 maximumNumberOfActiveBundles)
     {
         return _maxNumberOfActiveBundles;

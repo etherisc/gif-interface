@@ -8,10 +8,15 @@ import "../modules/IPolicy.sol";
 // basic riskpool always collateralizes one application using exactly one bundle
 abstract contract BasicRiskpool is Riskpool {
 
+    event LogBasicRiskpoolActiveBundles(uint256 activeBundles);
+    event LogBasicRiskpoolCurrentPoliciesCounter(uint256 counter);
+    event LogBasicRiskpoolCandidateBundleAmountCheck(uint256 index, uint256 bundleId, uint256 maxAmount, uint256 collateralAmount);
+
     // remember bundleId for each processId
     // approach only works for basic risk pool where a
     // policy is collateralized by exactly one bundle
     mapping(bytes32 /* processId */ => uint256 /** bundleId */) internal _collateralizedBy;
+    uint32 private _policiesCounter = 0;
 
     constructor(
         bytes32 name,
@@ -23,6 +28,8 @@ abstract contract BasicRiskpool is Riskpool {
     )
         Riskpool(name, collateralization, sumOfSumInsuredCap, erc20Token, wallet, registry)
     { }
+
+    
 
     // needs to remember which bundles helped to cover ther risk
     // simple (retail) approach: single policy covered by single bundle
@@ -38,6 +45,9 @@ abstract contract BasicRiskpool is Riskpool {
         uint256 capital = getCapital();
         uint256 lockedCapital = getTotalValueLocked();
 
+        emit LogBasicRiskpoolActiveBundles(activeBundles);
+        emit LogBasicRiskpoolCurrentPoliciesCounter(_policiesCounter);
+
         require(activeBundles > 0, "ERROR:BRP-001:NO_ACTIVE_BUNDLES");
         require(capital > lockedCapital, "ERROR:BRP-002:NO_FREE_CAPITAL");
 
@@ -45,23 +55,29 @@ abstract contract BasicRiskpool is Riskpool {
         if(capital >= lockedCapital + collateralAmount) {
             IPolicy.Application memory application = _instanceService.getApplication(processId);
 
+            // initialize bundle idx with round robin based on active bundles
+            uint idx = _policiesCounter % activeBundles;
+            uint remainingRetries = activeBundles;
+            
             // basic riskpool implementation: policy coverage by single bundle only
-            uint i;
-            while (i < activeBundles && !success) {
-                uint256 bundleId = _idInSetAt(i);
+            while (remainingRetries > 0 && !success) {
+                uint256 bundleId = _idInSetAt(idx);
                 IBundle.Bundle memory bundle = _instanceService.getBundle(bundleId);
                 bool isMatching = bundleMatchesApplication(bundle, application);
                 emit LogRiskpoolBundleMatchesPolicy(bundleId, isMatching);
 
                 if (isMatching) {
                     uint256 maxAmount = bundle.capital - bundle.lockedCapital;
+                    emit LogBasicRiskpoolCandidateBundleAmountCheck(idx, bundleId, maxAmount, collateralAmount);
 
                     if (maxAmount >= collateralAmount) {
                         _riskpoolService.collateralizePolicy(bundleId, processId, collateralAmount);
                         _collateralizedBy[processId] = bundleId;
                         success = true;
+                        _policiesCounter++;
                     } else {
-                        i++;
+                        idx = (idx + 1) % activeBundles;
+                        remainingRetries--;
                     }
                 }
             }
