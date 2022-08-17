@@ -75,7 +75,7 @@ abstract contract Riskpool is
         require(erc20Token != address(0), "ERROR:RPL-003:ERC20_ADDRESS_ZERO");
         _erc20Token = erc20Token;
 
-        require(wallet != address(0), "ERROR:RPL-003:WALLET_ADDRESS_ZERO");
+        require(wallet != address(0), "ERROR:RPL-004:WALLET_ADDRESS_ZERO");
         _wallet = wallet;
 
         _instanceService = IInstanceService(_getContractAddress("InstanceService")); 
@@ -191,8 +191,8 @@ abstract contract Riskpool is
         external override
         onlyOwner
     {
-        require(maximumNumberOfActiveBundles > 0, "ERROR:RPL-004:MAX_NUMBER_OF_ACTIVE_BUNDLES_ZERO");
-        require(maximumNumberOfActiveBundles >= _bundleIds.length, "ERROR:RPL-005:TOO_MANY_ACTIVE_BUNDLES");
+        require(maximumNumberOfActiveBundles > 0, "ERROR:RPL-010:MAX_NUMBER_OF_ACTIVE_BUNDLES_ZERO");
+        require(maximumNumberOfActiveBundles >= _bundleIds.length, "ERROR:RPL-011:TOO_MANY_ACTIVE_BUNDLES");
         _maxNumberOfActiveBundles = maximumNumberOfActiveBundles;
     }
 

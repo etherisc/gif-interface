@@ -42,7 +42,7 @@ abstract contract Component is
     modifier onlyComponentOwnerService() {
         require(
              _msgSender() == address(_componentOwnerService),
-            "ERROR:CMP-002:NOT_COMPONENT_OWNER_SERVICE");
+            "ERROR:CMP-003:NOT_COMPONENT_OWNER_SERVICE");
         _;
     }
 
@@ -53,7 +53,7 @@ abstract contract Component is
     )
         Ownable()
     {
-        require(registry != address(0), "ERROR:CMP-003:REGISTRY_ADDRESS_ZERO");
+        require(registry != address(0), "ERROR:CMP-004:REGISTRY_ADDRESS_ZERO");
 
         _registry = IRegistry(registry);
         _access = _getAccess();
