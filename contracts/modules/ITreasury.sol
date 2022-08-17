@@ -5,6 +5,9 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface ITreasury {
 
+    event LogTreasurySuspended();
+    event LogTreasuryResumed();
+
     event LogTreasuryProductTokenSet(uint256 productId, uint256 riskpoolId, address erc20Address);
     event LogTreasuryInstanceWalletSet(address walletAddress);
     event LogTreasuryRiskpoolWalletSet(uint256 riskpoolId, address walletAddress);

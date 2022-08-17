@@ -30,6 +30,9 @@ interface IInstanceOperatorService {
     function adjustStakingRequirements(uint256 id, bytes calldata data) external;
 
     // treasury
+    function suspendTreasury() external;
+    function resumeTreasury() external;
+    
     function setInstanceWallet(address walletAddress) external;
     function setRiskpoolWallet(uint256 riskpoolId, address walletAddress) external;  
     function setProductToken(uint256 productId, address erc20Address) external; 
