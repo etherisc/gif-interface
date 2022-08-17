@@ -115,11 +115,13 @@ abstract contract Product is
         )
     {
         IPolicy.Policy memory policy = _getPolicy(processId);
+        address policyHolder = _getMetadata(processId).owner;
 
         if (policy.premiumPaidAmount < policy.premiumExpectedAmount) {
             (success, feeAmount, netAmount) 
                 = _collectPremium(
                     processId, 
+                    policyHolder, 
                     policy.premiumExpectedAmount - policy.premiumPaidAmount
                 );
         }
@@ -127,6 +129,7 @@ abstract contract Product is
 
     function _collectPremium(
         bytes32 processId,
+        address from,
         uint256 amount
     )
         internal
@@ -136,7 +139,7 @@ abstract contract Product is
             uint256 netAmount
         )
     {
-        (success, feeAmount, netAmount) = _productService.collectPremium(processId, amount);
+        (success, feeAmount, netAmount) = _productService.collectPremium(processId, from, amount);
     }
 
     function _revoke(bytes32 processId) internal {
@@ -238,6 +241,14 @@ abstract contract Product is
             address(this),
             responsibleOracleId
         );
+    }
+
+    function _getMetadata(bytes32 processId) 
+        internal 
+        view 
+        returns (IPolicy.Metadata memory metadata) 
+    {
+        return _instanceService.getMetadata(processId);
     }
 
     function _getApplication(bytes32 processId) 
