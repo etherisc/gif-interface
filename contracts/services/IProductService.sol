@@ -11,7 +11,7 @@ interface IProductService {
         bytes calldata applicationData 
     ) external returns(bytes32 processId);
 
-    function collectPremium(bytes32 processId, address from, uint256 amount) external
+    function collectPremium(bytes32 processId, uint256 amount) external
         returns(
             bool success,
             uint256 feeAmount,

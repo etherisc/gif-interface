@@ -115,13 +115,11 @@ abstract contract Product is
         )
     {
         IPolicy.Policy memory policy = _getPolicy(processId);
-        address policyHolder = _getMetadata(processId).owner;
 
         if (policy.premiumPaidAmount < policy.premiumExpectedAmount) {
             (success, feeAmount, netAmount) 
                 = _collectPremium(
                     processId, 
-                    policyHolder, 
                     policy.premiumExpectedAmount - policy.premiumPaidAmount
                 );
         }
@@ -129,7 +127,6 @@ abstract contract Product is
 
     function _collectPremium(
         bytes32 processId,
-        address from,
         uint256 amount
     )
         internal
@@ -139,7 +136,7 @@ abstract contract Product is
             uint256 netAmount
         )
     {
-        (success, feeAmount, netAmount) = _productService.collectPremium(processId, from, amount);
+        (success, feeAmount, netAmount) = _productService.collectPremium(processId, amount);
     }
 
     function _revoke(bytes32 processId) internal {

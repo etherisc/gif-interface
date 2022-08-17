@@ -59,7 +59,7 @@ interface ITreasury {
             uint256 netPremiumAmount
         );
     
-    function processPremium(bytes32 processId, address from, uint256 amount) external 
+    function processPremium(bytes32 processId, uint256 amount) external 
         returns(
             bool success,
             uint256 feeAmount,
