@@ -11,8 +11,7 @@ abstract contract BasicRiskpool is Riskpool {
     // remember bundleId for each processId
     // approach only works for basic risk pool where a
     // policy is collateralized by exactly one bundle
-    // processId -> bundleId
-    mapping(bytes32 => uint256) internal _collateralizedBy;
+    mapping(bytes32 /* processId */ => uint256 /** bundleId */) internal _collateralizedBy;
 
     constructor(
         bytes32 name,
