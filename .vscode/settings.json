@@ -1,0 +1,26 @@
+{
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "solidity.remappingsUnix": [
+        "@openzeppelin/=/home/vscode/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.7.0",
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#225322",
+        "activityBar.background": "#225322",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#13132d",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#225322",
+        "statusBar.background": "#132f13",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#225322",
+        "statusBarItem.remoteBackground": "#132f13",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#132f13",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#132f1399",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.remoteColor": "#132F13"
+}

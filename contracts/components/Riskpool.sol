@@ -40,7 +40,7 @@ abstract contract Riskpool is
 
     modifier onlyPool {
         require(
-             _msgSender() == _getContractAddress("Pool"),
+            _msgSender() == _getContractAddress("Pool"),
             "ERROR:RPL-001:ACCESS_DENIED"
         );
         _;
