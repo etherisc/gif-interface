@@ -23,7 +23,6 @@ abstract contract Riskpool is
     // value might be larger when overcollateralization
     uint256 public constant FULL_COLLATERALIZATION_LEVEL = 10**18;
     string public constant DEFAULT_FILTER_DATA_STRUCTURE = "";
-    uint256 public constant DEFAULT_MAX_NUMBER_OF_ACTIVE_BUNDLES = 1;
 
     IInstanceService internal _instanceService; 
     IRiskpoolService internal _riskpoolService;
@@ -81,7 +80,6 @@ abstract contract Riskpool is
         _instanceService = IInstanceService(_getContractAddress("InstanceService")); 
         _riskpoolService = IRiskpoolService(_getContractAddress("RiskpoolService"));
         _bundleToken = _instanceService.getBundleToken();
-        _maxNumberOfActiveBundles = DEFAULT_MAX_NUMBER_OF_ACTIVE_BUNDLES;
     }
 
     function _afterPropose() internal override virtual {
@@ -191,15 +189,16 @@ abstract contract Riskpool is
         external override
         onlyOwner
     {
-        require(maximumNumberOfActiveBundles > 0, "ERROR:RPL-010:MAX_NUMBER_OF_ACTIVE_BUNDLES_ZERO");
-        _maxNumberOfActiveBundles = maximumNumberOfActiveBundles;
+        uint256 riskpoolId = getId();
+        _riskpoolService.setMaximumNumberOfActiveBundles(riskpoolId, maximumNumberOfActiveBundles);
     }
 
     function getMaximumNumberOfActiveBundles()
         public view override
         returns(uint256 maximumNumberOfActiveBundles)
     {
-        return _maxNumberOfActiveBundles;
+        uint256 riskpoolId = getId();
+        return _instanceService.getMaximumNumberOfActiveBundles(riskpoolId);
     }
 
     function getWallet() public view override returns(address) {
