@@ -192,7 +192,6 @@ abstract contract Riskpool is
         onlyOwner
     {
         require(maximumNumberOfActiveBundles > 0, "ERROR:RPL-010:MAX_NUMBER_OF_ACTIVE_BUNDLES_ZERO");
-        require(maximumNumberOfActiveBundles >= _bundleIds.length, "ERROR:RPL-011:TOO_MANY_ACTIVE_BUNDLES");
         _maxNumberOfActiveBundles = maximumNumberOfActiveBundles;
     }
 

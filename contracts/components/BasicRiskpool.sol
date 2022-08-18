@@ -8,8 +8,7 @@ import "../modules/IPolicy.sol";
 // basic riskpool always collateralizes one application using exactly one bundle
 abstract contract BasicRiskpool is Riskpool {
 
-    event LogBasicRiskpoolActiveBundles(uint256 activeBundles);
-    event LogBasicRiskpoolCurrentPoliciesCounter(uint256 counter);
+    event LogBasicRiskpoolBundlesAndPolicies(uint256 activeBundles, uint256 bundleId);
     event LogBasicRiskpoolCandidateBundleAmountCheck(uint256 index, uint256 bundleId, uint256 maxAmount, uint256 collateralAmount);
 
     // remember bundleId for each processId
@@ -45,9 +44,7 @@ abstract contract BasicRiskpool is Riskpool {
         uint256 capital = getCapital();
         uint256 lockedCapital = getTotalValueLocked();
 
-        emit LogBasicRiskpoolActiveBundles(activeBundles);
-        emit LogBasicRiskpoolCurrentPoliciesCounter(_policiesCounter);
-
+        emit LogBasicRiskpoolBundlesAndPolicies(activeBundles, _policiesCounter);
         require(activeBundles > 0, "ERROR:BRP-001:NO_ACTIVE_BUNDLES");
         require(capital > lockedCapital, "ERROR:BRP-002:NO_FREE_CAPITAL");
 
@@ -57,13 +54,13 @@ abstract contract BasicRiskpool is Riskpool {
 
             // initialize bundle idx with round robin based on active bundles
             uint idx = _policiesCounter % activeBundles;
-            uint remainingRetries = activeBundles;
+            uint remainingCandidates = activeBundles;
             
             // basic riskpool implementation: policy coverage by single bundle only/
             // the initial bundle is selected via round robin based on the policies counter.
             // If a bundle does not match (application not matching or insufficient funds for collateral) the next one is tried. 
             // This is continued until all bundles have been tried once. If no bundle matches the policy is rejected.
-            while (remainingRetries > 0 && !success) {
+            while (remainingCandidates > 0 && !success) {
                 uint256 bundleId = _idInSetAt(idx);
                 IBundle.Bundle memory bundle = _instanceService.getBundle(bundleId);
                 bool isMatching = bundleMatchesApplication(bundle, application);
@@ -80,7 +77,7 @@ abstract contract BasicRiskpool is Riskpool {
                         _policiesCounter++;
                     } else {
                         idx = (idx + 1) % activeBundles;
-                        remainingRetries--;
+                        remainingCandidates--;
                     }
                 }
             }
