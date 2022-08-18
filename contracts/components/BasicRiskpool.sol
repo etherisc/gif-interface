@@ -59,7 +59,10 @@ abstract contract BasicRiskpool is Riskpool {
             uint idx = _policiesCounter % activeBundles;
             uint remainingRetries = activeBundles;
             
-            // basic riskpool implementation: policy coverage by single bundle only
+            // basic riskpool implementation: policy coverage by single bundle only/
+            // the initial bundle is selected via round robin based on the policies counter.
+            // If a bundle does not match (application not matching or insufficient funds for collateral) the next one is tried. 
+            // This is continued until all bundles have been tried once. If no bundle matches the policy is rejected.
             while (remainingRetries > 0 && !success) {
                 uint256 bundleId = _idInSetAt(idx);
                 IBundle.Bundle memory bundle = _instanceService.getBundle(bundleId);
