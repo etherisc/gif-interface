@@ -1,6 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.183.0/containers/ruby
 {
+	"name": "gif-interfaces",
 	"dockerComposeFile": "docker-compose.yaml",
     "service": "brownie",
     "workspaceFolder": "/workspace",
@@ -11,12 +12,13 @@
 		"editor.fontSize": 13,
 	},
 
-	// "features": {
-	// 	"docker-from-docker": {
-	// 		"version": "latest",
-	// 		"moby": true
-	// 	}
-	// },
+	"features": {
+		"github-cli": "latest",
+		// "docker-from-docker": {
+		// 	"version": "latest",
+		// 	"moby": true
+		// }
+	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
