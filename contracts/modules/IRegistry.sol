@@ -42,4 +42,9 @@ interface IRegistry {
     function getRelease() external view returns (bytes32 _release);
 
     function ensureSender(address sender, bytes32 _contractName) external view returns(bool _senderMatches);
+
+    function contracts() external view returns (uint256 _numberOfContracts);
+
+    function contractNames() external view returns (bytes32[] memory _contractNames);
+
 }
