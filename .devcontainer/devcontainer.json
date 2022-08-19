@@ -12,13 +12,13 @@
 		"editor.fontSize": 13,
 	},
 
-	"features": {
-		"github-cli": "latest",
-		// "docker-from-docker": {
-		// 	"version": "latest",
-		// 	"moby": true
-		// }
-	},
+	// "features": {
+	// 	"github-cli": "latest",
+	// 	"docker-from-docker": {
+	// 		"version": "latest",
+	// 		"moby": true
+	// 	}
+	// },
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
