@@ -51,7 +51,7 @@ interface IBundle {
     function collateralizePolicy(uint256 bundleId, bytes32 processId, uint256 collateralAmount) external;
     function releasePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);
 
-    function increaseBalance(uint256 bundleId, bytes32 processId, uint256 amount) external;
-    function decreaseBalance(uint256 bundleId, bytes32 processId, uint256 amount) external;
+    function increaseBalance(uint256 bundleId, uint256 amount) external;
+    function decreaseBalance(uint256 bundleId, uint256 amount) external;
 
 }

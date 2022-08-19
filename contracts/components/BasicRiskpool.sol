@@ -90,7 +90,7 @@ abstract contract BasicRiskpool is Riskpool {
         returns(uint256 newBalance)
     {
         uint256 bundleId = _collateralizedBy[processId];
-        newBalance = _riskpoolService.increaseBundleBalance(bundleId, processId, amount);
+        newBalance = _riskpoolService.increaseBundleBalance(bundleId, amount);
     }
 
 
@@ -99,7 +99,7 @@ abstract contract BasicRiskpool is Riskpool {
         returns(uint256 newBalance)
     {
         uint256 bundleId = _collateralizedBy[processId];
-        newBalance = _riskpoolService.decreaseBundleBalance(bundleId, processId, amount);
+        newBalance = _riskpoolService.decreaseBundleBalance(bundleId, amount);
     }
 
 

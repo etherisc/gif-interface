@@ -22,8 +22,8 @@ interface IRiskpoolService {
     function collateralizePolicy(uint256 bundleId, bytes32 processId, uint256 collateralAmount) external;
     function releasePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);
 
-    function increaseBundleBalance(uint256 bundleId, bytes32 processId, uint256 amount) external returns(uint256 newBalance);
-    function decreaseBundleBalance(uint256 bundleId, bytes32 processId, uint256 amount) external returns(uint256 newBalance);
+    function increaseBundleBalance(uint256 bundleId, uint256 amount) external returns(uint256 newBalance);
+    function decreaseBundleBalance(uint256 bundleId, uint256 amount) external returns(uint256 newBalance);
 
     function setMaximumNumberOfActiveBundles(uint256 riskpoolId, uint256 maxNumberOfActiveBundles) external;
 }
