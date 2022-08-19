@@ -32,12 +32,7 @@ abstract contract Oracle is
 
     // default callback function implementations
     function _afterApprove() internal override { 
-        uint256 id = getId();
-        // TODO figure out what the ... is wrong here
-        // plugging id into the event let spin brownie console
-        // with history[-1].info() ...
-        // plugging in a fixed value eg 999 works fine????
-        emit LogOracleApproved(999); 
+        emit LogOracleApproved(getId()); 
     }
 
     function _afterPropose() internal override { emit LogOracleProposed(getId()); }

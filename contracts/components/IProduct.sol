@@ -6,9 +6,9 @@ import "./IComponent.sol";
 interface IProduct is IComponent {
 
     event LogProductCreated (address productAddress);
-    event LogProductProposed (uint256 id);
-    event LogProductApproved (uint256 id);
-    event LogProductDeclined (uint256 id);
+    event LogProductProposed (uint256 componentId);
+    event LogProductApproved (uint256 componentId);
+    event LogProductDeclined (uint256 componentId);
 
     function getToken() external view returns(address token);
     function getPolicyFlow() external view returns(address policyFlow);

@@ -76,14 +76,7 @@ abstract contract Product is
     }
 
     // default callback function implementations
-    function _afterApprove() internal override { 
-        uint256 id = getId();
-        // TODO analysis needed
-        // plugging id into the event let spin brownie console
-        // with history[-1].info() ...
-        // plugging in a fixed value eg 999 works fine????
-        emit LogProductApproved(999); 
-    }
+    function _afterApprove() internal override { emit LogProductApproved(getId()); }
 
     function _afterPropose() internal override { emit LogProductProposed(getId()); }
     function _afterDecline() internal override { emit LogProductDeclined(getId()); }
