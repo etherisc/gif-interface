@@ -104,19 +104,19 @@ abstract contract Component is
     function _afterUnpause() internal virtual {}
     function _afterArchive() internal virtual {}
 
-    function _getAccess() internal returns (IAccess) {
+    function _getAccess() internal view returns (IAccess) {
         return IAccess(_getContractAddress("Access"));        
     }
 
-    function _getInstanceService() internal returns (IInstanceService) {
+    function _getInstanceService() internal view returns (IInstanceService) {
         return IInstanceService(_getContractAddress("InstanceService"));        
     }
 
-    function _getComponentOwnerService() internal returns (IComponentOwnerService) {
+    function _getComponentOwnerService() internal view returns (IComponentOwnerService) {
         return IComponentOwnerService(_getContractAddress("ComponentOwnerService"));        
     }
 
-    function _getContractAddress(bytes32 contractName) internal returns (address) { 
+    function _getContractAddress(bytes32 contractName) internal view returns (address) { 
         return _registry.getContract(contractName);
     }
 
