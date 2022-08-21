@@ -11,8 +11,6 @@ interface IInstanceOperatorService {
     function deregister(bytes32 contractName) external;
     function registerInRelease(bytes32 release, bytes32 contractName, address contractAddress) external;
     function deregisterInRelease(bytes32 release, bytes32 contractName) external;
-    function contracts() external view returns (uint256 numberOfContracts);
-    function contractNames() external view returns (bytes32[] memory contractNames);
 
     // access
     function createRole(bytes32 role) external;
