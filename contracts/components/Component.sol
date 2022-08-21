@@ -84,6 +84,8 @@ abstract contract Component is
 
     function getRegistry() external override view returns(IRegistry) { return _registry; }
 
+    function archivePreconditionCheck() public override onlyComponent { _beforeArchive();}
+
     function proposalCallback() public override onlyComponent { _afterPropose(); }
     function approvalCallback() public override onlyComponent { _afterApprove(); }
     function declineCallback() public override onlyComponent { _afterDecline(); }
@@ -93,6 +95,10 @@ abstract contract Component is
     function unpauseCallback() public override onlyComponent { _afterUnpause(); }
     function archiveCallback() public override onlyComponent { _afterArchive(); }
     
+    // there functions are intended to be overridden to implement
+    // component specific checks befor executing an action
+    function _beforeArchive() internal virtual {}
+
     // these functions are intended to be overwritten to implement
     // component specific notification handling
     function _afterPropose() internal virtual {}

@@ -41,6 +41,8 @@ interface IComponent {
 
     function getRegistry() external view returns(IRegistry);
 
+    function archivePreconditionCheck() external;
+
     function proposalCallback() external;
     function approvalCallback() external; 
     function declineCallback() external;
