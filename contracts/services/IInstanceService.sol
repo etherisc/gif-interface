@@ -29,7 +29,7 @@ interface IInstanceService {
     function getProductService() external view returns(IProductService service);
     function getRiskpoolService() external view returns(IRiskpoolService service);
     function contracts() external view returns (uint256 numberOfContracts);
-    function contractNames() external view returns (bytes32[] memory contractNames);
+    function contractNames() external view returns (bytes32[] memory names);
 
     // access
     function getDefaultAdminRole() external view returns(bytes32 role);

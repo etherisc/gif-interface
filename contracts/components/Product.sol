@@ -233,6 +233,12 @@ abstract contract Product is
         );
     }
 
+    function _cancelRequest(uint256 requestId)
+        internal
+    {
+        _productService.cancelRequest(requestId);
+    }
+
     function _getMetadata(bytes32 processId) 
         internal 
         view 

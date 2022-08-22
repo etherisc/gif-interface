@@ -25,6 +25,10 @@ interface IQuery {
         bool success
     );
 
+    event LogOracleCanceled(
+        bytes32 processId
+    );
+
     function request(
         bytes32 processId,
         bytes calldata input,
@@ -38,5 +42,7 @@ interface IQuery {
         address responder,
         bytes calldata data
     ) external;
+
+    function cancel(uint256 requestId) external;
 
 }

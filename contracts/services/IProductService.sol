@@ -59,4 +59,6 @@ interface IProductService {
         address callbackContractAddress,
         uint256 responsibleOracleId
     ) external returns(uint256 requestId);
+
+    function cancelRequest(uint256 requestId) external;
 }
