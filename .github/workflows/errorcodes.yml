@@ -9,7 +9,7 @@ on:
   pull_request:
 
 jobs:
-  inspect_errorcodes:
+  inspect:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,9 +19,12 @@ jobs:
         run: .github/workflows/scripts/validate_errorcodes.sh
       
 
-  list_errorcodes:
+  list:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
       - run: mkdir tmp
 
       - name: Find all error codes
