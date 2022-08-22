@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # match any string that starts with "event" and its name does not start with Log
-EVT=`grep -orP 'event\s+(?!Log)(\w+)\s*' contracts/*`
+EVT=`grep -orP '$\s+event\s+(?!Log)(\w+)\s*' contracts/*`
 
 if [ -z "$EVT" ]; then
     echo "All event definitions start with 'Log'"
@@ -12,7 +12,7 @@ else
 fi
 
 # check for event defintions with attributes 'policyId', 'applicationId' or 'metadataId'
-EVT=`grep -orP 'event\s+\w+\s*\(.*(policyId|applicationId|metadataId).*\)' contracts/*`
+EVT=`grep -orP '$\s+event\s+\w+\s*\(.*(policyId|applicationId|metadataId).*\)' contracts/*`
 
 if [ -z "$EVT" ]; then
     echo "No event definitions contain attributes 'policyId', 'applicationId' or 'metadataId'"
