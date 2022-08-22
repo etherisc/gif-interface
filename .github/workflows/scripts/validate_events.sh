@@ -4,10 +4,20 @@
 EVT=`grep -orP 'event\s+(?!Log)(\w+)\s*' contracts/*`
 
 if [ -z "$EVT" ]; then
-    echo "Event definitions all start with 'Log'"
+    echo "All event definitions start with 'Log'"
 else
-    echo "Invalid event definitions found:"
+    echo "Found event definitions not starting with 'Log':"
     echo "$EVT"
     exit 1
 fi
 
+# check for event defintions with attributes 'policyId', 'applicationId' or 'metadataId'
+EVT=`grep -orP 'event\s+\w+\s*\(.*(policyId|applicationId|metadataId).*\)' contracts/*`
+
+if [ -z "$EVT" ]; then
+    echo "No event definitions contain attributes 'policyId', 'applicationId' or 'metadataId'"
+else
+    echo "Found event definitions containing attributes 'policyId', 'applicationId' or 'metadataId':"
+    echo "$EVT"
+    exit 1
+fi
