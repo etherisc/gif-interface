@@ -26,7 +26,7 @@ interface IQuery {
     );
 
     event LogOracleCanceled(
-        bytes32 processId
+        uint256 requestId
     );
 
     function request(
