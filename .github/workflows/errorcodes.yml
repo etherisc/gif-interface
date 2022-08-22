@@ -1,4 +1,4 @@
-name: Error code analysis
+name: Error codes
 
 on: 
   workflow_dispatch:
@@ -9,18 +9,25 @@ on:
   pull_request:
 
 jobs:
-  find_duplicates:
+  inspect:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Find duplicate error codes
-        run: .github/workflows/scripts/find_duplicate_errorcodes.sh
+      - name: Validate error codes
+        run: .github/workflows/scripts/validate_errorcodes.sh
+      
+
+  list:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       
       - run: mkdir tmp
 
-      - name: List all error codes
+      - name: Find all error codes
         run: .github/workflows/scripts/list_all_errorcodes.sh > tmp/errorcodes.md
       
       - name: Archive error codes
