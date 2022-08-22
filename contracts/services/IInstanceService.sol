@@ -65,6 +65,7 @@ interface IInstanceService {
     function getBundleToken() external view returns(IBundleToken token);
     function bundles() external view returns(uint256 numberOfBundles);
     function getBundle(uint256 bundleId) external view returns(IBundle.Bundle memory bundle);
+    function unburntBundles(uint256 riskpoolId) external view returns(uint256 numberOfUnburntBundles);
 
     // policy
     function processIds() external view returns(uint256 numberOfProcessIds);

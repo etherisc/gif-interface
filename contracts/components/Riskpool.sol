@@ -261,6 +261,14 @@ abstract contract Riskpool is
         IPolicy.Application memory application
     ) public override view virtual returns(bool isMatching);
 
+    function _afterArchive() internal view override { 
+        uint256 riskpoolId = getId();
+        require(
+            _instanceService.unburntBundles(riskpoolId) == 0, 
+            "ERROR:RPL-010:RISKPOOL_HAS_UNBURNT_BUNDLES"
+            );
+    }
+
     function _lockCollateral(bytes32 processId, uint256 collateralAmount) internal virtual returns(bool success);
     function _releaseCollateral(bytes32 processId) internal virtual returns(uint256 collateralAmount);
 
