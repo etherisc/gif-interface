@@ -82,7 +82,7 @@ abstract contract Product is
     function _afterDecline() internal override { emit LogProductDeclined(getId()); }
 
     function _newApplication(
-        address owner,
+        address applicationOwner,
         uint256 premiumAmount,
         uint256 sumInsuredAmount,
         bytes memory metaData, 
@@ -92,7 +92,7 @@ abstract contract Product is
         returns(bytes32 processId)
     {
         processId = _productService.newApplication(
-            owner, 
+            applicationOwner, 
             premiumAmount, 
             sumInsuredAmount, 
             metaData, 
