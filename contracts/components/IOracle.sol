@@ -11,4 +11,5 @@ interface IOracle is IComponent {
     event LogOracleDeclined (uint256 componentId);
     
     function request(uint256 requestId, bytes calldata input) external;
+    function cancel(uint256 requestId) external;
 }
