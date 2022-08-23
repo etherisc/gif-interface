@@ -10,6 +10,12 @@ git clone https://github.com/etherisc/gif-interface.git
 cd gif-interface
 ```
 
+## Fully configure IDE 
+
+To use our fully configured IDE see the instructions at [https://github.com/etherisc/gif-sandbox/blob/master/docs/development_environment.md](https://github.com/etherisc/gif-sandbox/blob/master/docs/development_environment.md). 
+In this case you can skip the next two steps as the _devcontainer_ is based on the (updated) _brownie_ image. 
+
+
 ## Create Brownie Docker Image
 
 [Brownie](https://eth-brownie.readthedocs.io/en/stable) is used for development of the contracts in this repository.
