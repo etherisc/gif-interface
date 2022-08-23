@@ -41,3 +41,16 @@ Inside the brownie container compile the contracts/interfaces
 ```bash
 brownie compile --all
 ```
+
+## Run linter
+
+Linter findings are shown automatically in vscode. To execute it manually, run the following command:
+
+```bash
+solhint contracts/**/*.sol
+```
+and including _prettier_ formatting 
+
+```bash
+solhint --config .solhint.prettier.json contracts/**/*.sol
+```
