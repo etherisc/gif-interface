@@ -53,3 +53,9 @@ jobs:
 
       - name: Compile contracts
         run: brownie compile --all
+
+      - name: Install solhint linter
+        run: npm install --global solhint
+
+      - name: Run solhint linter
+        run: solhint contracts/**/*.sol
