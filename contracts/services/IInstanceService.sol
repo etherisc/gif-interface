@@ -19,6 +19,7 @@ interface IInstanceService {
 
     // instance
     function getChainId() external view returns(uint256 chainId);
+    function getChainName() external view returns(string memory chainName);
     function getInstanceId() external view returns(bytes32 instanceId);
     function getInstanceOperator() external view returns(address instanceOperator);
 

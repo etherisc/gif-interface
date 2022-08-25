@@ -132,6 +132,14 @@ abstract contract Product is
         (success, feeAmount, netAmount) = _productService.collectPremium(processId, amount);
     }
 
+    function _adjustPremiumSumInsured(
+        bytes32 processId,
+        uint256 expectedPremiumAmount,
+        uint256 sumInsuredAmount
+    ) internal {
+        _productService.adjustPremiumSumInsured(processId, expectedPremiumAmount, sumInsuredAmount);
+    }
+
     function _revoke(bytes32 processId) internal {
         _productService.revoke(processId);
     }

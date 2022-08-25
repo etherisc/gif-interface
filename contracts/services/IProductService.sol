@@ -17,6 +17,12 @@ interface IProductService {
             uint256 feeAmount,
             uint256 netPremiumAmount
         );
+    
+    function adjustPremiumSumInsured(
+        bytes32 processId, 
+        uint256 expectedPremiumAmount,
+        uint256 sumInsuredAmount
+    ) external;
 
     function revoke(bytes32 processId) external;
     function underwrite(bytes32 processId) external returns(bool success);
