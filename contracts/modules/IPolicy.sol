@@ -31,6 +31,10 @@ interface IPolicy {
     event LogPolicyClosed(bytes32 processId);
 
     event LogPremiumCollected(bytes32 processId, uint256 amount);
+    
+    event LogApplicationSumInsuredAdjusted(bytes32 processId, uint256 sumInsuredAmountOld, uint256 sumInsuredAmount);
+    event LogApplicationPremiumAdjusted(bytes32 processId, uint256 premiumAmountOld, uint256 premiumAmount);
+    event LogPolicyPremiumAdjusted(bytes32 processId, uint256 premiumExpectedAmountOld, uint256 premiumExpectedAmount);
 
     event LogClaimCreated(bytes32 processId, uint256 claimId, uint256 claimAmount);
     event LogClaimConfirmed(bytes32 processId, uint256 claimId, uint256 confirmedAmount);
@@ -122,6 +126,12 @@ interface IPolicy {
     function declineApplication(bytes32 processId) external;
 
     function collectPremium(bytes32 processId, uint256 amount) external;
+
+    function adjustPremiumSumInsured(
+        bytes32 processId, 
+        uint256 expectedPremiumAmount,
+        uint256 sumInsuredAmount
+    ) external;
 
     function createPolicy(bytes32 processId) external;
     function expirePolicy(bytes32 processId) external;
