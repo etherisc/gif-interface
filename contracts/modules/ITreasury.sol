@@ -15,13 +15,12 @@ interface ITreasury {
     event LogTreasuryPremiumFeesSet(uint256 productId, uint256 fixedFee, uint256 fractionalFee);
     event LogTreasuryCapitalFeesSet(uint256 riskpoolId, uint256 fixedFee, uint256 fractionalFee);
 
-    event LogTreasuryPremiumTransferred(address from, address riskpoolWalletAddress, uint256 amount, bool success);
-    event LogTreasuryPayoutTransferred(address riskpoolWalletAddress, address to, uint256 amount, bool success);
-    event LogTreasuryCapitalTransferred(address from, address riskpoolWalletAddress, uint256 amount, bool success);
-    event LogTreasuryFeesTransferred(address from, address instanceWalletAddress, uint256 amount, bool success);
-    event LogTreasuryWithdrawalTransferred(address riskpoolWalletAddress, address to, uint256 amount, bool success);
+    event LogTreasuryPremiumTransferred(address from, address riskpoolWalletAddress, uint256 amount);
+    event LogTreasuryPayoutTransferred(address riskpoolWalletAddress, address to, uint256 amount);
+    event LogTreasuryCapitalTransferred(address from, address riskpoolWalletAddress, uint256 amount);
+    event LogTreasuryFeesTransferred(address from, address instanceWalletAddress, uint256 amount);
+    event LogTreasuryWithdrawalTransferred(address riskpoolWalletAddress, address to, uint256 amount);
 
-    event LogTreasuryFullPremiumProcessed(bytes32 processId, uint256 amount, bool success);
     event LogTreasuryPremiumProcessed(bytes32 processId, uint256 amount);
     event LogTreasuryPayoutProcessed(uint256 riskpoolId, address to, uint256 amount);
     event LogTreasuryCapitalProcessed(uint256 riskpoolId, uint256 bundleId, uint256 amount);
