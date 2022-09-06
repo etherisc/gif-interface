@@ -1,38 +1,31 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+
 contract IdSet {
 
-    mapping(uint256 => uint256) private _idMap;
-    uint256 [] _ids;
+    using EnumerableSet for EnumerableSet.UintSet;
+
+    EnumerableSet.UintSet private _idSet;
 
     function _addIdToSet(uint256 id) internal {
-        if(_idMap[id] == 0) {
-            _ids.push(id);
-            _idMap[id] = _ids.length;
-        }
+        EnumerableSet.add(_idSet, id);
     }
 
     function _removeIdfromSet(uint256 id) internal {
-        uint256 idx = _idMap[id];
-        if(idx > 0) {
-            idx -= 1;
-            _ids[idx] = _ids[_ids.length - 1];
-            _ids.pop();
-            delete _idMap[id];
-        }
+        EnumerableSet.remove(_idSet, id);
     }
 
     function _containsIdInSet(uint256 id) internal view returns(bool) {
-        return _idMap[id] > 0;
+        return EnumerableSet.contains(_idSet, id);
     }
 
     function _idSetSize() internal view returns(uint256) {
-        return _ids.length;
+        return EnumerableSet.length(_idSet);
     }
 
     function _idInSetAt(uint256 idx) internal view returns(uint256 id) {
-        require(idx < _ids.length, "ERROR:SET-001:INDEX_TOO_LARGE");
-        return _ids[idx];
+        return EnumerableSet.at(_idSet, idx);
     }
 }
