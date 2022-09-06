@@ -26,6 +26,7 @@ contract IdSet {
     }
 
     function _idInSetAt(uint256 idx) internal view returns(uint256 id) {
+        require(idx < EnumerableSet.length(_idSet), "ERROR:SET-001:INDEX_TOO_LARGE");
         return EnumerableSet.at(_idSet, idx);
     }
 }

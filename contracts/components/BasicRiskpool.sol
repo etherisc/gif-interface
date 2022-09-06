@@ -40,7 +40,7 @@ abstract contract BasicRiskpool is Riskpool {
         internal override
         returns(bool success) 
     {
-        uint256 activeBundles = _idSetSize();
+        uint256 activeBundles = activeBundles();
         uint256 capital = getCapital();
         uint256 lockedCapital = getTotalValueLocked();
 
@@ -54,14 +54,13 @@ abstract contract BasicRiskpool is Riskpool {
 
             // initialize bundle idx with round robin based on active bundles
             uint idx = _policiesCounter % activeBundles;
-            uint remainingCandidates = activeBundles;
             
             // basic riskpool implementation: policy coverage by single bundle only/
             // the initial bundle is selected via round robin based on the policies counter.
             // If a bundle does not match (application not matching or insufficient funds for collateral) the next one is tried. 
             // This is continued until all bundles have been tried once. If no bundle matches the policy is rejected.
-            while (remainingCandidates > 0 && !success) {
-                uint256 bundleId = _idInSetAt(idx);
+            for (uint256 i = 0; i < activeBundles && !success; i++) {
+                uint256 bundleId = getActiveBundleId(idx);
                 IBundle.Bundle memory bundle = _instanceService.getBundle(bundleId);
                 bool isMatching = bundleMatchesApplication(bundle, application);
                 emit LogRiskpoolBundleMatchesPolicy(bundleId, isMatching);
@@ -77,7 +76,6 @@ abstract contract BasicRiskpool is Riskpool {
                         _policiesCounter++;
                     } else {
                         idx = (idx + 1) % activeBundles;
-                        remainingCandidates--;
                     }
                 }
             }

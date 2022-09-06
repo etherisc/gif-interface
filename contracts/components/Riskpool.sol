@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
-import "./IdSet.sol";
 import "./IRiskpool.sol";
 import "./Component.sol";
 
@@ -15,7 +14,6 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 // TODO consider to move bunlde per riskpool book keeping to bundle controller
 abstract contract Riskpool is 
     IRiskpool, 
-    IdSet,
     Component 
 {    
     // used for representation of collateralization
@@ -98,11 +96,6 @@ abstract contract Riskpool is
         address bundleOwner = _msgSender();
         bundleId = _riskpoolService.createBundle(bundleOwner, filter, initialAmount);
         _bundleIds.push(bundleId);
-
-        IBundle.Bundle memory bundle = _instanceService.getBundle(bundleId);
-        if (bundle.state == IBundle.BundleState.Active) {
-            _addIdToSet(bundleId);
-        }
 
         emit LogRiskpoolBundleCreated(bundleId, initialAmount);
     }
@@ -230,6 +223,18 @@ abstract contract Riskpool is
 
         uint256 bundleIdx = _bundleIds[idx];
         return _instanceService.getBundle(bundleIdx);
+    }
+
+    function activeBundles() public override view returns(uint256) {
+        uint256 riskpoolId = getId();
+        return _instanceService.activeBundles(riskpoolId);
+    }
+
+    function getActiveBundleId(uint256 idx) public override view returns(uint256 bundleId) {
+        uint256 riskpoolId = getId();
+        require(idx < _instanceService.activeBundles(riskpoolId), "ERROR:RPL-007:ACTIVE_BUNDLE_INDEX_TOO_LARGE");
+
+        return _instanceService.getActiveBundleId(riskpoolId, idx);
     }
 
     function getFilterDataStructure() external override pure returns(string memory) {
