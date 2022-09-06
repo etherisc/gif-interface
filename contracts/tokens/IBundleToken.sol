@@ -12,5 +12,5 @@ interface IBundleToken is
     function burned(uint tokenId) external view returns(bool isBurned);
     function exists(uint256 tokenId) external view returns(bool doesExist);
     function getBundleId(uint256 tokenId) external view returns(uint256 bundleId);
-    function tokens() external view returns(uint256 tokenCount);
+    function totalSupply() external view returns(uint256 tokenCount);
 }
