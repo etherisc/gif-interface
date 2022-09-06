@@ -11,7 +11,6 @@ import "../services/IRiskpoolService.sol";
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
-// TODO consider to move bunlde per riskpool book keeping to bundle controller
 abstract contract Riskpool is 
     IRiskpool, 
     Component 
