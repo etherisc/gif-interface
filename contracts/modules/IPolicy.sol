@@ -85,6 +85,8 @@ interface IPolicy {
         uint256 premiumPaidAmount;
         uint256 claimsCount;
         uint256 openClaimsCount;
+        uint256 payoutMaxAmount;
+        uint256 payoutAmount;
         uint256 createdAt;
         uint256 updatedAt;
     }
