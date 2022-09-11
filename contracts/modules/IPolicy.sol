@@ -94,7 +94,6 @@ interface IPolicy {
     struct Claim {
         ClaimState state;
         uint256 claimAmount;
-        uint256 payoutsAmount;
         uint256 paidAmount;
         bytes data;
         uint256 createdAt;
