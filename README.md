@@ -1,4 +1,4 @@
-![Build](https://github.com/etherisc/gif-interfaces/actions/workflows/build.yml/badge.svg)
+![Build](https://github.com/etherisc/gif-interface/actions/workflows/build.yml/badge.svg)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![](https://dcbadge.vercel.app/api/server/Qb6ZjgE8?style=flat)](https://discord.gg/Qb6ZjgE8)
 
