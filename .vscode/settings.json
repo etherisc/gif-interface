@@ -3,6 +3,7 @@
     "solidity.remappingsUnix": [
         "@openzeppelin/=/home/vscode/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.7.0",
     ],
+    "solidity.compileUsingRemoteVersion": "v0.8.2+commit.661d1103",
     "peacock.remoteColor": "#132F13",
     "workbench.colorCustomizations": {
         "activityBar.activeBackground": "#225322",
