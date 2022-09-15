@@ -40,7 +40,7 @@ RUN pip install eth-brownie \
     && pip install uvicorn 
 
 # [Optional] Uncomment this line to install global node packages.
-RUN npm install -g ganache-cli solhint prettier prettier-plugin-solidity solhint-plugin-prettier
+RUN npm install -g ganache solhint prettier prettier-plugin-solidity solhint-plugin-prettier
 
 # download required solidity compiler
 RUN mkdir -p /home/vscode/.solcx/  

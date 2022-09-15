@@ -43,7 +43,7 @@ jobs:
           mv openzeppelin-contracts-${VERSION_OPEN_ZEPPELIN} openzeppelin-contracts@${VERSION_OPEN_ZEPPELIN} 
           
       - name: Install ganache
-        run: npm install --global ganache-cli
+        run: npm install --global ganache
 
       - name: Setup brownie
         run: wget https://raw.githubusercontent.com/eth-brownie/brownie/master/requirements.txt

@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 RUN apt-get update && apt-get install -y libssl-dev
 RUN apt-get update && apt-get install -y npm
 
-RUN npm install --global ganache-cli
+RUN npm install --global ganache
 
 RUN wget https://raw.githubusercontent.com/eth-brownie/brownie/master/requirements.txt
 
