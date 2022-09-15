@@ -44,10 +44,16 @@ RUN npm install -g ganache-cli solhint prettier prettier-plugin-solidity solhint
 
 # download required solidity compiler
 RUN mkdir -p /home/vscode/.solcx/  
-RUN wget -O /home/vscode/.solcx/solc-v0.7.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.7.2+commit.51b20bc0
-RUN wget -O /home/vscode/.solcx/solc-v0.8.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.2+commit.661d1103 
-RUN wget -O /home/vscode/.solcx/solc-v0.8.15 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
-RUN chmod 755 /home/vscode/.solcx/solc*
+RUN wget -O /home/vscode/.solcx/solc-v0.8.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.2+commit.661d1103 \
+    && wget -O /home/vscode/.solcx/solc-v0.8.15 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714 \
+    && chmod 755 /home/vscode/.solcx/solc*
+
+ARG VERSION_OPEN_ZEPPELIN=4.7.3
+RUN wget -O /tmp/v${VERSION_OPEN_ZEPPELIN}.tar.gz https://github.com/OpenZeppelin/openzeppelin-contracts/archive/refs/tags/v${VERSION_OPEN_ZEPPELIN}.tar.gz 
+RUN mkdir -p /home/vscode/.brownie/packages/OpenZeppelin \
+    && cd /home/vscode/.brownie/packages/OpenZeppelin \
+    && tar xvfz /tmp/v${VERSION_OPEN_ZEPPELIN}.tar.gz \
+    && mv openzeppelin-contracts-${VERSION_OPEN_ZEPPELIN} openzeppelin-contracts@${VERSION_OPEN_ZEPPELIN} 
 
 # Create dummy project and compile it to cache dependencies
 RUN mkdir -p /tmp/brownie-setup
