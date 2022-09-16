@@ -160,22 +160,13 @@ abstract contract Riskpool is
         emit LogRiskpoolPayoutProcessed(processId, amount);
     }
 
-    function increaseBalance(bytes32 processId, uint256 amount)
+    function processPolicyPremium(bytes32 processId, uint256 amount)
         external override
         onlyPool
     {
-        uint256 newBalance = _increaseBundleBalances(processId, amount);
-        emit LogRiskpoolBalanceIncreased(processId, amount, newBalance);
+        _processPremium(processId, amount);
+        emit LogRiskpoolPremiumProcessed(processId, amount);
     }
-
-    function decreaseBalance(bytes32 processId, uint256 amount)
-        external override
-        onlyPool
-    {
-        uint256 newBalance = _decreaseBundleBalances(processId, amount);        
-        emit LogRiskpoolBalanceDecreased(processId, amount, newBalance);
-    }
-
 
     function releasePolicy(bytes32 processId) 
         external override
@@ -282,9 +273,8 @@ abstract contract Riskpool is
     }
 
     function _lockCollateral(bytes32 processId, uint256 collateralAmount) internal virtual returns(bool success);
+    function _processPremium(bytes32 processId, uint256 amount) internal virtual;
     function _processPayout(bytes32 processId, uint256 amount) internal virtual;
     function _releaseCollateral(bytes32 processId) internal virtual returns(uint256 collateralAmount);
 
-    function _increaseBundleBalances(bytes32 processId, uint256 amount) internal virtual returns(uint256 newBalance);
-    function _decreaseBundleBalances(bytes32 processId, uint256 amount) internal virtual returns(uint256 newBalance);
 }
