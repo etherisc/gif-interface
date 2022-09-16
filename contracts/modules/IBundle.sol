@@ -17,7 +17,7 @@ interface IBundle {
     event LogBundleCapitalWithdrawn(uint256 bundleId, address recipient, uint256 amount, uint256 capacity);
 
     event LogBundlePolicyCollateralized(uint256 bundleId, bytes32 processId, uint256 amount, uint256 capacity);
-    event LogBundlePolicyExpired(uint256 bundleId, bytes32 processId, uint256 amount, uint256 capacity);
+    event LogBundlePolicyReleased(uint256 bundleId, bytes32 processId, uint256 amount, uint256 capacity);
 
     enum BundleState {
         Active,
