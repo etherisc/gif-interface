@@ -82,6 +82,12 @@ abstract contract BasicRiskpool is Riskpool {
         }
     }
 
+    function _processPayout(bytes32 processId, uint256 amount)
+        internal override
+    {
+        uint256 bundleId = _collateralizedBy[processId];
+        _riskpoolService.processPayout(bundleId, processId, amount);
+    }
 
     function _increaseBundleBalances(bytes32 processId, uint256 amount)
         internal override

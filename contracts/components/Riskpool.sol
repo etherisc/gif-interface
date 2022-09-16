@@ -152,6 +152,14 @@ abstract contract Riskpool is
         emit LogRiskpoolCollateralLocked(processId, collateralAmount, success);
     }
 
+    function processPolicyPayout(bytes32 processId, uint256 amount)
+        external override
+        onlyPool
+    {
+        _processPayout(processId, amount);
+        emit LogRiskpoolPayoutProcessed(processId, amount);
+    }
+
     function increaseBalance(bytes32 processId, uint256 amount)
         external override
         onlyPool
@@ -274,6 +282,7 @@ abstract contract Riskpool is
     }
 
     function _lockCollateral(bytes32 processId, uint256 collateralAmount) internal virtual returns(bool success);
+    function _processPayout(bytes32 processId, uint256 amount) internal virtual;
     function _releaseCollateral(bytes32 processId) internal virtual returns(uint256 collateralAmount);
 
     function _increaseBundleBalances(bytes32 processId, uint256 amount) internal virtual returns(uint256 newBalance);

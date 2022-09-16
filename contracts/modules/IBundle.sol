@@ -17,6 +17,7 @@ interface IBundle {
     event LogBundleCapitalWithdrawn(uint256 bundleId, address recipient, uint256 amount, uint256 capacity);
 
     event LogBundlePolicyCollateralized(uint256 bundleId, bytes32 processId, uint256 amount, uint256 capacity);
+    event LogBundlePayoutProcessed(uint256 bundleId, bytes32 processId, uint256 amount);
     event LogBundlePolicyReleased(uint256 bundleId, bytes32 processId, uint256 amount, uint256 capacity);
 
     enum BundleState {
@@ -49,6 +50,7 @@ interface IBundle {
     function burn(uint256 bundleId) external;
 
     function collateralizePolicy(uint256 bundleId, bytes32 processId, uint256 collateralAmount) external;
+    function processPayout(uint256 bundleId, bytes32 processId, uint256 amount) external;
     function releasePolicy(uint256 bundleId, bytes32 processId) external returns(uint256 collateralAmount);
 
     function increaseBalance(uint256 bundleId, uint256 amount) external;
