@@ -32,10 +32,10 @@ interface IBundle {
         uint256 riskpoolId;
         uint256 tokenId;
         BundleState state;
-        bytes filter;
-        uint256 capital;
-        uint256 lockedCapital;
-        uint256 balance;
+        bytes filter; // required conditions for applications to be considered for collateralization by this bundle
+        uint256 capital; // net investment capital amount (<= balance)
+        uint256 lockedCapital; // capital amount linked to collateralizaion of non-closed policies (<= capital)
+        uint256 balance; // total amount of funds: net investment capital + net premiums - payouts
         uint256 createdAt;
         uint256 updatedAt;
     }

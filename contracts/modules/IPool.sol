@@ -20,12 +20,12 @@ interface IPool {
         uint256 id; // matches component id of riskpool
         address wallet; // riskpool wallet
         address erc20Token; // the value token of the riskpool
-        uint256 collateralizationLevel;
+        uint256 collateralizationLevel; // required collateralization level to cover new policies 
         uint256 sumOfSumInsuredCap; // max sum of sum insured the pool is allowed to secure
         uint256 sumOfSumInsuredAtRisk; // current sum of sum insured at risk in this pool
-        uint256 capital;
-        uint256 lockedCapital;
-        uint256 balance;
+        uint256 capital; // net investment capital amount (<= balance)
+        uint256 lockedCapital; // capital amount linked to collateralizaion of non-closed policies (<= capital)
+        uint256 balance; // total amount of funds: net investment capital + net premiums - payouts
         uint256 createdAt;
         uint256 updatedAt;
     }
