@@ -1,5 +1,5 @@
 {
-  "name": "@etherisc_com/gif-interface",
+  "name": "@etherisc/gif-interface",
   "version": "2.0.0-rc.1",
   "description": "This repository holds the necessary interfaces and base contracts to interact with an existing GIF instance. The repository is not intended to be used on its own.",
   "repository": {
