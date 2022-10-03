@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       ${{ contains(join(needs.*.result, ','), 'success') }}
-      && github.ref == 'refs/heads/main'
+      && github.ref != 'refs/heads/main'
     needs: [compile]
     steps:
       - name: Checkout
