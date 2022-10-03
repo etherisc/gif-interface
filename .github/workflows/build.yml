@@ -70,7 +70,9 @@ jobs:
   publish:
     name: Publish package to npmjs
     runs-on: ubuntu-latest
-    if: ${{ contains(join(needs.*.result, ','), 'success') }}
+    if: |
+      ${{ contains(join(needs.*.result, ','), 'success') }}
+      && github.ref == 'refs/heads/main'
     needs: [compile]
     steps:
       - name: Checkout
