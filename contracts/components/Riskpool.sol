@@ -216,11 +216,9 @@ abstract contract Riskpool is
         return _bundleIds.length;
     }
 
-    function getBundle(uint256 idx) public override view returns(IBundle.Bundle memory) {
+    function getBundleId(uint256 idx) public override view returns(uint256 bundleId) {
         require(idx < _bundleIds.length, "ERROR:RPL-006:BUNDLE_INDEX_TOO_LARGE");
-
-        uint256 bundleIdx = _bundleIds[idx];
-        return _instanceService.getBundle(bundleIdx);
+        bundleId = _bundleIds[idx];
     }
 
     function activeBundles() public override view returns(uint256) {

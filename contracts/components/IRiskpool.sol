@@ -47,7 +47,7 @@ interface IRiskpool is IComponent {
     function getFilterDataStructure() external view returns(string memory);
 
     function bundles() external view returns(uint256);
-    function getBundle(uint256 idx) external view returns(IBundle.Bundle memory);
+    function getBundleId(uint256 idx) external view returns(uint256 bundleId);
 
     function activeBundles() external view returns(uint256);
     function getActiveBundleId(uint256 idx) external view returns(uint256 bundleId);
