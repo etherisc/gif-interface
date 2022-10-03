@@ -3,12 +3,11 @@ name: Build
 on: 
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ main, develop ]
     tags:
     - '*'
   pull_request:
-    branches:
-    - master
+    branches: [ main, develop ]
 
 jobs:
   compile:
