@@ -7,6 +7,16 @@
 This repository holds the necessary interfaces and base contracts to interact with an existing GIF instance.
 The repository is not intended to be used on its own.
 
+## Repository settings
+
+The repository uses [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) .
+New features/fixes are to be based on the `develop` branch. 
+Releases are to be created from the `main` or a `release/` branch. 
+Hotfixes on releases are to based on the affected `release/` or the `main` branch. 
+
+Github Actions will automatically publish npm packages (with tag `next`) to npm.js containing the latest contracts. 
+The only exception is the `main` branch, which requires manual releases using `npm publish` (without any tags). 
+
 ## Clone Repo
 
 ```
