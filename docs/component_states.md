@@ -16,3 +16,6 @@ stateDiagram-v2
     Declined --> [*]
     Archived --> [*]
 ```
+
+- CO: ComponentOwner
+- IO: InstanceOperator
