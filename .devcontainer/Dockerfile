@@ -34,19 +34,16 @@ RUN echo 'eval "$(mcfly init zsh)"' >> ~/.zshrc \
 # COPY requirements.txt /tmp/pip-tmp/
 RUN wget https://raw.githubusercontent.com/eth-brownie/brownie/master/requirements.txt -O /tmp/pip-requirements.txt 
 
-RUN pip install -r /tmp/pip-requirements.txt
-RUN pip install eth-brownie \
-    && pip install fastapi \
-    && pip install uvicorn 
+RUN python3 -m pip install --user pipx \
+    && python3 -m pipx ensurepath \
+    && pipx install eth-brownie
 
 # [Optional] Uncomment this line to install global node packages.
 RUN npm install -g ganache solhint prettier prettier-plugin-solidity solhint-plugin-prettier
 
 # download required solidity compiler
-RUN mkdir -p /home/vscode/.solcx/  
-RUN wget -O /home/vscode/.solcx/solc-v0.8.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.2+commit.661d1103 \
-    && wget -O /home/vscode/.solcx/solc-v0.8.15 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714 \
-    && chmod 755 /home/vscode/.solcx/solc*
+COPY .devcontainer/scripts/install_solidity.sh /tmp
+RUN /tmp/install_solidity.sh
 
 ARG VERSION_OPEN_ZEPPELIN=4.7.3
 RUN wget -O /tmp/v${VERSION_OPEN_ZEPPELIN}.tar.gz https://github.com/OpenZeppelin/openzeppelin-contracts/archive/refs/tags/v${VERSION_OPEN_ZEPPELIN}.tar.gz 
@@ -54,15 +51,6 @@ RUN mkdir -p /home/vscode/.brownie/packages/OpenZeppelin \
     && cd /home/vscode/.brownie/packages/OpenZeppelin \
     && tar xvfz /tmp/v${VERSION_OPEN_ZEPPELIN}.tar.gz \
     && mv openzeppelin-contracts-${VERSION_OPEN_ZEPPELIN} openzeppelin-contracts@${VERSION_OPEN_ZEPPELIN} 
-
-# Create dummy project and compile it to cache dependencies
-RUN mkdir -p /tmp/brownie-setup
-WORKDIR /tmp/brownie-setup
-COPY brownie-config.yaml .
-RUN /home/vscode/.local/bin/brownie init dummy \
-    && cd dummy \
-    && cp ../brownie-config.yaml . \
-    && /home/vscode/.local/bin/brownie compile --all
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

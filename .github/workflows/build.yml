@@ -10,8 +10,41 @@ on:
     branches: [ main, develop ]
 
 jobs:
+  have-contracts-changed:
+    name: Check if smart contracts/tests/scripts have changed
+    runs-on: ubuntu-latest
+    outputs:
+      contracts-changed: ${{ steps.changed-files-contracts.outputs.any_changed == 'true' }}
+      scripts-changed: ${{ steps.changed-files-scripts.outputs.any_changed == 'true' }}
+      tests-changed: ${{ steps.changed-files-tests.outputs.any_changed == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Get changed files in the contracts folder
+        id: changed-files-contracts
+        uses: tj-actions/changed-files@v32
+        with:
+          files: |
+            contracts/**
+      - name: Get changed files in the scripts folder
+        id: changed-files-scripts
+        uses: tj-actions/changed-files@v32
+        with:
+          files: |
+            scripts/**
+      - name: Get changed files in the tests folder
+        id: changed-files-tests
+        uses: tj-actions/changed-files@v32
+        with:
+          files: |
+            tests/**
+
   compile:
     name: Compile contracts
+    needs: [have-contracts-changed]
+    # only run if tests successfull and contracts have changed
+    if: ${{ needs.have-contracts-changed.outputs.contracts-changed == 'true' || needs.have-contracts-changed.outputs.tests-changed == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,29 +59,8 @@ jobs:
         with:
           node-version: 16
       
-      - name: Download required solidity compilers
-        run: |
-          mkdir -p ~/.solcx/ 
-          wget -O ~/.solcx/solc-v0.8.2 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.2+commit.661d1103 
-          wget -O ~/.solcx/solc-v0.8.15 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714 
-          chmod 755 ~/.solcx/solc* 
-      
-      - name: Download brownie dependencies
-        run: |
-          export VERSION_OPEN_ZEPPELIN=4.7.3
-          wget -O /tmp/v${VERSION_OPEN_ZEPPELIN}.tar.gz https://github.com/OpenZeppelin/openzeppelin-contracts/archive/refs/tags/v${VERSION_OPEN_ZEPPELIN}.tar.gz 
-          mkdir -p ~/.brownie/packages/OpenZeppelin 
-          cd ~/.brownie/packages/OpenZeppelin 
-          tar xvfz /tmp/v${VERSION_OPEN_ZEPPELIN}.tar.gz 
-          mv openzeppelin-contracts-${VERSION_OPEN_ZEPPELIN} openzeppelin-contracts@${VERSION_OPEN_ZEPPELIN} 
-          
-      - name: Install ganache
-        run: npm install --global ganache
-
-      - name: Setup brownie
-        run: wget https://raw.githubusercontent.com/eth-brownie/brownie/master/requirements.txt
-      - run: pip install -r requirements.txt 
-      - run: pip install eth-brownie 
+      - name: Prepare environment
+        run: .github/workflows/scripts/prepare_environment.sh
 
       - name: Compile contracts
         run: brownie compile --all
@@ -70,7 +82,7 @@ jobs:
   publish:
     name: Publish package to npmjs
     runs-on: ubuntu-latest
-    if: ${{ github.ref != 'refs/heads/main' && contains(join(needs.*.result, ','), 'success') }}
+    if: ${{ github.ref != 'refs/heads/main' && contains(join(needs.*.result, ','), 'success') && needs.have-contracts-changed.outputs.contracts-changed == 'true' }}
     needs: [compile]
     steps:
       - name: Checkout
