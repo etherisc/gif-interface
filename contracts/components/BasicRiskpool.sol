@@ -8,7 +8,7 @@ import "../modules/IPolicy.sol";
 // basic riskpool always collateralizes one application using exactly one bundle
 abstract contract BasicRiskpool is Riskpool {
 
-    event LogBasicRiskpoolBundlesAndPolicies(uint256 activeBundles, uint256 bundleId);
+    event LogBasicRiskpoolBundlesAndPolicies(uint256 activeBundles, uint256 policies);
     event LogBasicRiskpoolCandidateBundleAmountCheck(uint256 index, uint256 bundleId, uint256 maxAmount, uint256 collateralAmount);
 
     // remember bundleId for each processId

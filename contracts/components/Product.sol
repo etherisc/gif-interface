@@ -10,7 +10,9 @@ import "../services/IProductService.sol";
 abstract contract Product is
     IProduct, 
     Component 
-{    
+{
+    string public constant DEFAULT_DATA_STRUCTURE = "";
+
     address private _policyFlow; // policy flow contract to use for this procut
     address private _token; // erc20 token to use for this product
     uint256 private _riskpoolId; // id of riskpool responsible for this product
@@ -287,15 +289,16 @@ abstract contract Product is
         return _instanceService.getPayout(processId, payoutId);
     }
 
-    function getApplicationDataStructure() external override virtual view returns(string memory dataStructure) {
-        return "";
+    function getApplicationDataStructure() external override virtual pure returns(string memory dataStructure) {
+        return DEFAULT_DATA_STRUCTURE;
     }
 
-    function getClaimDataStructure() external override virtual view returns(string memory dataStructure) {
-        return "";
-    }    
-    function getPayoutDataStructure() external override virtual view returns(string memory dataStructure) {
-        return "";
+    function getClaimDataStructure() external override virtual pure returns(string memory dataStructure) {
+        return DEFAULT_DATA_STRUCTURE;
+    }
+
+    function getPayoutDataStructure() external override virtual pure returns(string memory dataStructure) {
+        return DEFAULT_DATA_STRUCTURE;
     }
 
     function riskPoolCapacityCallback(uint256 capacity) external override virtual { }

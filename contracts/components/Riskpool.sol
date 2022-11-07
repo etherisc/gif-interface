@@ -233,7 +233,7 @@ abstract contract Riskpool is
         return _instanceService.getActiveBundleId(riskpoolId, idx);
     }
 
-    function getFilterDataStructure() external override pure returns(string memory) {
+    function getFilterDataStructure() external override virtual pure returns(string memory) {
         return DEFAULT_FILTER_DATA_STRUCTURE;
     }
 
