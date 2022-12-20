@@ -40,6 +40,7 @@ interface IInstanceService {
     function hasRole(bytes32 role, address principal) external view returns (bool roleIsAssigned);    
 
     // component
+    function components() external view returns(uint256 numberOfComponents);
     function products() external view returns(uint256 numberOfProducts);
     function oracles() external view returns(uint256 numberOfOracles);
     function riskpools() external view returns(uint256 numberOfRiskpools);
@@ -54,6 +55,7 @@ interface IInstanceService {
     function getStakedAssets(uint256 componentId) external view returns(bytes memory data);
 
     // riskpool
+    function getRiskpoolId(uint256 productId) external view returns(uint256 riskpoolId);
     function getRiskpool(uint256 riskpoolId) external view returns(IPool.Pool memory riskPool);
     function getFullCollateralizationLevel() external view returns (uint256);
     function getCapital(uint256 riskpoolId) external view returns(uint256 capitalAmount);
@@ -90,5 +92,7 @@ interface IInstanceService {
  
     function getComponentToken(uint256 componentId) external view returns(IERC20 token);
     function getFeeFractionFullUnit() external view returns(uint256 fullUnit);
+    function getFeeSpecification(uint256 componentId) external view returns(ITreasury.FeeSpecification memory feeSpecification);
+    function getFees(ITreasury.FeeSpecification memory feeSpecification, uint256 amount) external pure returns(uint256 feeAmount, uint256 netAmount);
 
 }

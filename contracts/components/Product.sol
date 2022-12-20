@@ -54,6 +54,7 @@ abstract contract Product is
     )
         Component(name, ComponentType.Product, registry)
     {
+        // TODO add validation for token and riskpool id
         _token = token;
         _riskpoolId = riskpoolId;
 
