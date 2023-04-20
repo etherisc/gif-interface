@@ -10,41 +10,9 @@ on:
     branches: [ main, develop ]
 
 jobs:
-  have-contracts-changed:
-    name: Check if smart contracts/tests/scripts have changed
-    runs-on: ubuntu-latest
-    outputs:
-      contracts-changed: ${{ steps.changed-files-contracts.outputs.any_changed == 'true' }}
-      scripts-changed: ${{ steps.changed-files-scripts.outputs.any_changed == 'true' }}
-      tests-changed: ${{ steps.changed-files-tests.outputs.any_changed == 'true' }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-      - name: Get changed files in the contracts folder
-        id: changed-files-contracts
-        uses: tj-actions/changed-files@v32
-        with:
-          files: |
-            contracts/**
-      - name: Get changed files in the scripts folder
-        id: changed-files-scripts
-        uses: tj-actions/changed-files@v32
-        with:
-          files: |
-            scripts/**
-      - name: Get changed files in the tests folder
-        id: changed-files-tests
-        uses: tj-actions/changed-files@v32
-        with:
-          files: |
-            tests/**
-
   compile:
     name: Compile contracts
-    needs: [have-contracts-changed]
     # only run if tests successfull and contracts have changed
-    if: ${{ needs.have-contracts-changed.outputs.contracts-changed == 'true' || needs.have-contracts-changed.outputs.tests-changed == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -85,7 +53,6 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    if: ${{ github.ref != 'refs/heads/main' && contains(join(needs.*.result, ','), 'success') && needs.have-contracts-changed.outputs.contracts-changed == 'true' }}
     needs: [compile]
     steps:
       - name: Checkout
