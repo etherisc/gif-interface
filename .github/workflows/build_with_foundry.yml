@@ -1,0 +1,32 @@
+name: Build with Foundry
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ main, develop ]
+    tags:
+    - '*'
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:  
+  test:
+    name: Compile and run tests with foundry
+    # only run if contracts have changed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+    
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Build 
+        run: forge build
+
+      # currently no tests
+      # - name: Execute tests
+      #   run: forge test -vvvv
+      
