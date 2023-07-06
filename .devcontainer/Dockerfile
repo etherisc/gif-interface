@@ -56,4 +56,9 @@ RUN mkdir -p /home/vscode/.brownie/packages/OpenZeppelin \
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
+# install foundry
+RUN curl -L https://foundry.paradigm.xyz | bash
+RUN echo 'export PATH="$PATH:/home/vscode/.foundry/bin"' >> ~/.zshrc
+RUN /home/vscode/.foundry/bin/foundryup
+
 WORKDIR /workspace
