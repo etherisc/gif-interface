@@ -77,3 +77,26 @@ npm version patch/minor/major --no-git-tag-version
 npm publish
 git commit -m 'bump version'
 ```
+
+
+## Build and test using foundry
+
+Foundry is a new tool to build and test smart contracts. 
+More documentation about foundry can be found in the foundry [https://book.getfoundry.sh/](Foundry book).
+
+The project is configured to use foundry. 
+All contracts in the `contracts` folder can be compiled using foundry as well as brownie (results are stored in `build_foundry`). 
+Foundry tests are writte in solidy and can be found in the `tests_foundry` folder (they need to be separate from brownie based tests).
+Dependencies are stored in the `lib` folder and are mapped in the `foundry.yaml` config file.
+
+To compile the contracts using foundry, run the following command:
+
+```bash
+forge build
+```
+
+To run the foundry based tests, run the following command:
+
+```bash
+forge test
+```

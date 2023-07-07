@@ -9,7 +9,7 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
       args:
-        VARIANT: 3.9-bullseye
+        VARIANT: 3.10-bookworm
         USER_UID: 1000
         USER_GID: 1000
         INSTALL_NODE: "true"

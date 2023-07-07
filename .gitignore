@@ -3,6 +3,9 @@ __pycache__
 .history
 .hypothesis/
 build/
+build_foundry/
 reports/
 /node_modules/
 etherisc*.tgz
+
+cache/solidity-files-cache.json
